@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
+import dayjs from "dayjs";
 
 export type WorkPlace = {
   id: number;
@@ -117,8 +118,9 @@ export const columns: ColumnDef<WorkPlace>[] = [
     header: "계약일자",
     cell: ({ row }) => {
       const value = row.original.contractedAt;
-      console.log(value);
-      return value.toString();
+
+
+      return dayjs(value).format('YYYY-MM-DD');
     },
   },
   {
@@ -127,7 +129,7 @@ export const columns: ColumnDef<WorkPlace>[] = [
     cell: ({ row }) => {
       const value = row.original.canceledAt;
 
-      return value?.toString();
+      return value ? dayjs(value).format('YYYY-MM-DD') : null;
     },
   },
   {
@@ -135,8 +137,9 @@ export const columns: ColumnDef<WorkPlace>[] = [
     header: "상태",
     cell: ({ row }) => {
       const value = row.original.state;
+      const color = value ? 'bg-blue-500' : 'bg-red-500'
 
-      return <Badge>{value.toString()}</Badge>;
+      return <Badge className={`${color}`}>{value ? '계약' : '해약'}</Badge>;
     },
   },
 ];
