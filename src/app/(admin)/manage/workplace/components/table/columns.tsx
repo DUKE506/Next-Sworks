@@ -137,9 +137,11 @@ export const columns: ColumnDef<WorkPlace>[] = [
     header: "상태",
     cell: ({ row }) => {
       const value = row.original.state;
-      const color = value ? 'bg-blue-500' : 'bg-red-500'
+      const bgColor = value ? 'bg-[#8fb38c6b]' : 'bg-[#ffcbcf7f]'
+      const textColor = value ? 'text-[#637e61]' : 'text-[#973250]'
 
-      return <Badge className={`${color}`}>{value ? '계약' : '해약'}</Badge>;
+
+      return <Badge className={`${bgColor} ${textColor} font-bold px-3`}> {value ? '계약' : '해약'}</Badge>;
     },
   },
 ];
