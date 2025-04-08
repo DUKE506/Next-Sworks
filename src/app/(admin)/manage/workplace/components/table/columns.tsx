@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
+import Link from "next/link";
 
 export type WorkPlace = {
   id: number;
@@ -100,8 +101,9 @@ export const columns: ColumnDef<WorkPlace>[] = [
     header: "이름",
     cell: ({ row }) => {
       const value = row.original.name;
+      const id = row.original.id;
 
-      return value;
+      return <Link href={`/manage/workplace/${id}`}>{value}</Link>;
     },
   },
   {
@@ -119,8 +121,7 @@ export const columns: ColumnDef<WorkPlace>[] = [
     cell: ({ row }) => {
       const value = row.original.contractedAt;
 
-
-      return dayjs(value).format('YYYY-MM-DD');
+      return dayjs(value).format("YYYY-MM-DD");
     },
   },
   {
@@ -129,7 +130,7 @@ export const columns: ColumnDef<WorkPlace>[] = [
     cell: ({ row }) => {
       const value = row.original.canceledAt;
 
-      return value ? dayjs(value).format('YYYY-MM-DD') : null;
+      return value ? dayjs(value).format("YYYY-MM-DD") : null;
     },
   },
   {
@@ -137,11 +138,15 @@ export const columns: ColumnDef<WorkPlace>[] = [
     header: "상태",
     cell: ({ row }) => {
       const value = row.original.state;
-      const bgColor = value ? 'bg-[#8fb38c6b]' : 'bg-[#ffcbcf7f]'
-      const textColor = value ? 'text-[#637e61]' : 'text-[#973250]'
+      const bgColor = value ? "bg-[#8fb38c6b]" : "bg-[#ffcbcf7f]";
+      const textColor = value ? "text-[#637e61]" : "text-[#973250]";
 
-
-      return <Badge className={`${bgColor} ${textColor} font-bold px-3`}> {value ? '계약' : '해약'}</Badge>;
+      return (
+        <Badge className={`${bgColor} ${textColor} font-bold px-3`}>
+          {" "}
+          {value ? "계약" : "해약"}
+        </Badge>
+      );
     },
   },
 ];
