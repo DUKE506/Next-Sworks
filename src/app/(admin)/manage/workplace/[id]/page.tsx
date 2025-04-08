@@ -1,7 +1,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarCheck2, CalendarX2, MapPin, Phone } from "lucide-react";
+import {
+  Building2,
+  CalendarCheck2,
+  CalendarX2,
+  ChevronsUpDown,
+  Drill,
+  Flame,
+  MapPin,
+  Megaphone,
+  PaintRoller,
+  Phone,
+  ShieldBan,
+  Wifi,
+  Zap,
+} from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { CustomToggle } from "../components/Info/info-area";
+import { Admins } from "./_components/table/table";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -78,8 +94,13 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
         </CardContent>
       </Card>
-      <Card></Card>
-      <Card></Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>권한</CardTitle>
+        </CardHeader>
+        <CardContent className="flex justify-between"></CardContent>
+      </Card>
+      <Admins />
     </div>
   );
 };

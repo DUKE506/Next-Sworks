@@ -98,7 +98,7 @@ export const StatCard = ({
   );
 };
 
-const CustomToggle = ({
+export const CustomToggle = ({
   children,
   label,
   readonly = false,
