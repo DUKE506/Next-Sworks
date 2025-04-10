@@ -14,9 +14,9 @@ import {
   Wifi,
   Zap,
 } from "lucide-react";
-import Image from "next/image";
+
 import React from "react";
-import { CustomToggle } from "../components/Info/info-area";
+
 import { Admins } from "./_components/table/table";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {

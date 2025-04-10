@@ -100,6 +100,15 @@ img {
 }
 
 :root {
+  /*
+  커스텀  start
+  */
+  --primary-color: #637e61;
+  --primary-light-color: #8fb38c6b;
+  /*
+  커스텀  end
+  */
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.147 0.004 49.25);

@@ -1,9 +1,11 @@
 import { Card } from "@/components/ui/card";
-import React from "react";
+import React, { useEffect } from "react";
 import CustomSeparator from "../../../_components/Separator/custom-separator";
-import { Input } from "@/components/ui/input";
 import { Plus, Triangle } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import { useAdminStore } from "@/store/admin-store";
+import DepartmentSideBar from "./_components/departmentSideBar/department-sidebar";
+import UserList from "./_components/usersList/user-list";
 
 const Users = () => {
   return (
@@ -18,31 +20,9 @@ const Users = () => {
         <DepartStat label="평균 사업장" value={"4.1"} />
       </div>
       <div className="flex h-full border-t">
-        <div className="flex flex-col gap-6 px-6 pt-6 flex-1/8 ">
-          <span className="text-lg text-muted-foreground">부서</span>
-          <div className="flex flex-col gap-4">
-            <DepartItem label="시스템개발연구소" value="4" />
-            <DepartItem label="자산관리1본부" value="8" />
-            <DepartItem label="전략기획본부" value="5" />
-          </div>
-        </div>
+        <DepartmentSideBar />
         <CustomSeparator className="h-full w-[1px]" />
-        <div className="flex flex-col flex-5/6 px-6 pt-6 gap-6">
-          <div className="flex justify-between">
-            <span className="text-lg text-muted-foreground">
-              시스템개발연구소
-            </span>
-            <Input className="w-70" />
-          </div>
-
-          <div className="grid grid-cols-5 gap-4">
-            <UserItem />
-            <UserItem />
-            <div className="flex justify-center items-center border rounded-md hover:cursor-pointer">
-              <Plus size={32} className="text-ring" />
-            </div>
-          </div>
-        </div>
+        <UserList />
       </div>
     </Card>
   );
@@ -77,31 +57,6 @@ const DepartStat = ({
       <span className="text-2xl font-extrabold text-stone-500">
         {value.toString()}
       </span>
-    </div>
-  );
-};
-
-const DepartItem = ({ label, value }: { label: string; value: string }) => {
-  return (
-    <div className="flex justify-between">
-      <span className="text-sm">{label}</span>
-      <span className="text-xs text-muted-foreground">({value})</span>
-    </div>
-  );
-};
-
-const UserItem = ({}) => {
-  return (
-    <div className="flex items-center border rounded-md px-4 py-2 gap-4">
-      <Avatar className="w-10 h-10">
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>user</AvatarFallback>
-      </Avatar>
-      <div className="flex flex-col gap-1">
-        <span className="text-sm">이동희</span>
-        <span className="text-muted-foreground text-xs">관리</span>
-        <span className="text-xs">dukeldh1128@gmail.com</span>
-      </div>
     </div>
   );
 };
