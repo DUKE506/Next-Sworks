@@ -3,6 +3,32 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --animate-gradient-flow: gradient-flow 12s ease-in-out infinite;
+
+  @keyframes gradient-flow {
+    0% {
+      background-position: 0% 0%;
+    }
+
+    25% {
+      background-position: 50% 100%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    75% {
+      background-position: 50% 0%;
+    }
+
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+}
+
 html {
   display: flex;
   justify-content: center;
@@ -20,6 +46,7 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
+
 a:hover {
   color: black;
 }
@@ -105,6 +132,7 @@ img {
   */
   --primary-color: #637e61;
   --primary-light-color: #8fb38c6b;
+  --primary-hover-color: #4c664b;
   /*
   커스텀  end
   */
@@ -181,6 +209,7 @@ img {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
