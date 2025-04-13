@@ -1,5 +1,5 @@
 import { DepartmentAdmin } from "@/dtos/admin/department-admin.dto";
-import { DepartmentType } from "@/types/(admin)/department";
+import { DepartmentType } from "@/types/(admin)/department/department";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 

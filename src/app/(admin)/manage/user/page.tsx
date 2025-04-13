@@ -6,7 +6,7 @@ import Users from "./_components/users/users";
 import { DepartmentAdmin } from "../../../../dtos/admin/department-admin.dto";
 import { Department } from "../../../../dtos/department/department.dto";
 import { useAdminStore } from "@/store/admin-store";
-import { DepartmentType } from "@/types/(admin)/department";
+import { DepartmentType } from "@/types/(admin)/department/department";
 
 const department: Department[] = [
   {
