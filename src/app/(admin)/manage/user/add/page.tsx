@@ -44,7 +44,7 @@ const userFormSchema = z
     checkPassword: z.string().min(8, { message: "8자 이상으로 입력하세요." }),
     name: z
       .string()
-      .min(2, { message: "2글자 이상으로 입력하세요." })
+      .min(2, { message: "2자 이상으로 입력하세요." })
       .max(10, { message: "10자 이하로 입력하세요." }),
     phone: z
       .string()
