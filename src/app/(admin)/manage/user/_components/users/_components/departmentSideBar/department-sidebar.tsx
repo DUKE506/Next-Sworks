@@ -23,24 +23,30 @@ import { useDeptStore } from "@/store/dept-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const DepartmentSideBar = () => {
-  const { departmentList, setAdminsByDepartment } = useAdminStore();
+  const { departments, selectDept } = useDeptStore();
+
+  useEffect(() => {}, [departments]);
 
   return (
     <div className="flex flex-col gap-6 px-3 pt-6 flex-1/8">
-      <span className="text-lg text-muted-foreground px-3">부서</span>
+      <span
+        className="text-lg text-muted-foreground px-3 hover:cursor-pointer"
+        onClick={() => selectDept("ALL")}
+      >
+        부서
+      </span>
       <div className="flex flex-col gap-4">
-        {departmentList.map((dept, idx) => {
+        {departments.map((dept, idx) => {
           return (
             <DepartItem
               key={idx}
               label={dept.name}
-              value={dept.value.toString()}
-              onClick={() => setAdminsByDepartment(dept)}
+              onClick={() => selectDept(dept)}
             />
           );
         })}
@@ -56,39 +62,35 @@ const DepartItem = ({
   onClick,
 }: {
   label: string;
-  value: string;
-  onClick: () => void;
+  value?: string;
+  onClick?: () => void;
 }) => {
-  const { selectedDepartment } = useAdminStore();
+  const { selectedDept } = useDeptStore();
 
   return (
     <div
       className={`flex justify-between p-3 rounded-sm
         ${
-          selectedDepartment?.name == label
-            ? "bg-[var(--primary-light-color)]"
-            : null
+          selectedDept?.name == label ? "bg-[var(--primary-light-color)]" : null
         } hover:cursor-pointer`}
       onClick={onClick}
     >
       <span
         className={`text-xs ${
-          selectedDepartment?.name == label
-            ? "text-[var(--primary-color)]"
-            : null
+          selectedDept?.name == label ? "text-[var(--primary-color)]" : null
         }`}
       >
         {label}
       </span>
-      <span
+      {/* <span
         className={`text-xs ${
-          selectedDepartment?.name == label
+          selectedDept?.name == label
             ? "text-[var(--primary-color)]"
             : "text-muted-foreground"
         }`}
       >
         ({value})
-      </span>
+      </span> */}
     </div>
   );
 };

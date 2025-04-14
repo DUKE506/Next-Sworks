@@ -1,18 +1,22 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { useAdminStore } from "@/store/admin-store";
+import { useDeptStore } from "@/store/dept-store";
 import { Mail, Phone, Plus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const UserList = () => {
-  const { adminsByDepartment, selectedDepartment } = useAdminStore();
+  const router = useRouter();
+  const { selectedDept } = useDeptStore();
+  const { adminsByDepartment } = useAdminStore();
 
   return (
     <div className="flex flex-col flex-5/6 px-6 pt-6 gap-6">
       <div className="flex justify-between">
         <span className="text-lg text-muted-foreground">
-          {selectedDepartment?.name || "부서"}
+          {selectedDept?.name || "전체"}
         </span>
         <Input className="w-70" />
       </div>
@@ -30,8 +34,10 @@ const UserList = () => {
             />
           );
         })}
-
-        <div className="flex justify-center items-center min-h-[130px] border rounded-md hover:cursor-pointer hover:border-[var(--primary-color)] hover:bg-accent duration-100">
+        <div
+          className="flex justify-center items-center min-h-[130px] border rounded-md hover:cursor-pointer hover:border-[var(--primary-color)] hover:bg-accent duration-100"
+          onClick={() => router.push("/manage/user/add")}
+        >
           <Plus size={32} className="text-ring" />
         </div>
       </div>

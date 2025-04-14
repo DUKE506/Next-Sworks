@@ -1,14 +1,21 @@
-"use server";
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building, ChevronRight, Mail, Phone } from "lucide-react";
-import React from "react";
+import React, { use, useEffect } from "react";
 import DataTable from "../../workplace/components/table/data-table";
 import { columns, workPlaces } from "../../workplace/components/table/columns";
+import { useAdminDetailStore } from "@/store/admin-detail-store";
 
-const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
+const Page = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = use(params);
+
+  const { admin, getAdmin } = useAdminDetailStore();
+
+  useEffect(() => {
+    getAdmin(parseInt(id));
+  }, [id]);
 
   return (
     <div className="flex gap-6 h-full">
@@ -20,22 +27,22 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </Avatar>
           <div className="flex flex-col gap-1">
             <div className="flex gap-4">
-              <span className="text-xl ">이동희</span>
+              <span className="text-xl ">{admin?.name}</span>
               <Badge className="rounded-sm bg-[var(--primary-light-color)] text-[var(--primary-color)]">
-                MANAGER
+                {admin?.permission}
               </Badge>
             </div>
-            <span className="text-base text-ring">@dukeldh1128</span>
+            <span className="text-base text-ring">@{admin?.account}</span>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col gap-8">
-          <ProfileItem label={"부서"} value="시스템개발연구소">
+          <ProfileItem label={"부서"} value={admin?.department.name}>
             <Building size={22} className="text-muted-foreground" />
           </ProfileItem>
-          <ProfileItem label={"전화번호"} value="010-1588-4851">
+          <ProfileItem label={"전화번호"} value={admin?.phone}>
             <Phone size={22} className="text-muted-foreground" />
           </ProfileItem>
-          <ProfileItem label={"이메일"} value="dukeldh1128@gmail.com">
+          <ProfileItem label={"이메일"} value={admin?.email}>
             <Mail size={22} className="text-muted-foreground" />
           </ProfileItem>
         </CardContent>
@@ -58,7 +65,7 @@ const ProfileItem = ({
   children,
 }: {
   label: string;
-  value: string;
+  value?: string;
   children: React.ReactNode;
 }) => {
   return (

@@ -1,9 +1,8 @@
 import { Card } from "@/components/ui/card";
-import React, { useEffect } from "react";
+import React from "react";
 import CustomSeparator from "../../../_components/Separator/custom-separator";
-import { Plus, Triangle } from "lucide-react";
+import { Triangle } from "lucide-react";
 
-import { useAdminStore } from "@/store/admin-store";
 import DepartmentSideBar from "./_components/departmentSideBar/department-sidebar";
 import UserList from "./_components/usersList/user-list";
 
