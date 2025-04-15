@@ -37,6 +37,8 @@ export const useWorkplaceStore = create<WorkplaceState>()(
         },
         getWorkplaceDetail: async (id) => {
           const res = await api.get(`workplace/${id}`).json();
+          if (res) set({ workplaceDetail: res as Workplace });
+
           console.log(res);
         },
         createWorkplace: async (workplace) => {

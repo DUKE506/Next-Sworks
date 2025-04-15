@@ -27,7 +27,7 @@ const DataTable = <TData, TValue>({
   onClick,
 }: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
-    data,
+    data: data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -54,13 +54,12 @@ const DataTable = <TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table !== undefined &&
-          table.getRowModel &&
-          table?.getRowModel()?.rows?.length ? (
-            table?.getRowModel()?.rows.map((row) => (
+          {table.getRowModel().rows.length ? (
+            table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="border-b"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell

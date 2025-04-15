@@ -1,4 +1,4 @@
-import { DepartmentAdmin } from "@/dtos/admin/department-admin.dto";
+import { Admin } from "@/dtos/admin/department-admin.dto";
 import api from "@/middleware/api-manager";
 import { DepartmentType } from "@/types/(admin)/department/department";
 import { CreateAdmin } from "@/types/(admin)/user/create-admin";
@@ -9,9 +9,9 @@ import { useDeptStore } from "./dept-store";
 
 interface AdminState {
   //관리자 데이터
-  admins: DepartmentAdmin[];
+  admins: Admin[];
   //선택 부서의 관리자목록
-  adminsByDepartment: DepartmentAdmin[];
+  adminsByDepartment: Admin[];
   //관리자 초기값 세팅(임의값)
   getAdmins: () => Promise<void>;
   //부서별 관리자 조회 - 클릭이벤트
@@ -31,7 +31,7 @@ export const useAdminStore = create<AdminState>()(
 
           const res = await api.get("user/all").json();
           selectDept("ALL");
-          set({ admins: res as DepartmentAdmin[] });
+          set({ admins: res as Admin[] });
         },
         setAdminsByDepartment: (dept) => {
           const admins = get().admins;
