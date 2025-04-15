@@ -1,16 +1,19 @@
 import { ListBaseType, ListLoading, ListModel } from "@/types/list-type";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import ky from "ky";
-
-import { useAuthStore } from "./auth-store";
 import api from "@/middleware/api-manager";
-import { workPlaces } from "@/app/(admin)/manage/workplace/components/table/columns";
-import { Workplace } from "@/types/workplace";
+
+import { Workplace } from "@/types/(admin)/workplace/workplace";
+import { CreateWorkplace } from "@/types/(admin)/workplace/create-workplace";
 
 interface WorkplaceState {
   workplaces: ListBaseType;
+  workplaceDetail: Workplace | null;
+  selectedWorkplace: Workplace | null;
   getWorkplaces: () => Promise<void>;
+  getWorkplaceDetail: (id: number) => Promise<void>;
+  createWorkplace: (workplace: CreateWorkplace) => Promise<void>;
+  selectWorkplace: (workplace: Workplace) => void;
 }
 
 export const useWorkplaceStore = create<WorkplaceState>()(
@@ -18,6 +21,8 @@ export const useWorkplaceStore = create<WorkplaceState>()(
     persist<WorkplaceState>(
       (set, get) => ({
         workplaces: ListLoading,
+        workplaceDetail: null,
+        selectedWorkplace: null,
         getWorkplaces: async () => {
           const res = await api
             .get("workplace/all", {
@@ -29,6 +34,19 @@ export const useWorkplaceStore = create<WorkplaceState>()(
             .json();
 
           set({ workplaces: res as ListModel<Workplace> });
+        },
+        getWorkplaceDetail: async (id) => {
+          const res = await api.get(`workplace/${id}`).json();
+          console.log(res);
+        },
+        createWorkplace: async (workplace) => {
+          const res = await api
+            .post("workplace/create", { json: workplace })
+            .json();
+          console.log(res);
+        },
+        selectWorkplace: (workplace) => {
+          set({ selectedWorkplace: workplace });
         },
       }),
       { name: "workplace-store" }

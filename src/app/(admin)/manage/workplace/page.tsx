@@ -14,11 +14,11 @@ const Page = () => {
 
   return (
     <div className="flex flex-col gap-6 h-full">
+      <Card className="h-full"></Card>
       <div className="flex gap-6">
         <TableArea />
         <InfoArea />
       </div>
-      <Card className="h-full"></Card>
     </div>
   );
 };

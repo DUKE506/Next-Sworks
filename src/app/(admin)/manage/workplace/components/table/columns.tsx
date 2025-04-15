@@ -1,5 +1,6 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
+import { Workplace } from "@/types/(admin)/workplace/workplace";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import Link from "next/link";
@@ -96,7 +97,7 @@ export const workPlaces: WorkPlace[] = [
   },
 ];
 
-export const columns: ColumnDef<WorkPlace>[] = [
+export const columns: ColumnDef<Workplace>[] = [
   {
     accessorKey: "name",
     header: "이름",
@@ -129,7 +130,7 @@ export const columns: ColumnDef<WorkPlace>[] = [
     accessorKey: "canceledAt",
     header: "해약일자",
     cell: ({ row }) => {
-      const value = row.original.canceledAt;
+      const value = row.original.expiredAt;
 
       return value ? dayjs(value).format("YYYY-MM-DD") : null;
     },

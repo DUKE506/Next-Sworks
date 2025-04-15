@@ -18,11 +18,13 @@ import React from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onClick?: (data: TData) => void;
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
+  onClick,
 }: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
     data,
@@ -31,7 +33,7 @@ const DataTable = <TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border overflow-hidden">
+    <div className="rounded-md border overflow-hidden bg-white h-full">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -52,14 +54,20 @@ const DataTable = <TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+          {table !== undefined &&
+          table.getRowModel &&
+          table?.getRowModel()?.rows?.length ? (
+            table?.getRowModel()?.rows.map((row) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell className="text-xs" key={cell.id}>
+                  <TableCell
+                    className="text-xs"
+                    key={cell.id}
+                    onClick={onClick ? () => onClick(row.original) : undefined}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -67,8 +75,11 @@ const DataTable = <TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center text-muted-foreground"
+              >
+                사업장을 생성해주세요.
               </TableCell>
             </TableRow>
           )}

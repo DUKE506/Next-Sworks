@@ -1,8 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Toggle } from "@/components/ui/toggle";
+
 import {
   Building2,
   ChevronsUpDown,
@@ -18,45 +17,86 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import VocChart from "../voc/voc-chart";
+import { useWorkplaceStore } from "@/store/workplace-store";
+import { IconToggle } from "@/components/ui/icon-toggle/icon-toggle";
 
 export const InfoArea = () => {
+  const { selectedWorkplace } = useWorkplaceStore();
+
   return (
-    <Card className="flex-2/5 w-full">
+    <Card className="flex-2/6 ">
       <CardContent className="flex flex-col gap-8">
         <div className="flex gap-6">
           <div className="flex flex-col flex-1 gap-4">
-            <span className="text-lg font-extrabold">강남우체국</span>
+            <span className="text-lg font-extrabold">
+              {selectedWorkplace?.name}
+            </span>
             <StatCard label={"직원"} value={12} />
             <StatCard label={"민원"} value={8} delta={5} deltaType="INCREASE" />
           </div>
           <div className="grid grid-cols-3 gap-y-6 gap-x-6 w-fit">
-            <CustomToggle label="기계" readonly={true}>
-              <Drill color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
-            <CustomToggle label="전기" readonly={true}>
-              <Zap color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
-            <CustomToggle label="승강" readonly={true}>
-              <ChevronsUpDown color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
-            <CustomToggle label="소방" readonly={true}>
-              <Flame color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
-            <CustomToggle label="건축" readonly={true}>
-              <Building2 color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
-            <CustomToggle label="통신" readonly={true}>
-              <Wifi color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
-            <CustomToggle label="미화" readonly={true}>
-              <PaintRoller color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
-            <CustomToggle label="보안" readonly={true}>
-              <ShieldBan color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
-            <CustomToggle label="민원" readonly={true}>
-              <Megaphone color="#818181" size={24} strokeWidth={0.5} />
-            </CustomToggle>
+            <IconToggle
+              label="기계"
+              icon={Drill}
+              readonly={true}
+              pressed={selectedWorkplace?.permMachine}
+            />
+
+            <IconToggle
+              label="전기"
+              icon={Zap}
+              readonly={true}
+              pressed={selectedWorkplace?.permElectronic}
+            />
+
+            <IconToggle
+              label="승강"
+              icon={ChevronsUpDown}
+              readonly={true}
+              pressed={selectedWorkplace?.permLift}
+            />
+
+            <IconToggle
+              label="소방"
+              icon={Flame}
+              readonly={true}
+              pressed={selectedWorkplace?.permFire}
+            />
+
+            <IconToggle
+              label="건축"
+              icon={Building2}
+              readonly={true}
+              pressed={selectedWorkplace?.permConstruct}
+            />
+
+            <IconToggle
+              label="통신"
+              icon={Wifi}
+              readonly={true}
+              pressed={selectedWorkplace?.permNetwork}
+            />
+
+            <IconToggle
+              label="미화"
+              icon={PaintRoller}
+              readonly={true}
+              pressed={selectedWorkplace?.permBeauty}
+            />
+
+            <IconToggle
+              label="보안"
+              icon={ShieldBan}
+              readonly={true}
+              pressed={selectedWorkplace?.permBeauty}
+            />
+
+            <IconToggle
+              label="민원"
+              icon={Megaphone}
+              readonly={true}
+              pressed={selectedWorkplace?.permVoc}
+            />
           </div>
         </div>
         <VocChart />
@@ -94,36 +134,6 @@ export const StatCard = ({
       <span className="text-2xl font-extrabold text-stone-500">
         {value.toString()}
       </span>
-    </div>
-  );
-};
-
-export const CustomToggle = ({
-  children,
-  label,
-  readonly = false,
-}: {
-  children: React.ReactNode;
-  label: string;
-  readonly?: boolean;
-}) => {
-  const [isPressed, setPressed] = useState<boolean>(false);
-
-  return (
-    <div
-      className="inline-flex flex-col w-12 gap-1"
-      onClick={() => (readonly ? setPressed(!isPressed) : null)}
-    >
-      <div
-        className={`inline-flex justify-center items-center border h-12 rounded-sm ${
-          isPressed ? "bg-stone-400" : "bg-muted"
-        } duration-300`}
-      >
-        {children}
-      </div>
-      <Label className={`justify-center text-xs "text-gray-600"`}>
-        {label}
-      </Label>
     </div>
   );
 };
