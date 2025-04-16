@@ -7,8 +7,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const UserList = () => {
-  const router = useRouter();
+interface UserListProps {
+  edit?: boolean;
+}
+
+const UserList = ({ edit }: UserListProps) => {
   const { selectedDept } = useDeptStore();
   const { adminsByDepartment } = useAdminStore();
 
@@ -21,7 +24,7 @@ const UserList = () => {
         <Input className="w-70" />
       </div>
 
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(200px,240px))]">
         {adminsByDepartment.map((a, i) => {
           return (
             <UserItem
@@ -34,12 +37,7 @@ const UserList = () => {
             />
           );
         })}
-        <div
-          className="flex justify-center items-center min-h-[130px] border rounded-md hover:cursor-pointer hover:border-[var(--primary-color)] hover:bg-accent duration-100"
-          onClick={() => router.push("/manage/user/add")}
-        >
-          <Plus size={32} className="text-ring" />
-        </div>
+        {edit ? null : <PlusBtn />}
       </div>
     </div>
   );
@@ -60,7 +58,7 @@ const UserItem = ({
 }) => {
   return (
     <Link href={`/manage/user/${id}`}>
-      <div className="flex flex-col gap-4 border rounded-md px-4 py-4  hover:border-[var(--primary-color)] hover:bg-accent duration-100">
+      <div className="flex flex-col min-w-60 gap-4 border rounded-md px-4 py-4  hover:border-[var(--primary-color)] hover:bg-accent duration-100">
         <div className="flex items-center gap-4">
           <Avatar className="w-10 h-10">
             <AvatarImage src="https://github.com/shadcn.png" />
@@ -87,6 +85,18 @@ const UserItem = ({
         </div>
       </div>
     </Link>
+  );
+};
+
+const PlusBtn = () => {
+  const router = useRouter();
+  return (
+    <div
+      className="flex justify-center items-center min-h-[130px] border rounded-md hover:cursor-pointer hover:border-[var(--primary-color)] hover:bg-accent duration-100"
+      onClick={() => router.push("/manage/user/add")}
+    >
+      <Plus size={32} className="text-ring" />
+    </div>
   );
 };
 

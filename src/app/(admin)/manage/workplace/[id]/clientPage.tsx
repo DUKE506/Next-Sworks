@@ -4,7 +4,7 @@ import Info from "./_components/info/info";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Admins } from "./_components/table/table";
 import { useWorkplaceStore } from "@/store/workplace-store";
-import { Perm } from "./_components/perm.tsx/perm";
+import { Perm } from "./_components/perm/perm";
 
 const ClientPage = ({ id }: { id: number }) => {
   const { getWorkplaceDetail } = useWorkplaceStore();

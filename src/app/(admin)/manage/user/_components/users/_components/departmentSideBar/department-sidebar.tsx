@@ -27,7 +27,11 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const DepartmentSideBar = () => {
+interface DepartmentSideBarProps {
+  edit?: boolean;
+}
+
+const DepartmentSideBar = ({ edit }: DepartmentSideBarProps) => {
   const { departments, selectDept } = useDeptStore();
 
   useEffect(() => {}, [departments]);
@@ -50,7 +54,7 @@ const DepartmentSideBar = () => {
             />
           );
         })}
-        <DepartmentAddFormDialog />
+        {edit ? null : <DepartmentAddFormDialog />}
       </div>
     </div>
   );
