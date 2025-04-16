@@ -4,6 +4,7 @@ import Info from "./_components/info/info";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Admins } from "./_components/table/table";
 import { useWorkplaceStore } from "@/store/workplace-store";
+import { Perm } from "./_components/perm.tsx/perm";
 
 const ClientPage = ({ id }: { id: number }) => {
   const { getWorkplaceDetail } = useWorkplaceStore();
@@ -15,12 +16,14 @@ const ClientPage = ({ id }: { id: number }) => {
   return (
     <div className="flex flex-col gap-6">
       <Info />
-      <Card>
-        <CardHeader>
-          <CardTitle>권한</CardTitle>
-        </CardHeader>
-        <CardContent className="flex justify-between"></CardContent>
-      </Card>
+      <div className="w-full flex gap-6">
+        <Card className="flex-2/6">
+          <CardHeader>
+            <CardTitle>대시보드</CardTitle>
+          </CardHeader>
+        </Card>
+        <Perm />
+      </div>
       <Admins />
     </div>
   );

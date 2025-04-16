@@ -4,7 +4,7 @@ import React from "react";
 
 export const SideBar = () => {
   return (
-    <Card className="flex-1/6">
+    <Card className="flex-1/6 my-6 ml-6">
       <CardHeader>
         <CardTitle>프로필 영역</CardTitle>
       </CardHeader>
