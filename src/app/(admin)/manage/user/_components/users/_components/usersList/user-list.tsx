@@ -1,10 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Admin } from "@/dtos/admin/department-admin.dto";
 import { useAdminStore } from "@/store/admin-store";
 import { useDeptStore } from "@/store/dept-store";
 import { Mail, Phone, Plus } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 interface UserListProps {
@@ -12,8 +14,14 @@ interface UserListProps {
 }
 
 const UserList = ({ edit }: UserListProps) => {
+  const {
+    selectedAdminsByWorkplace,
+    selectAdminsByWorkplace,
+    postAdminsByWorkplace,
+  } = useAdminStore();
   const { selectedDept } = useDeptStore();
   const { adminsByDepartment } = useAdminStore();
+  const params = useParams();
 
   return (
     <div className="flex flex-col flex-5/6 px-6 pt-6 gap-6">
@@ -26,65 +34,83 @@ const UserList = ({ edit }: UserListProps) => {
 
       <div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(200px,240px))]">
         {adminsByDepartment.map((a, i) => {
+          const selected = selectedAdminsByWorkplace.includes(a);
+
           return (
-            <UserItem
+            <AdminCard
               key={a.id}
-              id={a.id}
-              name={a.name}
-              permission={a.permission}
-              email={a.email}
-              phone={a.phone}
+              admin={a}
+              selected={selected}
+              edit={edit}
+              onClick={() => selectAdminsByWorkplace(a)}
             />
           );
         })}
-        {edit ? null : <PlusBtn />}
+        {edit ? (
+          <Button
+            onClick={() => postAdminsByWorkplace(Number(params?.id))}
+            className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer absolute right-6 bottom-6"
+          >
+            Add
+          </Button>
+        ) : (
+          <PlusBtn />
+        )}
       </div>
     </div>
   );
 };
 
-const UserItem = ({
-  id,
-  name,
-  permission,
-  email,
-  phone,
-}: {
-  id?: number;
-  name?: string;
-  permission?: string;
-  email?: string;
-  phone?: string;
-}) => {
-  return (
-    <Link href={`/manage/user/${id}`}>
-      <div className="flex flex-col min-w-60 gap-4 border rounded-md px-4 py-4  hover:border-[var(--primary-color)] hover:bg-accent duration-100">
-        <div className="flex items-center gap-4">
-          <Avatar className="w-10 h-10">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>user</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm">{name}</span>
-            <span className="text-muted-foreground text-xs">{permission}</span>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex items-end gap-2">
-            <Phone size={14} className="text-muted-foreground" />
-            <span className="text-xs tracking-wide text-muted-foreground">
-              {phone || "-"}
-            </span>
-          </div>
-          <div className="flex items-end gap-2">
-            <Mail size={14} className="text-muted-foreground" />
-            <span className="text-xs tracking-wide text-muted-foreground">
-              {email || "-"}
-            </span>
-          </div>
+interface UserItemProps {
+  edit?: boolean;
+  admin: Admin;
+  selected: boolean;
+  onClick?: () => void;
+}
+
+const AdminCard = ({ edit, admin, selected, onClick }: UserItemProps) => {
+  const adminCard = (
+    <div
+      className={`flex flex-col min-w-60 gap-4 border rounded-md px-4 py-4  hover:border-[var(--primary-color)] hover:bg-accent 
+        ${edit ? "hover:cursor-pointer" : null}
+        ${
+          edit && selected ? "bg-accent border-[var(--primary-color)]" : null
+        } duration-100`}
+      onClick={onClick}
+    >
+      <div className="flex items-center gap-4">
+        <Avatar className="w-10 h-10">
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>user</AvatarFallback>
+        </Avatar>
+        <div className="flex flex-col gap-1">
+          <span className="text-sm">{admin.name}</span>
+          <span className="text-muted-foreground text-xs">
+            {admin.permission}
+          </span>
         </div>
       </div>
-    </Link>
+      <div className="flex flex-col gap-2">
+        <div className="flex items-end gap-2">
+          <Phone size={14} className="text-muted-foreground" />
+          <span className="text-xs tracking-wide text-muted-foreground">
+            {admin.phone || "-"}
+          </span>
+        </div>
+        <div className="flex items-end gap-2">
+          <Mail size={14} className="text-muted-foreground" />
+          <span className="text-xs tracking-wide text-muted-foreground">
+            {admin.email || "-"}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
+  return edit ? (
+    adminCard
+  ) : (
+    <Link href={`/manage/user/${admin.id}`}>{adminCard}</Link>
   );
 };
 
