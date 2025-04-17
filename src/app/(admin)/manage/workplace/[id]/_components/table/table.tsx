@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "../../../components/table/data-table";
 import { columns } from "./columns";
 import { Plus } from "lucide-react";
@@ -16,9 +16,13 @@ import DepartmentSideBar from "@/app/(admin)/manage/user/_components/users/_comp
 import UserList from "@/app/(admin)/manage/user/_components/users/_components/usersList/user-list";
 import CustomSeparator from "@/app/(admin)/manage/_components/Separator/custom-separator";
 import { useAdminStore } from "@/store/admin-store";
+import { useWorkplaceStore } from "@/store/workplace-store";
+import { useParams } from "next/navigation";
 
 export const Admins = () => {
-  const { admins } = useAdminStore();
+  const { workplaceDetail } = useWorkplaceStore();
+
+  useEffect(() => {}, [workplaceDetail]);
 
   return (
     <Card>
@@ -29,7 +33,10 @@ export const Admins = () => {
         </div>
       </div>
       <CardContent>
-        <DataTable columns={columns} data={admins} />
+        <DataTable
+          columns={columns}
+          data={workplaceDetail?.workplaceAdmins ?? []}
+        />
       </CardContent>
     </Card>
   );
@@ -37,7 +44,19 @@ export const Admins = () => {
 
 const AddManagerDialog = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
-  const { selectAdminsByWorkplace } = useAdminStore();
+  const { selectAdminsByWorkplace, postAdminsByWorkplace } = useAdminStore();
+  const params = useParams();
+
+  const onSubmit = async () => {
+    const res = await postAdminsByWorkplace(Number(params?.id));
+
+    if (!res) {
+      // 토스터 넣기
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <Dialog
@@ -60,7 +79,7 @@ const AddManagerDialog = () => {
         <div className="flex flex-1 border-t">
           <DepartmentSideBar edit />
           <CustomSeparator className="h-full w-[1px]" />
-          <UserList edit />
+          <UserList edit onClick={() => onSubmit()} />
         </div>
       </DialogContent>
     </Dialog>

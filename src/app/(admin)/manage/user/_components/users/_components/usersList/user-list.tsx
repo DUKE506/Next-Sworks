@@ -11,6 +11,7 @@ import React from "react";
 
 interface UserListProps {
   edit?: boolean;
+  onClick?: () => void;
 }
 
 const UserList = ({ edit }: UserListProps) => {

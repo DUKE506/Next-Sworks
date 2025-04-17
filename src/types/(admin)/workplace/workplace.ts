@@ -1,3 +1,5 @@
+import { Admin } from "@/dtos/admin/department-admin.dto";
+
 /**
  * 사업장명
  * 계약번호
@@ -25,6 +27,7 @@ export class Workplace {
   permBeauty: boolean;
   permSecurity: boolean;
   permVoc: boolean;
+  workplaceAdmins: Admin[];
 
   constructor({
     id,
@@ -44,6 +47,7 @@ export class Workplace {
     permBeauty,
     permSecurity,
     permVoc,
+    workplaceAdmins,
   }: {
     id: number;
     name: string;
@@ -62,6 +66,7 @@ export class Workplace {
     permBeauty: boolean;
     permSecurity: boolean;
     permVoc: boolean;
+    workplaceAdmins: Admin[];
   }) {
     (this.id = id),
       (this.name = name),
@@ -80,5 +85,6 @@ export class Workplace {
     this.permBeauty = permBeauty;
     this.permSecurity = permSecurity;
     this.permVoc = permVoc;
+    this.workplaceAdmins = workplaceAdmins;
   }
 }

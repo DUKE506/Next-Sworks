@@ -6,6 +6,7 @@ import { Department } from "@/types/department";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { useDeptStore } from "./dept-store";
+import { useWorkplaceStore } from "./workplace-store";
 
 interface AdminState {
   //관리자 데이터
@@ -15,15 +16,15 @@ interface AdminState {
   //사업장 관리자 할당 시 선택한 관리자들
   selectedAdminsByWorkplace: Admin[];
   //관리자 초기값 세팅(임의값)
-  getAdmins: () => Promise<void>;
+  getAdmins: () => Promise<boolean>;
   //부서별 관리자 조회 - 클릭이벤트
   setAdminsByDepartment: (dept: Department | "ALL") => void;
   //관리자 생성
-  createAdmin: (admin: CreateAdmin) => Promise<void>;
+  createAdmin: (admin: CreateAdmin) => Promise<boolean>;
   //사업장 관리자 추가 시 임시선택
   selectAdminsByWorkplace: (admin: Admin | "DELETE") => void;
   //사업장 관리자 추가
-  postAdminsByWorkplace: (id: number) => Promise<void>;
+  postAdminsByWorkplace: (id: number) => Promise<boolean>;
 }
 
 export const useAdminStore = create<AdminState>()(
@@ -36,9 +37,12 @@ export const useAdminStore = create<AdminState>()(
         getAdmins: async () => {
           const { selectDept } = useDeptStore.getState();
 
-          const res = await api.get("user/all").json();
+          const res = await api.get("user/all");
           selectDept("ALL");
-          set({ admins: res as Admin[] });
+          if (!res.ok) return res.ok;
+
+          set({ admins: (await res.json()) as Admin[] });
+          return res.ok;
         },
         setAdminsByDepartment: (dept) => {
           const admins = get().admins;
@@ -55,10 +59,10 @@ export const useAdminStore = create<AdminState>()(
           set({ adminsByDepartment: departmentAdmins });
         },
         createAdmin: async (admin: CreateAdmin) => {
-          const res = await api
-            .post("user/create/admin", { json: admin })
-            .json();
-          console.log(res);
+          const res = await api.post("user/create/admin", { json: admin });
+          if (!res.ok) return res.ok;
+
+          return res.ok;
         },
         selectAdminsByWorkplace: (admin) => {
           console.log("선택");
@@ -81,10 +85,15 @@ export const useAdminStore = create<AdminState>()(
         },
         postAdminsByWorkplace: async (id) => {
           const { selectedAdminsByWorkplace } = get();
+          const { getWorkplaceDetail } = useWorkplaceStore.getState();
           const res = await api.post(`workplace/${id}/add/manager`, {
             json: selectedAdminsByWorkplace,
           });
-          console.log(res);
+
+          if (!res.ok) return res.ok;
+
+          getWorkplaceDetail(id);
+          return res.ok;
         },
       }),
       { name: "admin-store" }

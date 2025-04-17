@@ -10,8 +10,8 @@ interface WorkplaceState {
   workplaces: ListBaseType;
   workplaceDetail: Workplace | null;
   selectedWorkplace: Workplace | null;
-  getWorkplaces: () => Promise<void>;
-  getWorkplaceDetail: (id: number) => Promise<void>;
+  getWorkplaces: () => Promise<boolean>;
+  getWorkplaceDetail: (id: number) => Promise<boolean>;
   createWorkplace: (workplace: CreateWorkplace) => Promise<void>;
   selectWorkplace: (workplace: Workplace) => void;
 }
@@ -24,22 +24,27 @@ export const useWorkplaceStore = create<WorkplaceState>()(
         workplaceDetail: null,
         selectedWorkplace: null,
         getWorkplaces: async () => {
-          const res = await api
-            .get("workplace/all", {
-              searchParams: {
-                page: 1,
-                pageSize: 20,
-              },
-            })
-            .json();
+          const res = await api.get("workplace/all", {
+            searchParams: {
+              page: 1,
+              pageSize: 20,
+            },
+          });
 
-          set({ workplaces: res as ListModel<Workplace> });
+          if (res.ok) {
+            set({ workplaces: (await res.json()) as ListModel<Workplace> });
+            return res.ok;
+          }
+
+          return res.ok;
         },
         getWorkplaceDetail: async (id) => {
-          const res = await api.get(`workplace/${id}`).json();
-          if (res) set({ workplaceDetail: res as Workplace });
-
-          console.log(res);
+          const res = await api.get(`workplace/${id}`);
+          if (res.ok) {
+            set({ workplaceDetail: (await res.json()) as Workplace });
+            return res.ok;
+          }
+          return res.ok;
         },
         createWorkplace: async (workplace) => {
           const res = await api

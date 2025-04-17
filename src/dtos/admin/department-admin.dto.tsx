@@ -9,6 +9,7 @@ export class Admin {
   email: string;
   phone: string;
   department: Department;
+
   constructor(
     id: number,
     account: string,
