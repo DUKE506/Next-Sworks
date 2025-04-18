@@ -14,7 +14,7 @@ export const useAdminDetailStore = create<AdminDetailState>()(
       (set, get) => ({
         admin: null,
         getAdmin: async (id) => {
-          const res = await api.get(`user/id/${id}`).json();
+          const res = await api.get(`user/${id}`).json();
           set({ admin: res as Admin });
           console.log(res);
         },

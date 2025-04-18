@@ -14,7 +14,7 @@ interface UserListProps {
   onClick?: () => void;
 }
 
-const UserList = ({ edit }: UserListProps) => {
+const UserList = ({ edit, onClick }: UserListProps) => {
   const {
     selectedAdminsByWorkplace,
     selectAdminsByWorkplace,
@@ -49,7 +49,7 @@ const UserList = ({ edit }: UserListProps) => {
         })}
         {edit ? (
           <Button
-            onClick={() => postAdminsByWorkplace(Number(params?.id))}
+            onClick={onClick}
             className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer absolute right-6 bottom-6"
           >
             Add

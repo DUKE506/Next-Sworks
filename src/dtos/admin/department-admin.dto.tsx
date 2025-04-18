@@ -1,5 +1,6 @@
 import { ManagerPermissionUnion } from "@/types/(admin)/user";
 import { Department } from "../department/department.dto";
+import { Workplace } from "@/types/(admin)/workplace/workplace";
 
 export class Admin {
   id: number;
@@ -9,6 +10,7 @@ export class Admin {
   email: string;
   phone: string;
   department: Department;
+  workplaces: Workplace[];
 
   constructor(
     id: number,
@@ -17,7 +19,8 @@ export class Admin {
     permission: ManagerPermissionUnion,
     email: string,
     phone: string,
-    department: Department
+    department: Department,
+    workplaces: Workplace[]
   ) {
     this.id = id;
     this.account = account;
@@ -26,5 +29,6 @@ export class Admin {
     this.email = email;
     this.phone = phone;
     this.department = department;
+    this.workplaces = workplaces;
   }
 }

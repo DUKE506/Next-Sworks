@@ -1,11 +1,35 @@
-"use client";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Workplace } from "@/types/(admin)/workplace/workplace";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import Link from "next/link";
 
-export const workplaceColumns: ColumnDef<Workplace>[] = [
+export const adminWorkplaceColumns: ColumnDef<Workplace>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        className="bg-white data-[state=checked]:bg-[var(--primary-color)] data-[state=checked]:border-[var(--primary-color)] "
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        className="data-[state=checked]:bg-[var(--primary-color)] data-[state=checked]:border-[var(--primary-color)] "
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "name",
     header: "이름",

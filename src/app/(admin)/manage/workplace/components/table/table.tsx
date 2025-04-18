@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import DataTable from "./data-table";
-import { columns, workPlaces } from "./columns";
+import { workplaceColumns } from "./columns";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -41,7 +41,7 @@ const TableArea = () => {
         )}
       </div>
       <DataTable
-        columns={columns}
+        columns={workplaceColumns}
         data={(workplaces as ListModel<Workplace>).data}
         onClick={(data) => selectWorkplace(data)}
       />

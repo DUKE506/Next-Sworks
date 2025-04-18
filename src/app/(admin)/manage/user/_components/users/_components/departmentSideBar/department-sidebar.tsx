@@ -17,8 +17,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useAdminStore } from "@/store/admin-store";
 import { useDeptStore } from "@/store/dept-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 
