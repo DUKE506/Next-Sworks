@@ -18,6 +18,7 @@ import { Plus } from "lucide-react";
 import React from "react";
 import { adminWorkplaceColumns } from "./adminWokkrplaceColumns";
 import { Button } from "@/components/ui/button";
+import HeaderFixedTable from "@/components/ui/headerfix-table/headerfixed-table";
 
 const Workplaces = () => {
   const { admin } = useAdminDetailStore();
@@ -34,6 +35,10 @@ const Workplaces = () => {
   );
 };
 
+const test = (data: Record<string, boolean>) => {
+  console.log(data)
+}
+
 const AddWorkplaceDialog = () => {
   const { workplaces } = useWorkplaceStore();
   return (
@@ -41,14 +46,15 @@ const AddWorkplaceDialog = () => {
       <DialogTrigger>
         <IconButton className="w-8" icon={Plus} />
       </DialogTrigger>
-      <DialogContent className="min-w-200 gap-6">
+      <DialogContent className="min-w-200 gap-6 h-150">
         <DialogHeader>
           <DialogTitle>추가</DialogTitle>
         </DialogHeader>
         <Input placeholder="이름, 계약번호" />
-        <DataTable
+        <HeaderFixedTable
           columns={adminWorkplaceColumns}
           data={(workplaces as ListModel<Workplace>).data}
+          onSelect={test}
         />
         <Button className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer">
           추가

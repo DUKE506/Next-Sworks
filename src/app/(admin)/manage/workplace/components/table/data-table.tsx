@@ -33,7 +33,7 @@ const DataTable = <TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border overflow-hidden bg-white h-full">
+    <div className="rounded-md border overflow-hidden bg-white ">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -44,9 +44,9 @@ const DataTable = <TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 );
               })}
