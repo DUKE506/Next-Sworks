@@ -27,13 +27,24 @@ const HeaderFixedTable = <TData, TValue>({
         data: data || [],
         columns,
         getCoreRowModel: getCoreRowModel(),
-        onRowSelectionChange: () => onSelect, //hoist up the row selection state to your own scope
+        onRowSelectionChange: (updater) => {
+            const newState = typeof updater === 'function'
+                ? updater(rowSelection)
+                : updater;
+
+            setRowSelection(rowSelection);
+
+            if (onSelect) {
+                console.log(onSelect)
+                onSelect(newState)
+            }
+        }, //hoist up the row selection state to your own scope
         state: {
             rowSelection, //pass the row selection state back to the table instance
         },
     })
     return (
-        <div className="rounded-md border overflow-auto bg-white h-full">
+        <div className="flex-1 rounded-md border overflow-auto bg-white h-full">
             <table className='w-full caption-bottom text-sm'>
                 <TableHeader className='sticky top-0 '>
                     {
@@ -71,7 +82,7 @@ const HeaderFixedTable = <TData, TValue>({
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell
-                                        className="text-xs"
+                                        className="text-xs border-b"
                                         key={cell.id}
                                         onClick={onClick ? () => onClick(row.original) : undefined}
                                     >

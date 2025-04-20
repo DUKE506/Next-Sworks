@@ -46,16 +46,19 @@ const AddWorkplaceDialog = () => {
       <DialogTrigger>
         <IconButton className="w-8" icon={Plus} />
       </DialogTrigger>
-      <DialogContent className="min-w-200 gap-6 h-150">
+      <DialogContent className="flex flex-col min-w-200 gap-6 h-150">
         <DialogHeader>
           <DialogTitle>추가</DialogTitle>
         </DialogHeader>
         <Input placeholder="이름, 계약번호" />
+
         <HeaderFixedTable
           columns={adminWorkplaceColumns}
           data={(workplaces as ListModel<Workplace>).data}
           onSelect={test}
         />
+
+
         <Button className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer">
           추가
         </Button>
