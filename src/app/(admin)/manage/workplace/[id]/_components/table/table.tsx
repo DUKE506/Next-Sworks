@@ -72,7 +72,7 @@ const AddManagerDialog = () => {
           size={18}
         />
       </DialogTrigger>
-      <DialogContent className="sm:min-w-300 sm:min-h-150 flex flex-col px-0 pb-0 h-[600px]">
+      <DialogContent className="min-w-300 min-h-150 max-xl:min-w-[80%] flex flex-col px-0 pb-0 ">
         <DialogHeader className="px-6">
           <DialogTitle className="font-extrabold">추가</DialogTitle>
         </DialogHeader>

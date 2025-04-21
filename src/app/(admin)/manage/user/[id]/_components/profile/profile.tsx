@@ -8,7 +8,7 @@ import React from "react";
 export const Profile = () => {
   const { admin } = useAdminDetailStore();
   return (
-    <Card className="w-[400px] h-fit gap-8">
+    <Card className="w-100 h-fit gap-8 max-xl:w-full">
       <CardHeader className="flex items-center gap-4">
         <Avatar className="w-18 h-18">
           <AvatarImage src="https://github.com/shadcn.png" />

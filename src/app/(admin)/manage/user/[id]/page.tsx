@@ -20,7 +20,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
   }, [id]);
 
   return (
-    <div className="flex gap-6 h-full">
+    <div className="flex max-xl:flex-col gap-6 h-full">
       <Profile />
       <Workplaces />
     </div>

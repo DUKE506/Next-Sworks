@@ -13,14 +13,14 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 h-full">
-      <div className="flex justify-between gap-6">
+    <div className="flex flex-col gap-6 h-full max-xl:pt-12">
+      <div className="flex max-xl:flex-col justify-between gap-6">
         <StatCard label="사업장" value="2" />
         <StatCard label="평균 직원" value="2" />
         <StatCard label="평균 민원" value="2" />
         <StatCard label="평균 설비" value="2" />
       </div>
-      <div className="flex gap-6">
+      <div className="flex max-xl:flex-col-reverse gap-6">
         <TableArea />
         <InfoArea />
       </div>
