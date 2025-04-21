@@ -10,9 +10,9 @@ const Info = () => {
 
   return (
     <Card className="py-0  overflow-hidden">
-      <CardContent className="flex flex-row px-0">
+      <CardContent className="flex flex-row max-xl:flex-col px-0">
         {/* 이미지 */}
-        <div className="bg-[#d3d3d3] w-[400px] h-[auto]"></div>
+        <div className="bg-[#d3d3d3] w-[400px] h-[auto] max-xl:w-full max-xl:h-50"></div>
 
         <div className="flex flex-col flex-1">
           {/* 헤더 */}

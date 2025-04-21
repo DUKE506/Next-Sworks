@@ -28,10 +28,7 @@ export const SideBar = () => {
   }, []);
 
   const onOpen = () => {
-    if (window.innerWidth >= 1280) {
-      // 예: 1280px 이상일 때 오버레이 닫기
-      setOpen(false);
-    }
+    setOpen(false);
   };
 
   return (

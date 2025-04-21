@@ -5,6 +5,7 @@ import api from "@/middleware/api-manager";
 
 import { Workplace } from "@/types/(admin)/workplace/workplace";
 import { CreateWorkplace } from "@/types/(admin)/workplace/create-workplace";
+import { EditPerm } from "@/types/(admin)/workplace/edit-perm";
 
 interface WorkplaceState {
   workplaces: ListBaseType;
@@ -14,6 +15,7 @@ interface WorkplaceState {
   getWorkplaceDetail: (id: number) => Promise<boolean>;
   createWorkplace: (workplace: CreateWorkplace) => Promise<void>;
   selectWorkplace: (workplace: Workplace) => void;
+  patchEditPerm: (workplacePerm: EditPerm) => Promise<boolean>;
 }
 
 export const useWorkplaceStore = create<WorkplaceState>()(
@@ -54,6 +56,25 @@ export const useWorkplaceStore = create<WorkplaceState>()(
         },
         selectWorkplace: (workplace) => {
           set({ selectedWorkplace: workplace });
+        },
+        patchEditPerm: async (workplacePerm): Promise<boolean> => {
+          const { workplaceDetail, getWorkplaceDetail } = get();
+          if (!workplaceDetail) {
+            return false;
+          }
+
+          const res = await api.patch(
+            `workplace/${workplaceDetail.id}/edit/perm`,
+            {
+              json: workplacePerm,
+            }
+          );
+
+          if (!res.ok) {
+            return false;
+          }
+          await getWorkplaceDetail(workplaceDetail.id);
+          return res.ok;
         },
       }),
       { name: "workplace-store" }

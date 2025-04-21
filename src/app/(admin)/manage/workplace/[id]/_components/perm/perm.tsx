@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormField, FormItem } from "@/components/ui/form";
 import { IconToggle } from "@/components/ui/icon-toggle/icon-toggle";
 import { useWorkplaceStore } from "@/store/workplace-store";
+import { EditPerm } from "@/types/(admin)/workplace/edit-perm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Building2,
@@ -38,7 +39,7 @@ export const permFormSchema = z.object({
 export const Perm = () => {
   const [edit, setEdit] = useState<boolean>();
 
-  const { workplaceDetail } = useWorkplaceStore();
+  const { workplaceDetail, patchEditPerm } = useWorkplaceStore();
 
   const permForm = useForm<z.infer<typeof permFormSchema>>({
     resolver: zodResolver(permFormSchema),
@@ -76,38 +77,52 @@ export const Perm = () => {
     });
   };
 
+  const onSubmit = async (values: z.infer<typeof permFormSchema>) => {
+    const res = await patchEditPerm(values as EditPerm);
+
+    if (false) {
+      ("토스트 넣기");
+    }
+
+    setEdit(false);
+  };
+
   return (
     <Card>
-      <div className="flex flex-row px-6 justify-between">
-        <CardTitle>권한</CardTitle>
-        <div className="flex">
-          {edit ? (
-            <div className="flex gap-4">
-              <Save
-                size={18}
-                className="text-muted-foreground hover:cursor-pointer hover:text-[var(--primary-color)]"
-              />
-              <X
-                size={18}
-                className="text-muted-foreground hover:cursor-pointer hover:text-[var(--primary-color)]"
-                onClick={() => {
-                  syncZod();
-                  setEdit(false);
-                }}
-              />
-            </div>
-          ) : (
-            <Edit
-              size={18}
-              className="text-muted-foreground hover:cursor-pointer hover:text-[var(--primary-color)]"
-              onClick={() => setEdit(true)}
-            />
-          )}
-        </div>
-      </div>
       <Form {...permForm}>
-        <form>
-          <CardContent className="grid grid-cols-3 gap-y-6 gap-x-6 w-fit">
+        <form onSubmit={permForm.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="flex flex-row px-6 justify-between">
+            <CardTitle>권한</CardTitle>
+            <div className="flex">
+              {edit ? (
+                <div className="flex gap-4">
+                  <button type="submit">
+                    <Save
+                      size={18}
+                      className="text-muted-foreground hover:cursor-pointer hover:text-[var(--primary-color)]"
+                    />
+                  </button>
+
+                  <X
+                    size={18}
+                    className="text-muted-foreground hover:cursor-pointer hover:text-[var(--primary-color)]"
+                    onClick={() => {
+                      syncZod();
+                      setEdit(false);
+                    }}
+                  />
+                </div>
+              ) : (
+                <Edit
+                  size={18}
+                  className="text-muted-foreground hover:cursor-pointer hover:text-[var(--primary-color)]"
+                  onClick={() => setEdit(true)}
+                />
+              )}
+            </div>
+          </div>
+
+          <CardContent className="grid grid-cols-3 gap-y-6 gap-x-6 w-fit max-xl:flex max-xl:justify-between max-xl:w-full">
             <FormField
               control={permForm.control}
               name="permMachine"

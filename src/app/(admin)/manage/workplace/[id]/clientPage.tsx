@@ -14,9 +14,9 @@ const ClientPage = ({ id }: { id: number }) => {
   }, [id]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 max-xl:pt-12">
       <Info />
-      <div className="w-full flex gap-6">
+      <div className="w-full flex gap-6 max-xl:flex-col-reverse">
         <Card className="flex-2/6">
           <CardHeader>
             <CardTitle>대시보드</CardTitle>
