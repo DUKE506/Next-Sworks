@@ -35,14 +35,14 @@ const DepartmentSideBar = ({ edit }: DepartmentSideBarProps) => {
   useEffect(() => {}, [departments]);
 
   return (
-    <div className="flex flex-col gap-6 px-3 pt-6 flex-1/8">
+    <div className="flex flex-col gap-6 px-3 pt-6 flex-1/8 max-xl:flex-none max-xl:pb-6">
       <span
         className="text-lg text-muted-foreground px-3 hover:cursor-pointer"
         onClick={() => selectDept("ALL")}
       >
         부서
       </span>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 max-xl:flex-row max-xl:overflow-y-auto">
         {departments.map((dept, idx) => {
           return (
             <DepartItem
@@ -74,7 +74,7 @@ const DepartItem = ({
       className={`flex justify-between p-3 rounded-sm
         ${
           selectedDept?.name == label ? "bg-[var(--primary-light-color)]" : null
-        } hover:cursor-pointer`}
+        } hover:cursor-pointer `}
       onClick={onClick}
     >
       <span
@@ -120,7 +120,11 @@ const DepartmentAddFormDialog = () => {
   return (
     <Dialog>
       <DialogTrigger>
-        <div className="flex justify-center items-center min-h-[40px] border rounded-md hover:cursor-pointer hover:border-[var(--primary-color)] hover:bg-accent duration-100">
+        <div
+          className="flex justify-center items-center min-h-[40px] border rounded-md hover:cursor-pointer hover:border-[var(--primary-color)] hover:bg-accent duration-100
+        max-xl:w-40
+        "
+        >
           <Plus size={18} className="text-ring" />
         </div>
       </DialogTrigger>

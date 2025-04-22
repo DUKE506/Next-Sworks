@@ -25,7 +25,7 @@ const UserList = ({ edit, onClick }: UserListProps) => {
   const params = useParams();
 
   return (
-    <div className="flex flex-col flex-5/6 px-6 pt-6 gap-6">
+    <div className="flex flex-col flex-5/6 px-6 pt-6 gap-6 max-xl:h-full">
       <div className="flex justify-between">
         <span className="text-lg text-muted-foreground">
           {selectedDept?.name || "전체"}

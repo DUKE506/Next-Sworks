@@ -18,9 +18,9 @@ const Users = () => {
         <CustomSeparator className={"h-[30px] w-[2px]"} />
         <DepartStat label="평균 사업장" value={"4.1"} />
       </div>
-      <div className="flex h-full border-t">
+      <div className="flex h-full border-t max-xl:flex-col">
         <DepartmentSideBar />
-        <CustomSeparator className="h-full w-[1px]" />
+        <CustomSeparator className="h-full w-[1px] max-xl:w-full max-xl:h-[1px]" />
         <UserList />
       </div>
     </Card>
