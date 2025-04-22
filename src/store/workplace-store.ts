@@ -14,7 +14,7 @@ interface WorkplaceState {
   getWorkplaces: () => Promise<boolean>;
   getWorkplaceDetail: (id: number) => Promise<boolean>;
   createWorkplace: (workplace: CreateWorkplace) => Promise<void>;
-  selectWorkplace: (workplace: Workplace) => void;
+  selectWorkplace: (workplace: Workplace | null) => void;
   patchEditPerm: (workplacePerm: EditPerm) => Promise<boolean>;
 }
 

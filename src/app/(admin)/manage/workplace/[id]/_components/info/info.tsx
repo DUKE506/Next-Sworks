@@ -23,7 +23,7 @@ const Info = () => {
             </span>
           </div>
           {/* 내용 */}
-          <div className="grid grid-cols-2 gap-y-8 p-6 h-full">
+          <div className="grid grid-cols-2 gap-y-8 p-6 h-full max-xl:w-full max-xl:grid max-xl:grid-cols-[repeat(auto-fit,_minmax(400px,_1fr))] max-xl:place-items-start">
             {/* 아이템  */}
             <div className="flex items-center gap-4">
               <MapPin

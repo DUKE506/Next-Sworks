@@ -50,7 +50,9 @@ export const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof schema>) => {
     console.log(values);
     const res: Record<string, string> = await ky
-      .post("http://localhost:3001/auth/login", { json: values })
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
+        json: values,
+      })
       .json();
     console.log("결과 : ", res);
     setAccessToken(res.access_token);

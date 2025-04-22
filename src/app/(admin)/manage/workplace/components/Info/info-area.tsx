@@ -26,7 +26,7 @@ export const InfoArea = () => {
   return (
     <Card className="flex-2/6 ">
       <CardContent className="flex flex-col gap-8">
-        <div className="flex gap-6">
+        <div className="flex gap-6 max-xl:flex-col">
           <div className="flex flex-col flex-1 gap-4">
             <span className="text-lg font-extrabold">
               {selectedWorkplace?.name}
@@ -34,7 +34,7 @@ export const InfoArea = () => {
             <StatCard label={"직원"} value={12} />
             <StatCard label={"민원"} value={8} delta={5} deltaType="INCREASE" />
           </div>
-          <div className="grid grid-cols-3 gap-y-6 gap-x-6 w-fit">
+          <div className=" grid grid-cols-3 gap-y-6 gap-x-6 w-fit max-xl:w-full max-xl:grid max-xl:grid-cols-[repeat(auto-fit,_minmax(48px,_1fr))] max-xl:place-items-center">
             <IconToggle
               label="기계"
               icon={Drill}

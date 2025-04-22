@@ -6,10 +6,15 @@ import { InfoArea } from "./components/Info/info-area";
 import { useWorkplaceStore } from "@/store/workplace-store";
 
 const Page = () => {
-  const { getWorkplaces } = useWorkplaceStore();
+  const { getWorkplaces, selectWorkplace, selectedWorkplace } =
+    useWorkplaceStore();
 
   useEffect(() => {
     getWorkplaces();
+
+    return () => {
+      selectWorkplace(null);
+    };
   }, []);
 
   return (
@@ -22,7 +27,7 @@ const Page = () => {
       </div>
       <div className="flex max-xl:flex-col-reverse gap-6">
         <TableArea />
-        <InfoArea />
+        {selectedWorkplace ? <InfoArea /> : null}
       </div>
     </div>
   );

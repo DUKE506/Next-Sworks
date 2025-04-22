@@ -122,7 +122,7 @@ export const Perm = () => {
             </div>
           </div>
 
-          <CardContent className="grid grid-cols-3 gap-y-6 gap-x-6 w-fit max-xl:flex max-xl:justify-between max-xl:w-full">
+          <CardContent className="grid grid-cols-3 gap-y-6 gap-x-6 w-fit max-xl:w-full max-xl:grid max-xl:grid-cols-[repeat(auto-fit,_minmax(48px,_1fr))] max-xl:place-items-center">
             <FormField
               control={permForm.control}
               name="permMachine"
