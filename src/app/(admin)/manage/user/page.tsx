@@ -17,7 +17,7 @@ const Page = () => {
     getDepts();
   }, []);
   return (
-    <div className="flex flex-col gap-6 h-full">
+    <div className="flex flex-col gap-6 h-full w-full">
       <Profile />
       <Users />
     </div>

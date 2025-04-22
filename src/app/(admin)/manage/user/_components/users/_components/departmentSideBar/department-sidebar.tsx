@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useDeptStore } from "@/store/dept-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -35,25 +36,30 @@ const DepartmentSideBar = ({ edit }: DepartmentSideBarProps) => {
   useEffect(() => {}, [departments]);
 
   return (
-    <div className="flex flex-col gap-6 px-3 pt-6 flex-1/8 max-xl:flex-none max-xl:pb-6">
+    <div className="flex flex-col gap-6 px-3 pt-6 flex-1/8 max-xl:flex-none max-xl:pb-3">
       <span
         className="text-lg text-muted-foreground px-3 hover:cursor-pointer"
         onClick={() => selectDept("ALL")}
       >
         부서
       </span>
-      <div className="flex flex-col gap-4 max-xl:flex-row max-xl:overflow-y-auto">
-        {departments.map((dept, idx) => {
-          return (
-            <DepartItem
-              key={idx}
-              label={dept.name}
-              onClick={() => selectDept(dept)}
-            />
-          );
-        })}
-        {edit ? null : <DepartmentAddFormDialog />}
-      </div>
+      <ScrollArea>
+        <div className=" max-xl:overflow-x-auto max-xl:w-full max-xl:pb-3">
+          <div className="flex flex-col max-xl:flex-row gap-4 min-w-max ">
+            {departments.map((dept, idx) => {
+              return (
+                <DepartItem
+                  key={idx}
+                  label={dept.name}
+                  onClick={() => selectDept(dept)}
+                />
+              );
+            })}
+            {edit ? null : <DepartmentAddFormDialog />}
+          </div>
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 };
@@ -71,7 +77,7 @@ const DepartItem = ({
 
   return (
     <div
-      className={`flex justify-between p-3 rounded-sm
+      className={`flex justify-between p-3 rounded-sm min-10
         ${
           selectedDept?.name == label ? "bg-[var(--primary-light-color)]" : null
         } hover:cursor-pointer `}

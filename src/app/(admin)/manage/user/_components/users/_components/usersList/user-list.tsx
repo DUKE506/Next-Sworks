@@ -26,14 +26,14 @@ const UserList = ({ edit, onClick }: UserListProps) => {
 
   return (
     <div className="flex flex-col flex-5/6 px-6 pt-6 gap-6 max-xl:h-full">
-      <div className="flex justify-between">
+      <div className="flex justify-between max-xl:flex-col gap-6">
         <span className="text-lg text-muted-foreground">
           {selectedDept?.name || "전체"}
         </span>
         <Input className="w-70" />
       </div>
 
-      <div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(200px,240px))]">
+      <div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]">
         {adminsByDepartment.map((a, i) => {
           const selected = selectedAdminsByWorkplace.includes(a);
 
@@ -72,7 +72,7 @@ interface UserItemProps {
 const AdminCard = ({ edit, admin, selected, onClick }: UserItemProps) => {
   const adminCard = (
     <div
-      className={`flex flex-col min-w-60 gap-4 border rounded-md px-4 py-4  hover:border-[var(--primary-color)] hover:bg-accent 
+      className={`flex flex-col  gap-4 border rounded-md px-4 py-4  hover:border-[var(--primary-color)] hover:bg-accent 
         ${edit ? "hover:cursor-pointer" : null}
         ${
           edit && selected ? "bg-accent border-[var(--primary-color)]" : null

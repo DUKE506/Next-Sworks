@@ -8,17 +8,23 @@ import UserList from "./_components/usersList/user-list";
 
 const Users = () => {
   return (
-    <Card className="h-full p-0 gap-0">
-      <div className="flex gap-8 p-6 items-center">
+    <Card className="h-fit p-0 gap-0">
+      <div className="flex gap-8 p-6 items-center min-w-25 max-xl:flex-col max-xl:items-start">
         <DepartStat label="전체" value={"17"} />
-        <CustomSeparator className={"h-[30px] w-[2px]"} />
+        <CustomSeparator
+          className={"h-[30px] w-[2px] max-xl:h-[2px] max-xl:w-full"}
+        />
         <DepartStat label="관리" value={"6"} />
-        <CustomSeparator className={"h-[30px] w-[2px]"} />
+        <CustomSeparator
+          className={"h-[30px] w-[2px] max-xl:h-[2px] max-xl:w-full"}
+        />
         <DepartStat label="일반" value={"11"} />
-        <CustomSeparator className={"h-[30px] w-[2px]"} />
+        <CustomSeparator
+          className={"h-[30px] w-[2px] max-xl:h-[2px] max-xl:w-full"}
+        />
         <DepartStat label="평균 사업장" value={"4.1"} />
       </div>
-      <div className="flex h-full border-t max-xl:flex-col">
+      <div className="flex h-full border-t max-xl:flex-col w-full">
         <DepartmentSideBar />
         <CustomSeparator className="h-full w-[1px] max-xl:w-full max-xl:h-[1px]" />
         <UserList />

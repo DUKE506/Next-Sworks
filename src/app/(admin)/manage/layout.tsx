@@ -9,7 +9,7 @@ const layout = ({
   return (
     <div className="flex h-full bg-stone-50">
       <SideBar />
-      <div className="w-full overflow-auto py-6 px-6">{children}</div>
+      <div className="w-full overflow-y-auto py-6 px-6">{children}</div>
     </div>
   );
 };
