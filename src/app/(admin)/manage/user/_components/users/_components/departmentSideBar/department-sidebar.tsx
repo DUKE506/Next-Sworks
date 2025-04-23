@@ -36,16 +36,17 @@ const DepartmentSideBar = ({ edit }: DepartmentSideBarProps) => {
   useEffect(() => {}, [departments]);
 
   return (
-    <div className="flex flex-col gap-6 px-3 pt-6 flex-1/8 max-xl:flex-none max-xl:pb-3">
+    <div className="flex flex-col gap-6 pl-3 pt-6 flex-1/8 max-xl:flex-none max-xl:pb-3">
       <span
         className="text-lg text-muted-foreground px-3 hover:cursor-pointer"
         onClick={() => selectDept("ALL")}
       >
         부서
       </span>
-      <ScrollArea>
-        <div className=" max-xl:overflow-x-auto max-xl:w-full max-xl:pb-3">
-          <div className="flex flex-col max-xl:flex-row gap-4 min-w-max ">
+
+      <div className="h-full overflow-y-auto max-xl:overflow-x-auto max-xl:w-full ">
+        <ScrollArea className="h-full max-xl:pb-3">
+          <div className="flex flex-col pb-6 mr-3 max-xl:flex-row gap-4 min-w-max ">
             {departments.map((dept, idx) => {
               return (
                 <DepartItem
@@ -57,9 +58,10 @@ const DepartmentSideBar = ({ edit }: DepartmentSideBarProps) => {
             })}
             {edit ? null : <DepartmentAddFormDialog />}
           </div>
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+          <ScrollBar orientation="horizontal" />
+          <ScrollBar orientation="vertical" />
+        </ScrollArea>
+      </div>
     </div>
   );
 };

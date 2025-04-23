@@ -25,15 +25,15 @@ const UserList = ({ edit, onClick }: UserListProps) => {
   const params = useParams();
 
   return (
-    <div className="flex flex-col flex-5/6 px-6 pt-6 gap-6 max-xl:h-full">
+    <div className="flex flex-col flex-5/6 px-6 py-6 gap-6 max-xl:h-full">
       <div className="flex justify-between max-xl:flex-col gap-6">
         <span className="text-lg text-muted-foreground">
           {selectedDept?.name || "전체"}
         </span>
         <Input className="w-70" />
       </div>
-
-      <div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]">
+      {/* grid gap-4 grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] */}
+      <div className="grid gap-4 grid-cols-4 max-sm:grid-cols-1">
         {adminsByDepartment.map((a, i) => {
           const selected = selectedAdminsByWorkplace.includes(a);
 

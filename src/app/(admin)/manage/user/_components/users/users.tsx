@@ -8,7 +8,7 @@ import UserList from "./_components/usersList/user-list";
 
 const Users = () => {
   return (
-    <Card className="h-fit p-0 gap-0">
+    <Card className="h-fit p-0 gap-0 overflow-hidden">
       <div className="flex gap-8 p-6 items-center min-w-25 max-xl:flex-col max-xl:items-start">
         <DepartStat label="전체" value={"17"} />
         <CustomSeparator
@@ -24,7 +24,7 @@ const Users = () => {
         />
         <DepartStat label="평균 사업장" value={"4.1"} />
       </div>
-      <div className="flex h-full border-t max-xl:flex-col w-full">
+      <div className="flex border-t max-xl:flex-col w-full overflow-hidden">
         <DepartmentSideBar />
         <CustomSeparator className="h-full w-[1px] max-xl:w-full max-xl:h-[1px]" />
         <UserList />

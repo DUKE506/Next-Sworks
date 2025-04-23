@@ -93,7 +93,7 @@ const Page = () => {
   };
 
   return (
-    <div className="h-full flex justify-center">
+    <div className="h-fit flex justify-center">
       <Card className="h-full sm:w-150">
         <CardHeader>
           <CardTitle>관리자 생성</CardTitle>
