@@ -6,7 +6,38 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-export const SideBar = () => {
+export type SideBar = {
+  label: string;
+  href: string;
+};
+
+export const managerSideBar: SideBar[] = [
+  {
+    label: "사업장",
+    href: "manage/workplace",
+  },
+  {
+    label: "관리자",
+    href: "manage/user",
+  },
+];
+
+export const userSideBar: SideBar[] = [
+  {
+    label: "사업장",
+    href: "/1/workplace",
+  },
+  {
+    label: "설비",
+    href: "/1/facility",
+  },
+];
+
+interface SideBarProps {
+  data: SideBar[];
+}
+
+export const SideBar = ({ data }: SideBarProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
   // 창 크기 변경 시 처리
@@ -51,12 +82,16 @@ export const SideBar = () => {
           <CardTitle>S-Works</CardTitle>
         </div>
         <CardContent className="flex flex-col flex-1 gap-4">
-          <SideBarItem
-            label="사업장"
-            href="/manage/workplace"
-            onClick={onOpen}
-          />
-          <SideBarItem label="관리자" href="/manage/user" onClick={onOpen} />
+          {data.map((v, i) => {
+            return (
+              <SideBarItem
+                key={i}
+                label={v.label}
+                href={v.href}
+                onClick={onOpen}
+              />
+            );
+          })}
         </CardContent>
         <div className="p-6">
           <Button className="w-full bg-white border border-red-500 hover:cursor-pointer  hover:bg-white group ">

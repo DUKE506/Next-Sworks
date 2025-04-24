@@ -1,5 +1,8 @@
 import React from "react";
-import { SideBar } from "./_components/SideBar/side-bar";
+import {
+  managerSideBar,
+  SideBar,
+} from "../../../components/ui/SideBar/side-bar";
 
 const layout = ({
   children,
@@ -8,7 +11,7 @@ const layout = ({
 }>) => {
   return (
     <div className="flex h-full bg-stone-50">
-      <SideBar />
+      <SideBar data={managerSideBar} />
       <div className="w-full overflow-y-auto py-6 px-6">{children}</div>
     </div>
   );

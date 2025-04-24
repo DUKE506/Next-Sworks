@@ -6,6 +6,11 @@ import { Bolt } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+type Facility = {
+  id: number;
+  name: string;
+};
+
 const Page = () => {
   return (
     <div className="mt-20 px-12 flex flex-col gap-6">
@@ -14,7 +19,7 @@ const Page = () => {
         <Tab tabs={buildings} />
         <ButtonTab tabs={facilities} />
       </div>
-      <div className="w-full rounded-sm grid grid-cols-6 gap-x-8 gap-y-10">
+      <div className="w-full rounded-sm grid grid-cols-5 gap-x-8 gap-y-10">
         {Array.from({ length: 15 }).map((_, x) => {
           return <FacCard key={x} />;
         })}
@@ -34,7 +39,7 @@ const FacCard = () => {
       <div className="flex flex-col gap-2 p-4">
         <div className="flex w-full justify-between">
           <span className="text-sm font-bold">냉동기</span>
-          <Badge className="bg-blue-200 text-blue-600">흡수식</Badge>
+          <Badge className="bg-blue-200 text-blue-600 rounded-xs">흡수식</Badge>
         </div>
         <FacCardItem label="건물" value="건물A" />
         <FacCardItem label="위치" value="기계실(3층)" />
