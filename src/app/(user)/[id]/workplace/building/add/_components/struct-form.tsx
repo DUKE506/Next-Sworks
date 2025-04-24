@@ -7,6 +7,7 @@ import { Form, FormField } from "@/components/ui/form";
 import { TextFormItem } from "../page";
 import CustomSeparator from "@/app/(admin)/manage/_components/Separator/custom-separator";
 import { Button } from "@/components/ui/button";
+import { CreateBuilding } from "@/types/(user)/building/create-building";
 
 const structFormSchema = z.object({
   buildingStruct: z.string().nullable(),
@@ -32,38 +33,38 @@ const structFormSchema = z.object({
 type structFormType = z.infer<typeof structFormSchema>;
 
 interface StructFormProps {
+  building: CreateBuilding;
   onPrev: () => void;
-  onNext: () => void;
+  onNext: (data: Record<string, any>) => void;
 }
 
-const StructForm = ({ onNext, onPrev }: StructFormProps) => {
+const StructForm = ({ building, onNext, onPrev }: StructFormProps) => {
   const form = useForm<structFormType>({
     resolver: zodResolver(structFormSchema),
     defaultValues: {
-      buildingStruct: "",
-      roofStruct: "",
+      buildingStruct: building.buildingStruct,
+      roofStruct: building.roofStruct,
 
-      grossFloorArea: "",
-      siteArea: "",
-      buildingArea: "",
+      grossFloorArea: building.grossFloorArea,
+      siteArea: building.siteArea,
+      buildingArea: building.buildingArea,
 
-      totalFloor: "",
-      groundFloor: "",
-      basementFloor: "",
+      totalFloor: building.totalFloor,
+      groundFloor: building.groundFloor,
+      basementFloor: building.basementFloor,
 
-      totalHeight: "",
-      groundHeight: "",
-      basementHeight: "",
+      totalHeight: building.totalHeight,
+      groundHeight: building.groundHeight,
+      basementHeight: building.basementHeight,
 
-      totalLandscapeArea: "",
-      groundLandscapeArea: "",
-      basementLandscapeArea: "",
+      totalLandscapeArea: building.totalLandscapeArea,
+      groundLandscapeArea: building.groundLandscapeArea,
+      basementLandscapeArea: building.basementLandscapeArea,
     },
   });
 
   const onSubmit = (values: structFormType) => {
-    console.log(values);
-    onNext();
+    onNext(values);
   };
 
   return (
@@ -248,12 +249,7 @@ const StructForm = ({ onNext, onPrev }: StructFormProps) => {
           <div className="flex justify-between">
             <Button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onPrev();
-                console.log("실행");
-              }}
+              onClick={onPrev}
               className="text-xs text-[var(--description-title-color)] border bg-accent hover:cursor-pointer hover:bg-[var(--background-light-color)]"
             >
               이전 단계

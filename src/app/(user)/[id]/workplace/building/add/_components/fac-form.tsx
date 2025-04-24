@@ -9,6 +9,7 @@ import { TextFormItem } from "../page";
 
 import { GroupItemLayout } from "./struct-form";
 import { Button } from "@/components/ui/button";
+import { CreateBuilding } from "@/types/(user)/building/create-building";
 
 const facFormSchema = z.object({
   electricalCapacity: z.string().nullable(),
@@ -31,34 +32,35 @@ const facFormSchema = z.object({
 type facFormType = z.infer<typeof facFormSchema>;
 
 interface FacFormProps {
-  onClick: () => void;
+  building: CreateBuilding;
+  onNext: (data: Record<string, any>) => void;
+  onPrev: () => void;
 }
 
-const FacForm = ({ onClick }: FacFormProps) => {
+const FacForm = ({ building, onNext, onPrev }: FacFormProps) => {
   const form = useForm<facFormType>({
     resolver: zodResolver(facFormSchema),
     defaultValues: {
-      electricalCapacity: "",
-      receivingCapacity: "",
-      powerCapacity: "",
+      electricalCapacity: building.electricalCapacity,
+      receivingCapacity: building.receivingCapacity,
+      powerCapacity: building.powerCapacity,
 
-      waterCapacity: "",
-      elevatedWaterTankCapacity: "",
-      waterTankCapacity: "",
+      waterCapacity: building.waterCapacity,
+      elevatedWaterTankCapacity: building.elevatedWaterTankCapacity,
+      waterTankCapacity: building.waterTankCapacity,
 
-      gasCapacity: "",
-      heater: "",
-      chillerHeater: "",
+      gasCapacity: building.gasCapacity,
+      heater: building.heater,
+      chillerHeater: building.chillerHeater,
 
-      coolHeatCapacity: "",
-      heatCapacity: "",
-      coolCapacity: "",
+      coolHeatCapacity: building.coolHeatCapacity,
+      heatCapacity: building.heatCapacity,
+      coolCapacity: building.coolCapacity,
     },
   });
 
   const onSubmit = (values: facFormType) => {
-    console.log(values);
-    onClick;
+    onNext(values);
   };
 
   return (
@@ -218,10 +220,17 @@ const FacForm = ({ onClick }: FacFormProps) => {
             </GroupItemLayout>
           </div>
           <div className="flex justify-between">
-            <Button className="text-xs text-[var(--description-title-color)] border bg-accent hover:cursor-pointer hover:bg-[var(--background-light-color)]">
+            <Button
+              type="button"
+              onClick={onPrev}
+              className="text-xs text-[var(--description-title-color)] border bg-accent hover:cursor-pointer hover:bg-[var(--background-light-color)]"
+            >
               이전 단계
             </Button>
-            <Button className="text-xs bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer">
+            <Button
+              type="submit"
+              className="text-xs bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
+            >
               다음 단계
             </Button>
           </div>

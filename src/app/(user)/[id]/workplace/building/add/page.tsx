@@ -1,32 +1,19 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CreateBuilding } from "@/types/(user)/building/create-building";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ControllerRenderProps, FieldValues, useForm } from "react-hook-form";
 
 import { z } from "zod";
-import StatBar from "./_components/stat-bar";
 import ProgressBar from "./_components/stat-bar";
-import { Button } from "@/components/ui/button";
+
 import BasicForm, { basicFormType } from "./_components/basic-form";
 import StructForm from "./_components/struct-form";
 import FacForm from "./_components/fac-form";
 import ConvenienceForm from "./_components/convenience-form";
+import { CreateBuilding } from "@/types/(user)/building/create-building";
 
 const buildingFormSchema = z.object({
   name: z.string().min(2, { message: "두 글자 이상 입력해주세요" }),
@@ -78,64 +65,89 @@ export type createBuildingFormType = z.infer<typeof buildingFormSchema>;
 
 const Page = () => {
   const [step, setStep] = useState<number>(0);
-  const buildingForm = useForm<createBuildingFormType>({
-    resolver: zodResolver(buildingFormSchema),
-    defaultValues: {
-      name: "",
-      address: "",
-      tel: "",
-      usage: "",
-      constructionCo: "",
-      completionDt: new Date(),
-      buildingStruct: "",
-      roofStruct: "",
-      grossFloorArea: "",
-      siteArea: "",
-      buildingArea: "",
-      totalFloor: "",
-      groundFloor: "",
-      basementFloor: "",
-      totalHeight: "",
-      groundHeight: "",
-      basementHeight: "",
-      totalParking: "",
-      indoorParking: "",
-      outdoorParking: "",
-      electricalCapacity: "",
-      receivingCapacity: "",
-      powerCapacity: "",
-      waterCapacity: "",
-      elevatedWaterTankCapacity: "",
-      waterTankCapacity: "",
-      gasCapacity: "",
-      heater: "",
-      chillerHeater: "",
-      totalLift: "",
-      passengerLift: "",
-      FreightLift: "",
-      coolHeatCapacity: "",
-      heatCapacity: "",
-      coolCapacity: "",
-      totalLandscapeArea: "",
-      groundLandscapeArea: "",
-      basementLandscapeArea: "",
-      totalRestroom: "",
-      mensRoom: "",
-      ladiesRoom: "",
-      fireRating: "",
-      cesspoolCapacity: "",
-    },
+  const [building, setBuilding] = useState<CreateBuilding>({
+    name: "",
+    address: "",
+    tel: "",
+    usage: "",
+    constructionCo: "",
+    completionDt: new Date(),
+    buildingStruct: "",
+    roofStruct: "",
+    grossFloorArea: "",
+    siteArea: "",
+    buildingArea: "",
+    totalFloor: "",
+    groundFloor: "",
+    basementFloor: "",
+    totalHeight: "",
+    groundHeight: "",
+    basementHeight: "",
+    totalParking: "",
+    indoorParking: "",
+    outdoorParking: "",
+    electricalCapacity: "",
+    receivingCapacity: "",
+    powerCapacity: "",
+    waterCapacity: "",
+    elevatedWaterTankCapacity: "",
+    waterTankCapacity: "",
+    gasCapacity: "",
+    heater: "",
+    chillerHeater: "",
+    totalLift: "",
+    passengerLift: "",
+    FreightLift: "",
+    coolHeatCapacity: "",
+    heatCapacity: "",
+    coolCapacity: "",
+    totalLandscapeArea: "",
+    groundLandscapeArea: "",
+    basementLandscapeArea: "",
+    totalRestroom: "",
+    mensRoom: "",
+    ladiesRoom: "",
+    fireRating: "",
+    cesspoolCapacity: "",
   });
 
   const stepRenders = [
-    <BasicForm onClick={() => setStep((prev) => prev + 1)} />,
-    <StructForm
-      onNext={() => setStep((prev) => prev + 1)}
-      onPrev={() => setStep((prev) => prev + 1)}
+    <BasicForm
+      building={building}
+      onClick={(data) => {
+        setStep((prev) => prev + 1);
+        setBuilding((prev) => ({ ...prev, ...data }));
+      }}
     />,
-    <FacForm onClick={() => setStep((prev) => prev + 1)} />,
-    <ConvenienceForm />,
+    <StructForm
+      building={building}
+      onNext={(data) => {
+        setStep((prev) => prev + 1);
+        setBuilding((prev) => ({ ...prev, ...data }));
+      }}
+      onPrev={() => setStep((prev) => prev - 1)}
+    />,
+    <FacForm
+      building={building}
+      onNext={(data) => {
+        setStep((prev) => prev + 1);
+        setBuilding((prev) => ({ ...prev, ...data }));
+      }}
+      onPrev={() => setStep((prev) => prev - 1)}
+    />,
+    <ConvenienceForm
+      building={building}
+      onCreate={(data) => {
+        setStep((prev) => prev + 1);
+        setBuilding((prev) => ({ ...prev, ...data }));
+      }}
+      onPrev={() => setStep((prev) => prev - 1)}
+    />,
   ];
+
+  useEffect(() => {
+    console.log(building);
+  }, [building]);
 
   return (
     <div className="flex flex-col gap-12 px-12 ">
@@ -146,31 +158,9 @@ const Page = () => {
         </span>
       </div>
       <div>
-        <ProgressBar />
+        <ProgressBar currentStep={step} />
       </div>
       <div className="h-full">{stepRenders[step]}</div>
-      {/* <div className={`flex ${step <= 0 ? "justify-end" : "justify-between"}`}>
-        {step > 0 ? (
-          <Button
-            className="text-xs text-[var(--description-title-color)] border bg-accent hover:cursor-pointer hover:bg-[var(--background-light-color)]"
-            onClick={() => setStep((prev) => prev - 1)}
-          >
-            이전 단계
-          </Button>
-        ) : null}
-        {step < 3 ? (
-          <Button
-            className="text-xs bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
-            onClick={() => setStep((prev) => prev + 1)}
-          >
-            다음 단계
-          </Button>
-        ) : (
-          <Button className="text-xs bg-blue-500 hover:bg-blue-600 hover:cursor-pointer">
-            건물 생성
-          </Button>
-        )}
-      </div> */}
     </div>
   );
 };

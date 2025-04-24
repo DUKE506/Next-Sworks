@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
 type StepStatus = "complete" | "active" | "incomplete";
 
@@ -8,13 +9,46 @@ interface Step {
   status: StepStatus;
 }
 
-const ProgressBar = () => {
-  const steps: Step[] = [
-    { num: 1, label: "기본정보", status: "complete" },
-    { num: 2, label: "면적 및 구조", status: "active" },
+const ProgressBar = ({ currentStep }: { currentStep: number }) => {
+  const [steps, setSteps] = useState<Step[]>([
+    { num: 1, label: "기본정보", status: "incomplete" },
+    { num: 2, label: "면적 및 구조", status: "incomplete" },
     { num: 3, label: "설비정보", status: "incomplete" },
     { num: 4, label: "부대시설", status: "incomplete" },
-  ];
+  ]);
+
+  useEffect(() => {
+    console.log("스텝 : ", currentStep);
+    //되돌아가는 경우
+    const activeNum = steps.find((s) => s.status === "active")?.num;
+    if (activeNum !== undefined && activeNum - currentStep > 1) {
+      setSteps((prev) =>
+        prev.map((s) =>
+          s.num === activeNum && activeNum - currentStep > 1
+            ? { ...s, status: "incomplete" }
+            : s
+        )
+      );
+    }
+
+    //현재 active
+    setSteps((prev) =>
+      prev.map((s) =>
+        s.num === currentStep + 1 ? { ...s, status: "active" } : s
+      )
+    );
+    if (steps[currentStep - 1] === undefined) {
+      return;
+    }
+
+    //완료 처리
+    setSteps((prev) =>
+      prev.map((s) =>
+        s.num === currentStep - 1 ? { ...s, status: "complete" } : s
+      )
+    );
+    steps[currentStep - 1].status = "complete";
+  }, [currentStep]);
 
   return (
     <div className="flex items-center justify-between ">

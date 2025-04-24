@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { CreateBuilding } from "@/types/(user)/building/create-building";
 
 const basicFormSchema = z.object({
   name: z.string().min(2, { message: "두 글자 이상 입력해주세요" }),
@@ -20,26 +21,26 @@ const basicFormSchema = z.object({
 export type basicFormType = z.infer<typeof basicFormSchema>;
 
 interface BasicFormProps {
-  onClick: () => void;
+  building: CreateBuilding;
+  onClick: (data: Record<string, any>) => void;
 }
 
-const BasicForm = ({ onClick }: BasicFormProps) => {
+const BasicForm = ({ onClick, building }: BasicFormProps) => {
   const form = useForm<basicFormType>({
     resolver: zodResolver(basicFormSchema),
     defaultValues: {
-      name: "",
-      address: "",
-      tel: "",
-      usage: "",
-      constructionCo: "",
-      completionDt: new Date(),
-      fireRating: "",
+      name: building.name,
+      address: building.address,
+      tel: building.tel,
+      usage: building.usage,
+      constructionCo: building.constructionCo,
+      completionDt: building.completionDt,
+      fireRating: building.fireRating,
     },
   });
 
   const onSubmit = (values: basicFormType) => {
-    console.log(values);
-    onClick();
+    onClick(values);
   };
 
   return (
@@ -135,7 +136,10 @@ const BasicForm = ({ onClick }: BasicFormProps) => {
               />
             </div>
             <div className="flex justify-end">
-              <Button className="text-xs bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer">
+              <Button
+                type="submit"
+                className="text-xs bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
+              >
                 다음 단계
               </Button>
             </div>
