@@ -1,19 +1,21 @@
 "use client";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { ControllerRenderProps, FieldValues, useForm } from "react-hook-form";
 
 import { z } from "zod";
-import ProgressBar from "./_components/stat-bar";
+import ProgressBar from "./_components/progress-bar";
 
-import BasicForm, { basicFormType } from "./_components/basic-form";
+import BasicForm from "./_components/basic-form";
 import StructForm from "./_components/struct-form";
 import FacForm from "./_components/fac-form";
 import ConvenienceForm from "./_components/convenience-form";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
+import { useBuildingStore } from "@/store/building-store";
+import Lottie from "react-lottie-player";
+import CheckLottie from "../../../../../../../public/CheckLottie.json";
+import LottiePlayer from "./_components/lottie-player";
 
 const buildingFormSchema = z.object({
   name: z.string().min(2, { message: "두 글자 이상 입력해주세요" }),
@@ -111,27 +113,30 @@ const Page = () => {
     cesspoolCapacity: "",
   });
 
+  const { createBuilding, setCreateBuilding, postCreateBuilding } =
+    useBuildingStore();
+
   const stepRenders = [
     <BasicForm
-      building={building}
+      building={createBuilding}
       onClick={(data) => {
         setStep((prev) => prev + 1);
-        setBuilding((prev) => ({ ...prev, ...data }));
+        setCreateBuilding(data);
       }}
     />,
     <StructForm
-      building={building}
+      building={createBuilding}
       onNext={(data) => {
         setStep((prev) => prev + 1);
-        setBuilding((prev) => ({ ...prev, ...data }));
+        setCreateBuilding(data);
       }}
       onPrev={() => setStep((prev) => prev - 1)}
     />,
     <FacForm
-      building={building}
+      building={createBuilding}
       onNext={(data) => {
         setStep((prev) => prev + 1);
-        setBuilding((prev) => ({ ...prev, ...data }));
+        setCreateBuilding(data);
       }}
       onPrev={() => setStep((prev) => prev - 1)}
     />,
@@ -139,15 +144,13 @@ const Page = () => {
       building={building}
       onCreate={(data) => {
         setStep((prev) => prev + 1);
-        setBuilding((prev) => ({ ...prev, ...data }));
+        setCreateBuilding(data);
+        postCreateBuilding();
       }}
       onPrev={() => setStep((prev) => prev - 1)}
     />,
+    <LottiePlayer />,
   ];
-
-  useEffect(() => {
-    console.log(building);
-  }, [building]);
 
   return (
     <div className="flex flex-col gap-12 px-12 ">

@@ -5,6 +5,7 @@
 
 @theme {
   --animate-gradient-flow: gradient-flow 12s ease-in-out infinite;
+  --animate-progress: progress 3s ease-in-out forwards;
 
   @keyframes gradient-flow {
     0% {
@@ -25,6 +26,17 @@
 
     100% {
       background-position: 0% 0%;
+    }
+  }
+
+  @keyframes progress {
+    0% {
+      width: 0%;
+      background-color: var(--color-blue-500);
+    }
+    100% {
+      width: 100%;
+      background-color: var(--color-blue-500);
     }
   }
 }

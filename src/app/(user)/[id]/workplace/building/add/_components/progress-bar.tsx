@@ -67,7 +67,7 @@ const ProgressBar = ({ currentStep }: { currentStep: number }) => {
 const Bar = ({ status }: { status: StepStatus }) => {
   const statusStyles = {
     complete: "bg-green-500",
-    active: "bg-blue-500",
+    active: "animate-progress",
     incomplete: "bg-[var(--background-light-color)]",
   };
   return <div className={` flex-1 h-[2px] mx-2 ${statusStyles[status]}`} />;
@@ -99,7 +99,7 @@ const ProgressBarItem = ({
   };
 
   return (
-    <div className={`flex flex-col gap-4 items-center`}>
+    <div className={` flex flex-col gap-4 items-center`}>
       <div className={`${baseStyle} ${statusStyles[status]}`}>{num}</div>
       <span className={`text-sm font-semibold ${statusLabelStyles[status]}`}>
         {label}
