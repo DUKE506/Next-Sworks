@@ -68,9 +68,9 @@ const FacForm = ({ building, onNext, onPrev }: FacFormProps) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
+          className="flex flex-col gap-6 h-full"
         >
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-10 h-full">
             <GroupItemLayout label="전기">
               <FormField
                 control={form.control}

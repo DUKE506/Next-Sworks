@@ -1,18 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import BuildingList from "./_components/building-list";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useBuildingStore } from "@/store/building-store";
 
 const ClientPage = () => {
+  const { getAllBuilding } = useBuildingStore();
+
+  useEffect(() => {
+    getAllBuilding();
+  }, [])
   return (
     <div className="space-y-18">
       <BuildingList />
-      <div className="flex flex-col gap-4 px-12 overflow-hidden">
+      <div className="flex flex-col gap-4 overflow-hidden">
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold">직원</span>
           <Button className="text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer">
@@ -64,9 +70,8 @@ const UserCard = ({
     <div
       className={`flex flex-col  gap-4 bg-white border rounded-md px-4 py-4  hover:border-[var(--primary-color)] hover:bg-accent 
           ${edit ? "hover:cursor-pointer" : null}
-          ${
-            edit && selected ? "bg-accent border-[var(--primary-color)]" : null
-          } duration-100`}
+          ${edit && selected ? "bg-accent border-[var(--primary-color)]" : null
+        } duration-100`}
       onClick={onClick}
     >
       <div className="flex items-center gap-4">

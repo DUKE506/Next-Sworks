@@ -2,10 +2,9 @@
 import React from "react";
 import Lottie from "react-lottie-player";
 import CheckLottieJson from "../../../../../../../../public/CheckLottie.json";
-import dynamic from "next/dynamic";
 
 const LottiePlayer = () => {
-  return <Lottie loop animationData={CheckLottieJson} play />;
+  return <Lottie className="w-50" loop={false} animationData={CheckLottieJson} play />;
 };
 
 export default LottiePlayer;

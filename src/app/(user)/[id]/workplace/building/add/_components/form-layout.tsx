@@ -7,11 +7,11 @@ interface FormLayoutProps {
 
 const FormLayout = ({ title, children }: FormLayoutProps) => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 flex-1">
       <div className="border-b py-4">
         <span className="text-lg font-bold ">{title}</span>
       </div>
-      <div>{children}</div>
+      {children}
     </div>
   );
 };

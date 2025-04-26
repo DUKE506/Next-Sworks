@@ -1,21 +1,29 @@
 import IconButton from "@/components/ui/icon-button/icon-button";
-import { Edit } from "lucide-react";
+import { Edit, QrCode } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface ImageCardProps {
+  id: number;
   label: string;
   description: string;
   defaultIcon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 const ImageCard = ({
+  id,
   label,
   description,
   defaultIcon: Icon,
 }: ImageCardProps) => {
+  const router = useRouter();
+
+  const onDetail = () => {
+    router.push(`/1/workplace/building/${id}`)
+  }
   return (
     <div className="p-0 min-w-80 gap-0">
-      <div className=" w-full h-40 rounded-sm overflow-hidden group relative hover:cursor-pointer">
+      <div className=" w-full h-40 rounded-sm overflow-hidden group relative hover:cursor-pointer" onClick={() => onDetail()}>
         <div className="bg-gray-200 w-full h-full flex justify-center items-center">
           <Icon className="w-20 text-muted-foreground" />
         </div>
@@ -25,11 +33,11 @@ const ImageCard = ({
       </div>
 
       <div className="flex justify-between items-center py-2">
-        <span className="text-sm font-bold">{label}</span>
+        <span className="text-sm font-bold hover:cursor-pointer" onClick={() => onDetail()}>{label}</span>
         <IconButton
-          icon={Edit}
+          icon={QrCode}
           className="text-muted-foreground"
-          onClick={() => {}}
+          onClick={() => { }}
         />
       </div>
     </div>

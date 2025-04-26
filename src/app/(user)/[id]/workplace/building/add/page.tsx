@@ -1,7 +1,7 @@
 "use client";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ControllerRenderProps, FieldValues, useForm } from "react-hook-form";
 
 import { z } from "zod";
@@ -13,9 +13,10 @@ import FacForm from "./_components/fac-form";
 import ConvenienceForm from "./_components/convenience-form";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
 import { useBuildingStore } from "@/store/building-store";
-import Lottie from "react-lottie-player";
-import CheckLottie from "../../../../../../../public/CheckLottie.json";
+
 import LottiePlayer from "./_components/lottie-player";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const buildingFormSchema = z.object({
   name: z.string().min(2, { message: "두 글자 이상 입력해주세요" }),
@@ -66,6 +67,7 @@ const buildingFormSchema = z.object({
 export type createBuildingFormType = z.infer<typeof buildingFormSchema>;
 
 const Page = () => {
+  const router = useRouter();
   const [step, setStep] = useState<number>(0);
   const [building, setBuilding] = useState<CreateBuilding>({
     name: "",
@@ -149,11 +151,22 @@ const Page = () => {
       }}
       onPrev={() => setStep((prev) => prev - 1)}
     />,
-    <LottiePlayer />,
+    <div className="flex flex-col  justify-center items-center flex-1">
+      <div className="flex flex-col gap-4 justify-center items-center flex-1">
+        <LottiePlayer />
+        <span className="text-xl font-bold text-green-500">건물 생성 완료!</span>
+        <span>건물 정보가 성공적으로 등록되었습니다.</span>
+      </div>
+      <div className="w-full flex justify-end">
+        <Button className={'text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer'} onClick={() => router.push('/1/workplace')}>확인</Button>
+      </div>
+
+    </div>
+
   ];
 
   return (
-    <div className="flex flex-col gap-12 px-12 ">
+    <div className="flex flex-col gap-12 px-12 min-h-full">
       <div className="flex flex-col gap-4">
         <span className="text-xl font-bold">건물 생성</span>
         <span className="text-[var(--description-value-color)] text-sm">
@@ -163,7 +176,7 @@ const Page = () => {
       <div>
         <ProgressBar currentStep={step} />
       </div>
-      <div className="h-full">{stepRenders[step]}</div>
+      <div className="flex flex-col flex-1">{stepRenders[step]}</div>
     </div>
   );
 };
