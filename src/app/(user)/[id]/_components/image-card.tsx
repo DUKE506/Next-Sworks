@@ -19,11 +19,14 @@ const ImageCard = ({
   const router = useRouter();
 
   const onDetail = () => {
-    router.push(`/1/workplace/building/${id}`)
-  }
+    router.push(`/1/workplace/building/${id}`);
+  };
   return (
-    <div className="p-0 min-w-80 gap-0">
-      <div className=" w-full h-40 rounded-sm overflow-hidden group relative hover:cursor-pointer" onClick={() => onDetail()}>
+    <div className="flex flex-col gap-2 min-w-80 ">
+      <div
+        className=" w-full h-40 rounded-sm overflow-hidden group relative hover:cursor-pointer"
+        onClick={() => onDetail()}
+      >
         <div className="bg-gray-200 w-full h-full flex justify-center items-center">
           <Icon className="w-20 text-muted-foreground" />
         </div>
@@ -32,12 +35,17 @@ const ImageCard = ({
         </div>
       </div>
 
-      <div className="flex justify-between items-center py-2">
-        <span className="text-sm font-bold hover:cursor-pointer" onClick={() => onDetail()}>{label}</span>
+      <div className="flex justify-between items-center">
+        <span
+          className="text-sm font-bold hover:cursor-pointer"
+          onClick={() => onDetail()}
+        >
+          {label}
+        </span>
         <IconButton
           icon={QrCode}
           className="text-muted-foreground"
-          onClick={() => { }}
+          onClick={() => {}}
         />
       </div>
     </div>

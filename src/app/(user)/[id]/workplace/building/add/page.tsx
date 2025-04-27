@@ -1,7 +1,7 @@
 "use client";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ControllerRenderProps, FieldValues, useForm } from "react-hook-form";
 
 import { z } from "zod";
@@ -115,8 +115,18 @@ const Page = () => {
     cesspoolCapacity: "",
   });
 
-  const { createBuilding, setCreateBuilding, postCreateBuilding } =
-    useBuildingStore();
+  const {
+    createBuilding,
+    setCreateBuilding,
+    postCreateBuilding,
+    setInitialBuilding,
+  } = useBuildingStore();
+
+  useEffect(() => {
+    return () => {
+      setInitialBuilding();
+    };
+  }, []);
 
   const stepRenders = [
     <BasicForm
@@ -154,15 +164,22 @@ const Page = () => {
     <div className="flex flex-col  justify-center items-center flex-1">
       <div className="flex flex-col gap-4 justify-center items-center flex-1">
         <LottiePlayer />
-        <span className="text-xl font-bold text-green-500">건물 생성 완료!</span>
+        <span className="text-xl font-bold text-green-500">
+          건물 생성 완료!
+        </span>
         <span>건물 정보가 성공적으로 등록되었습니다.</span>
       </div>
       <div className="w-full flex justify-end">
-        <Button className={'text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer'} onClick={() => router.push('/1/workplace')}>확인</Button>
+        <Button
+          className={
+            "text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
+          }
+          onClick={() => router.push("/1/workplace")}
+        >
+          확인
+        </Button>
       </div>
-
-    </div>
-
+    </div>,
   ];
 
   return (

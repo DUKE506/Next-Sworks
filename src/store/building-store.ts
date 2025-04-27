@@ -128,21 +128,19 @@ export const useBuildingStore = create<BuildingState>()(
               fireRating: "",
               cesspoolCapacity: "",
             },
-
-          })
+          });
         },
         getAllBuilding: async () => {
-
-          const res = await api.get('building/all');
+          const res = await api.get("building/all");
 
           if (!res.ok) {
-            return res.ok
+            return res.ok;
           }
 
-          set({ buildings: await res.json() })
+          set({ buildings: await res.json() });
 
           return res.ok;
-        }
+        },
       }),
       { name: "building=store" }
     )

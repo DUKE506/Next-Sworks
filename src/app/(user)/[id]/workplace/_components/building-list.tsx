@@ -5,11 +5,11 @@ import React, { useEffect } from "react";
 import ImageCard from "../../_components/image-card";
 import { useRouter } from "next/navigation";
 import { useBuildingStore } from "@/store/building-store";
+import { Card, CardContent } from "@/components/ui/card";
 
 const BuildingList = () => {
   const { buildings } = useBuildingStore();
   const router = useRouter();
-
 
   return (
     <div className="flex flex-col gap-4">
@@ -36,11 +36,28 @@ const BuildingList = () => {
                 />
               );
             })}
+            <AddCard onClick={() => router.push("workplace/building/add")} />
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
     </div>
+  );
+};
+
+const AddCard = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <Card
+      onClick={onClick}
+      className="flex justify-center min-w-80 py-12 hover:cursor-pointer hover:bg-accent hover:border-blue-500 duration-200"
+    >
+      <CardContent className="w-full flex flex-col items-center gap-4  ">
+        <Plus className="text-[var(--description-title-color)]" size={24} />
+        <span className="text-[var(--description-title-color)] text-sm">
+          신규 건물을 등록해주세요.
+        </span>
+      </CardContent>
+    </Card>
   );
 };
 
