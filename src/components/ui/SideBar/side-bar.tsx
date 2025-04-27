@@ -14,11 +14,11 @@ export type SideBar = {
 export const managerSideBar: SideBar[] = [
   {
     label: "사업장",
-    href: "manage/workplace",
+    href: "/manage/workplace",
   },
   {
     label: "관리자",
-    href: "manage/user",
+    href: "/manage/user",
   },
 ];
 

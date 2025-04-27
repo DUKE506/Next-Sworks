@@ -13,7 +13,7 @@ type Facility = {
 
 const Page = () => {
   return (
-    <div className="mt-20 px-12 flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <span className="text-xl font-bold">설비</span>
       <div className="flex flex-col gap-4">
         <Tab tabs={buildings} />
