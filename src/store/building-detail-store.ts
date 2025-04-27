@@ -9,7 +9,7 @@ interface BuildingDetailState {
   initialBuilding: () => void;
 }
 
-export const useBuildingDetailState = create<BuildingDetailState>()(
+export const useBuildingDetailStore = create<BuildingDetailState>()(
   devtools(
     persist<BuildingDetailState>(
       (set, get) => ({

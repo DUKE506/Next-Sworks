@@ -2,10 +2,10 @@ import { Activity, Building2, Layers, LayoutGrid, Monitor } from "lucide-react";
 import React from "react";
 import { IconAccordion } from "./IconAccordion";
 import { Card, CardContent } from "@/components/ui/card";
-import { useBuildingDetailState } from "@/store/building-detail-store";
+import { useBuildingDetailStore } from "@/store/building-detail-store";
 
 const Building = () => {
-  const { building } = useBuildingDetailState();
+  const { building } = useBuildingDetailStore();
   return building !== null ? (
     <div className="flex flex-col gap-8">
       <span className="text-xl font-bold">건물</span>
@@ -152,7 +152,7 @@ interface CardProps {
 
 const InfoCard = ({ label, value }: CardProps) => {
   return (
-    <Card className="w-full">
+    <Card className="w-full shadow-none">
       <CardContent className="flex flex-col gap-4 ">
         <span className="text-[var(--description-title-color)] text-sm">
           {label}
