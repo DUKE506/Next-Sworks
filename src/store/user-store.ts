@@ -8,6 +8,7 @@ interface UserState {
   setCreateUser: (data: Record<string, any>) => void;
   setInitialCreateUser: () => void;
   postCreateUser: () => Promise<boolean>;
+  getAllUser: () => Promise<boolean>;
 }
 
 export const useUserStore = create<UserState>()(
@@ -61,6 +62,9 @@ export const useUserStore = create<UserState>()(
           const res = await api.post("user/create/user", { json: createUser });
 
           return res.ok;
+        },
+        getAllUser: async () => {
+          return true;
         },
       }),
       { name: "user-store" }

@@ -16,12 +16,14 @@ interface PaginationTableProps<T> {
   label: string;
   columns: ColumnDef<T>[];
   data: T[];
+  onClickPlus: () => void;
 }
 
 const PaginationTable = <T,>({
   label,
   columns,
   data,
+  onClickPlus,
 }: PaginationTableProps<T>) => {
   return (
     <div className="flex flex-col gap-8">
@@ -31,7 +33,7 @@ const PaginationTable = <T,>({
       <div className="flex justify-between">
         <Input className="w-60" />
         <div className="flex gap-4 items-center">
-          <IconButton className="w-8" icon={Plus} />
+          <IconButton className="w-8" icon={Plus} onClick={onClickPlus} />
           <IconButton className="w-8" icon={Trash2} />
         </div>
       </div>

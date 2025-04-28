@@ -7,9 +7,11 @@ import UserList from "./_components/user-list";
 import PaginationTable from "@/components/ui/pagination-table/pagination-table";
 import { mockUsers, userColumns } from "./_components/user-table/columns";
 import { User } from "@/types/(user)/user/user";
+import { useRouter } from "next/navigation";
 
 const ClientPage = () => {
   const { getAllBuilding } = useBuildingStore();
+  const router = useRouter();
 
   useEffect(() => {
     getAllBuilding();
@@ -22,6 +24,7 @@ const ClientPage = () => {
         label="사용자"
         columns={userColumns}
         data={mockUsers}
+        onClickPlus={() => router.push("/1/workplace/user/add")}
       />
     </div>
   );
