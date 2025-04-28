@@ -1,11 +1,16 @@
 "use client";
-import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React, { useEffect, useState } from "react";
 import { ControllerRenderProps, FieldValues, useForm } from "react-hook-form";
 
 import { z } from "zod";
-import ProgressBar from "./_components/progress-bar";
+import ProgressBar, { Step } from "./_components/progress-bar";
 
 import BasicForm from "./_components/basic-form";
 import StructForm from "./_components/struct-form";
@@ -17,6 +22,7 @@ import { useBuildingStore } from "@/store/building-store";
 import LottiePlayer from "./_components/lottie-player";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const buildingFormSchema = z.object({
   name: z.string().min(2, { message: "두 글자 이상 입력해주세요" }),
@@ -69,6 +75,12 @@ export type createBuildingFormType = z.infer<typeof buildingFormSchema>;
 const Page = () => {
   const router = useRouter();
   const [step, setStep] = useState<number>(0);
+  const [steps, setSteps] = useState<Step[]>([
+    { num: 1, label: "기본정보", status: "incomplete" },
+    { num: 2, label: "면적 및 구조", status: "incomplete" },
+    { num: 3, label: "설비정보", status: "incomplete" },
+    { num: 4, label: "부대시설", status: "incomplete" },
+  ]);
   const [building, setBuilding] = useState<CreateBuilding>({
     name: "",
     address: "",
@@ -172,7 +184,7 @@ const Page = () => {
       <div className="w-full flex justify-end">
         <Button
           className={
-            "text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
+            "text-xs rounded-sm bg-blue-500 hover:bg-600 hover:cursor-pointer"
           }
           onClick={() => router.push("/1/workplace")}
         >
@@ -191,7 +203,7 @@ const Page = () => {
         </span>
       </div>
       <div>
-        <ProgressBar currentStep={step} />
+        <ProgressBar currentStep={step} steps={steps} setSteps={setSteps} />
       </div>
       <div className="flex flex-col flex-1">{stepRenders[step]}</div>
     </div>
@@ -214,11 +226,39 @@ export const TextFormItem = <T extends FieldValues, K extends keyof T>({
 }: TextFormItemProps<T, K>) => {
   return (
     <FormItem className="g-2">
-      <FormLabel className="text-xs text-[var(--description-value-color)]">
-        {label}
-      </FormLabel>
+      <div className="flex justify-between">
+        <FormLabel className="text-xs text-[var(--description-value-color)]">
+          {label}
+        </FormLabel>
+        <FormMessage />
+      </div>
       <FormControl>
         <Input placeholder={placeholder} {...field} />
+      </FormControl>
+    </FormItem>
+  );
+};
+
+/**
+ * 비밀번호 input 폼
+ */
+
+export const PasswordFormItem = <T extends FieldValues, K extends keyof T>({
+  label,
+  field,
+  placeholder,
+}: TextFormItemProps<T, K>) => {
+  return (
+    <FormItem className="g-2">
+      <div className="flex justify-between">
+        <FormLabel className="text-xs text-[var(--description-value-color)]">
+          {label}
+        </FormLabel>
+        <FormMessage />
+      </div>
+
+      <FormControl>
+        <PasswordInput placeholder={placeholder} {...field} />
       </FormControl>
     </FormItem>
   );

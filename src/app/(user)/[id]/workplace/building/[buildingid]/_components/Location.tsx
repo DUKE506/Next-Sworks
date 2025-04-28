@@ -140,7 +140,7 @@ const FloorAddButton = () => {
     <Dialog
       open={open}
       onOpenChange={(open) => {
-        if (!open) form.reset();
+        form.reset();
         setOpen(open);
       }}
     >
