@@ -123,10 +123,12 @@ export const StatCard = ({
         {delta ? (
           <div
             className={`flex items-center gap-4 ${
-              deltaType == "INCREASE" ? "bg-[#8fb38c6b]" : "bg-red-200"
+              deltaType == "INCREASE"
+                ? "bg-[#var(--primary-light-color)]"
+                : "bg-red-200"
             } rounded-xl px-2 py-1`}
           >
-            <Triangle size={10} color="#637e61" fill="#637e61" />
+            <Triangle size={10} className="text-blue-500 fill-current" />
             <span className="text-xs font-bold text-[#637e61]">{delta}</span>
           </div>
         ) : null}

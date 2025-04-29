@@ -215,7 +215,7 @@ const Page = () => {
  */
 export interface TextFormItemProps<T extends FieldValues, K extends keyof T> {
   label: string;
-  placeholder: string;
+  placeholder?: string;
   field: ControllerRenderProps<T, any>;
 }
 

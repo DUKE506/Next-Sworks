@@ -5,12 +5,15 @@ import { CreateWorkplace } from "@/types/(admin)/workplace/create-workplace";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import WorkplaceForm from "./_components/workplace-form";
 import PermForm from "./_components/perm-form";
 import { Form } from "@/components/ui/form";
+import FormLayout from "@/components/ui/layout/form-layout/form-layout";
+import { Step } from "@/app/(user)/[id]/workplace/building/add/_components/progress-bar";
+import FormResult from "@/components/ui/form-result/form-result";
 
 export const WorkplaceFormSchema = z.object({
   name: z.string().min(2, { message: "2자 이상으로 입력하세요." }),
@@ -35,48 +38,57 @@ export const WorkplaceFormSchema = z.object({
 });
 
 const Page = () => {
+  const [result, setResult] = useState<boolean>(false);
+  const [step, setStep] = useState<number>(0);
+  const [steps, setSteps] = useState<Step[]>([
+    { num: 1, label: "기본정보", status: "incomplete" },
+    { num: 2, label: "권한", status: "incomplete" },
+  ]);
   const router = useRouter();
-  const { createWorkplace } = useWorkplaceStore();
+  const { createWorkplace, setCreateWorkplace, postCreateWorkplace } =
+    useWorkplaceStore();
 
-  const workplaceForm = useForm<z.infer<typeof WorkplaceFormSchema>>({
-    resolver: zodResolver(WorkplaceFormSchema),
-    defaultValues: {
-      name: "",
-      contractNum: "",
-      address: "",
-      tel: "",
-      contractedAt: new Date(),
-      expiredAt: null,
-      state: "계약",
-      permMachine: false,
-      permElectronic: false,
-      permLift: false,
-      permFire: false,
-      permConstruct: false,
-      permNetwork: false,
-      permBeauty: false,
-      permSecurity: false,
-      permVoc: false,
-    },
-  });
-
-  const onSubmit = (value: z.infer<typeof WorkplaceFormSchema>) => {
-    createWorkplace(value as CreateWorkplace);
-    router.push("/manage/workplace");
-  };
+  const stepRenders = [
+    <WorkplaceForm
+      createWorkplace={createWorkplace}
+      onClick={(data) => {
+        setStep((prev) => prev + 1);
+        setCreateWorkplace(data);
+      }}
+    />,
+    <PermForm
+      createWorkplace={createWorkplace}
+      onPrev={() => {
+        setStep((prev) => prev - 1);
+      }}
+      onCreate={async (data) => {
+        setStep((prev) => prev + 1);
+        setCreateWorkplace(data);
+        const res = await postCreateWorkplace();
+        setResult(res);
+      }}
+    />,
+    <FormResult
+      result={result}
+      successTitle="사업장 생성 완료!"
+      successDescription="사업장 정보가 성공적으로 등록되었습니다."
+      failTitle="사업장 생성 실패!"
+      failDescription="사업장 정보 등록을 실패했습니다."
+      url="/manage/workplace"
+    />,
+  ];
 
   return (
-    <div className="h-full ">
-      <Form {...workplaceForm}>
-        <form
-          onSubmit={workplaceForm.handleSubmit(onSubmit)}
-          className="flex justify-center gap-6"
-        >
-          <WorkplaceForm form={workplaceForm} />
-          <PermForm form={workplaceForm} />
-        </form>
-      </Form>
-    </div>
+    <FormLayout
+      title="사업장 생성"
+      description="사업장 정보를 단계별로 입력해주세요. 필수 항목은*로 표시되어있습니다."
+      step={step}
+      setStep={setStep}
+      steps={steps}
+      setSteps={setSteps}
+    >
+      {stepRenders[step]}
+    </FormLayout>
   );
 };
 

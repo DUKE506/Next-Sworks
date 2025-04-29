@@ -11,9 +11,12 @@ interface WorkplaceState {
   workplaces: ListBaseType;
   workplaceDetail: Workplace | null;
   selectedWorkplace: Workplace | null;
+  createWorkplace: CreateWorkplace;
   getWorkplaces: () => Promise<boolean>;
   getWorkplaceDetail: (id: number) => Promise<boolean>;
-  createWorkplace: (workplace: CreateWorkplace) => Promise<void>;
+
+  setCreateWorkplace: (data: Record<string, any>) => void;
+  postCreateWorkplace: () => Promise<boolean>;
   selectWorkplace: (workplace: Workplace | null) => void;
   patchEditPerm: (workplacePerm: EditPerm) => Promise<boolean>;
 }
@@ -24,6 +27,24 @@ export const useWorkplaceStore = create<WorkplaceState>()(
       (set, get) => ({
         workplaces: ListLoading,
         workplaceDetail: null,
+        createWorkplace: {
+          name: "",
+          contractNum: "",
+          address: "",
+          tel: "",
+          contractedAt: new Date(),
+          expiredAt: null,
+          state: "계약",
+          permMachine: false,
+          permElectronic: false,
+          permLift: false,
+          permFire: false,
+          permConstruct: false,
+          permNetwork: false,
+          permBeauty: false,
+          permSecurity: false,
+          permVoc: false,
+        },
         selectedWorkplace: null,
         getWorkplaces: async () => {
           const res = await api.get("workplace/all", {
@@ -48,11 +69,18 @@ export const useWorkplaceStore = create<WorkplaceState>()(
           }
           return res.ok;
         },
-        createWorkplace: async (workplace) => {
-          const res = await api
-            .post("workplace/create", { json: workplace })
-            .json();
-          console.log(res);
+        setCreateWorkplace: (data) => {
+          set((state) => ({
+            createWorkplace: { ...state.createWorkplace, ...data },
+          }));
+        },
+        postCreateWorkplace: async () => {
+          const { createWorkplace } = get();
+          const res = await api.post("workplace/create", {
+            json: createWorkplace,
+          });
+
+          return res.ok;
         },
         selectWorkplace: (workplace) => {
           set({ selectedWorkplace: workplace });

@@ -10,11 +10,13 @@
  * (추후) 권한
  */
 export class CreateWorkplace {
+  name: string;
   contractNum: string;
   address: string;
   tel: string;
   contractedAt: Date;
-  expiredAt: Date;
+  expiredAt: Date | null;
+  state: "계약" | "해약";
   permMachine: boolean;
   permElectronic: boolean;
   permLift: boolean;
@@ -27,11 +29,13 @@ export class CreateWorkplace {
   // state: "계약" | "해약";
 
   constructor({
+    name,
     contractNum,
     address,
     tel,
     contractedAt,
     expiredAt,
+    state,
     permMachine,
     permElectronic,
     permLift,
@@ -43,11 +47,13 @@ export class CreateWorkplace {
     permVoc,
   }: //   state,
   {
+    name: string;
     contractNum: string;
     address: string;
     tel: string;
     contractedAt: Date;
     expiredAt: Date;
+    state: "계약" | "해약";
     permMachine: boolean;
     permElectronic: boolean;
     permLift: boolean;
@@ -59,11 +65,13 @@ export class CreateWorkplace {
     permVoc: boolean;
     //   state: "계약" | "해약";
   }) {
-    (this.contractNum = contractNum),
+    (this.name = name),
+      (this.contractNum = contractNum),
       (this.address = address),
       (this.tel = tel),
       (this.contractedAt = contractedAt),
       (this.expiredAt = expiredAt);
+    this.state = state;
     this.permMachine = permMachine;
     this.permElectronic = permElectronic;
     this.permLift = permLift;

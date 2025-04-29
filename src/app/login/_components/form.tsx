@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import ky from "ky";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   FormControl,
@@ -27,6 +27,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cookies } from "next/headers";
 import { useAuthStore } from "@/store/auth-store";
 import { useRouter } from "next/navigation";
+import { Switch } from "@/components/ui/switch";
 
 const schema = z.object({
   account: z.string().min(2, { message: "두 글자 이상 입력해주새요." }),
@@ -34,8 +35,9 @@ const schema = z.object({
 });
 
 export const LoginForm = () => {
+  const [loginMode, setLoginMode] = useState<boolean>(false);
   const router = useRouter();
-  const { setAccessToken } = useAuthStore();
+  const { postAdminLogin, postUserLogin } = useAuthStore();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof schema>>({
@@ -48,22 +50,32 @@ export const LoginForm = () => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof schema>) => {
-    console.log(values);
-    const res: Record<string, string> = await ky
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
-        json: values,
-      })
-      .json();
-    console.log("결과 : ", res);
-    setAccessToken(res.access_token);
-    router.push("/manage/workplace");
+    if (loginMode) {
+      const res = await postAdminLogin(values, loginMode);
+      if (!res) return; //토스트
+      router.push("/manage/workplace");
+      return;
+    }
+
+    const res = await postUserLogin(values, loginMode);
+    if (!res.success) return; //토스트
+
+    router.push(`/${res.data}/workplace`);
   };
   return (
-    <Card className="w-130 min-w-100 flex justify-center items-center gap-12">
+    <Card className="w-130 min-w-100 flex justify-center items-center gap-6">
       <CardHeader className="flex flex-col gap-2 w-full px-18">
         <CardTitle className="text-2xl">Welcome S-Works</CardTitle>
         <CardDescription>에스텍시스템 시설물관리 플랫폼</CardDescription>
       </CardHeader>
+      <div className="flex w-full items-center justify-end px-18 gap-2">
+        <span className="text-xs">관리자</span>
+        <Switch
+          className="data-[state=checked]:bg-[var(--primary-color)] hover:cursor-pointer"
+          checked={loginMode}
+          onCheckedChange={(checked) => setLoginMode(checked)}
+        />
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <CardContent className="flex flex-col gap-6 w-full px-18">
@@ -108,7 +120,7 @@ export const LoginForm = () => {
               type="submit"
               className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer "
             >
-              Sign In
+              로그인
             </Button>
           </CardContent>
         </form>

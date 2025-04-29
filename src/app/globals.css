@@ -143,9 +143,14 @@ img {
   /*
   커스텀  start
   */
-  --primary-color: #637e61;
-  --primary-light-color: #8fb38c6b;
-  --primary-hover-color: #4c664b;
+  --primary-color: var(--color-blue-500);
+  --primary-light-color: var(--color-blue-200);
+  --primary-hover-color: var(--color-blue-600);
+
+  --second-color: #637e61;
+  --second-light-color: #8fb38c6b;
+
+  --second-hover-color: #4c664b;
 
   --overlay-color: #6d6d6d;
   --description-title-color: #4e5968;

@@ -48,8 +48,12 @@ export const workplaceColumns: ColumnDef<Workplace>[] = [
     header: "상태",
     cell: ({ row }) => {
       const value = row.original.state;
-      const bgColor = value ? "bg-[#8fb38c6b]" : "bg-[#ffcbcf7f]";
-      const textColor = value ? "text-[#637e61]" : "text-[#973250]";
+      const bgColor = value
+        ? "bg-[var(--primary-light-color)]"
+        : "bg-[#ffcbcf7f]";
+      const textColor = value
+        ? "text-[var(--primary-color)]"
+        : "text-[#973250]";
 
       return (
         <Badge className={`${bgColor} ${textColor} font-bold px-3`}>
