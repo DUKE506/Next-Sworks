@@ -4,10 +4,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FormLayout from "./form-layout";
 import { Form, FormField } from "@/components/ui/form";
-import { TextFormItem } from "../page";
+
 import CustomSeparator from "@/app/(admin)/manage/_components/Separator/custom-separator";
 import { Button } from "@/components/ui/button";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
+import { TextFormItem } from "@/components/ui/form-field-items/text-field";
 
 const structFormSchema = z.object({
   buildingStruct: z.string().nullable(),

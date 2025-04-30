@@ -7,19 +7,6 @@ import {
 } from "react-hook-form";
 import { WorkplaceFormSchema } from "../page";
 import { z } from "zod";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IconToggle } from "@/components/ui/icon-toggle/icon-toggle";
-import {
-  Building2,
-  ChevronsUpDown,
-  Drill,
-  Flame,
-  Megaphone,
-  PaintRoller,
-  ShieldBan,
-  Wifi,
-  Zap,
-} from "lucide-react";
 import {
   FormControl,
   FormField,
@@ -29,11 +16,11 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormContentLayout from "@/components/ui/layout/form-layout/form-content-layout";
-import { TextFormItem } from "@/app/(user)/[id]/workplace/building/add/page";
-import DatePicker from "@/components/ui/date-picker.tsx/date-picker";
+
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { CreateWorkplace } from "@/types/(admin)/workplace/create-workplace";
+import { SwitchFormItem } from "@/components/ui/form-field-items/switch-filed";
 
 const formSchema = z.object({
   permMachine: z.boolean(),
@@ -168,64 +155,6 @@ const PermForm = ({ createWorkplace, onCreate, onPrev }: PermFormProps) => {
         </div>
       </form>
     </FormContentLayout>
-  );
-};
-
-interface DateFormItemProps<T extends FieldValues, K extends keyof T> {
-  label: string;
-
-  field: ControllerRenderProps<T, any>;
-}
-
-export const DateFormItem = <T extends FieldValues, K extends keyof T>({
-  label,
-  field,
-}: DateFormItemProps<T, K>) => {
-  return (
-    <FormItem className="g-2">
-      <div className="flex justify-between">
-        <FormLabel className="text-xs text-[var(--description-value-color)]">
-          {label}
-        </FormLabel>
-        <FormMessage />
-      </div>
-      <FormControl>
-        <DatePicker field={field} />
-      </FormControl>
-    </FormItem>
-  );
-};
-
-interface SwitchFormItemProps<T extends FieldValues, K extends keyof T> {
-  label: string;
-  description?: string;
-  field: ControllerRenderProps<T, any>;
-}
-
-export const SwitchFormItem = <T extends FieldValues, K extends keyof T>({
-  label,
-  description,
-  field,
-}: SwitchFormItemProps<T, K>) => {
-  return (
-    <FormItem className="flex flex-col gap-2">
-      <div className="flex justify-between items-center">
-        <div>
-          <FormLabel className="text-xs text-[var(--description-value-color)]">
-            {label}
-          </FormLabel>
-          <span>{description}</span>
-        </div>
-        <FormControl>
-          <Switch
-            className="data-[state=checked]:bg-[var(--primary-color)] hover:cursor-pointer"
-            checked={field.value}
-            onCheckedChange={field.onChange}
-          />
-        </FormControl>
-      </div>
-      <FormMessage />
-    </FormItem>
   );
 };
 

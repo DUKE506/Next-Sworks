@@ -1,12 +1,13 @@
 "use client";
 import { Form, FormField } from "@/components/ui/form";
 import React from "react";
-import { TextFormItem } from "../page";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
+import { TextFormItem } from "@/components/ui/form-field-items/text-field";
 
 const basicFormSchema = z.object({
   name: z.string().min(2, { message: "두 글자 이상 입력해주세요" }),
@@ -146,7 +147,6 @@ const BasicForm = ({ onClick, building }: BasicFormProps) => {
         </form>
       </Form>
     </div>
-
   );
 };
 

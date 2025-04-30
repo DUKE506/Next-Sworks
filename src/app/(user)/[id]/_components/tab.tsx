@@ -6,21 +6,6 @@ type Building = {
   name: string;
 };
 
-export const buildings: Building[] = [
-  {
-    id: 1,
-    name: "건물A",
-  },
-  {
-    id: 2,
-    name: "건물B",
-  },
-  {
-    id: 3,
-    name: "건물C",
-  },
-];
-
 interface TabProps<TData extends { name: string; id: number }> {
   tabs: TData[];
 }

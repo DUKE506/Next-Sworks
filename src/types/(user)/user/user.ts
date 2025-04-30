@@ -6,6 +6,7 @@ export class User {
   email: string;
   phone: string;
   permission: string;
+  status: "WORK" | "OFF" | "RESIGN";
 
   basicPerm: number;
   machinePerm: number;
@@ -26,6 +27,7 @@ export class User {
     password,
     email,
     phone,
+    status,
     permission,
     basicPerm,
     machinePerm,
@@ -44,6 +46,7 @@ export class User {
     password: string;
     email: string;
     phone: string;
+    status: "WORK" | "OFF" | "RESIGN";
     permission: string;
 
     basicPerm: number;
@@ -64,6 +67,7 @@ export class User {
     this.password = password;
     this.email = email;
     this.phone = phone;
+    this.status = status;
     this.permission = permission;
     this.basicPerm = basicPerm;
     this.machinePerm = machinePerm;

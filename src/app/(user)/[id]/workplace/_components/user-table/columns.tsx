@@ -1,5 +1,7 @@
+import { Badge } from "@/components/ui/badge";
 import { User } from "@/types/(user)/user/user";
 import { ColumnDef } from "@tanstack/react-table";
+import { CalendarOff, CheckCircle, Clock, LogOut } from "lucide-react";
 
 export const userColumns: ColumnDef<User>[] = [
   {
@@ -38,6 +40,37 @@ export const userColumns: ColumnDef<User>[] = [
       return value;
     },
   },
+  {
+    accessorKey: "status",
+    header: "상태",
+    cell: ({ row }) => {
+      const value = row.original.status;
+      switch (value) {
+        case "OFF":
+          return (
+            <Badge className="bg-amber-100 text-amber-500 w-20 rounded-sm">
+              <CalendarOff className="text-amber-500" />
+              휴직
+            </Badge>
+          );
+        case "RESIGN":
+          return (
+            <Badge className="bg-gray-100 text-gray-600 w-20 rounded-sm">
+              <LogOut className="text-gray-600" />
+              퇴사
+            </Badge>
+          );
+        case "WORK":
+          return (
+            <Badge className="bg-green-100 text-green-500 w-20 rounded-sm">
+              <CheckCircle className="text-green-500" />
+              재직
+            </Badge>
+          );
+      }
+      return value;
+    },
+  },
 ];
 
 export const mockUsers: User[] = Array.from({ length: 20 }, (_, i) => {
@@ -52,7 +85,7 @@ export const mockUsers: User[] = Array.from({ length: 20 }, (_, i) => {
     email: `user${id}@example.com`,
     phone: `010-1234-${String(1000 + id).slice(-4)}`,
     permission: isManager ? "MANAGER" : "NORMAL",
-
+    status: isManager ? "WORK" : "RESIGN",
     basicPerm: Math.round(Math.random()),
     machinePerm: Math.round(Math.random()),
     electricPerm: Math.round(Math.random()),

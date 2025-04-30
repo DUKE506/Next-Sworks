@@ -13,11 +13,12 @@ import { Plus } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { TextFormItem } from "../../add/page";
+
 import { Button } from "@/components/ui/button";
 import { useFloorStore } from "@/store/floor-store";
 import { CreateFloor } from "@/types/(user)/floor/create-floor";
 import { CreateRoom } from "@/types/(user)/room/create-room";
+import { TextFormItem } from "@/components/ui/form-field-items/text-field";
 
 const Location = () => {
   const { floors, selectedFloor, selectFloor } = useFloorStore();

@@ -2,9 +2,12 @@ import api from "@/middleware/api-manager";
 import { CreateUser } from "@/types/(user)/user/create-user";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import { useAuthStore } from "./auth-store";
+import { User } from "@/types/(user)/user/user";
 
 interface UserState {
   createUser: CreateUser;
+  allUser: User[];
   setCreateUser: (data: Record<string, any>) => void;
   setInitialCreateUser: () => void;
   postCreateUser: () => Promise<boolean>;
@@ -32,6 +35,7 @@ export const useUserStore = create<UserState>()(
           userPerm: 0,
           vocPerm: 0,
         },
+        allUser: [],
         setCreateUser: (data) => {
           set((state) => ({ createUser: { ...state.createUser, ...data } }));
         },
@@ -57,14 +61,25 @@ export const useUserStore = create<UserState>()(
           }),
         ],
         postCreateUser: async () => {
+          const { currentWorkplace } = useAuthStore.getState();
           const { createUser } = get();
-          console.log(createUser);
-          const res = await api.post("user/create/user", { json: createUser });
+
+          const res = await api.post(`user/create/user/${currentWorkplace}`, {
+            json: createUser,
+          });
 
           return res.ok;
         },
         getAllUser: async () => {
-          return true;
+          const { currentWorkplace } = useAuthStore.getState();
+
+          const res = await api.get(`user/all/${currentWorkplace}`);
+
+          if (!res.ok) return res.ok;
+
+          set({ allUser: await res.json() });
+
+          return res.ok;
         },
       }),
       { name: "user-store" }

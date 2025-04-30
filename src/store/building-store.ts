@@ -1,17 +1,19 @@
-import { buildings } from "@/app/(user)/[id]/_components/tab";
 import api from "@/middleware/api-manager";
 import { Building } from "@/types/(user)/building/building";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import { useAuthStore } from "./auth-store";
 
 interface BuildingState {
   createBuilding: CreateBuilding;
   buildings: Building[];
+  locationTree: Building[];
   setCreateBuilding: (data: Record<string, any>) => void;
   postCreateBuilding: () => Promise<boolean>;
   setInitialBuilding: () => void;
   getAllBuilding: () => Promise<boolean>;
+  getLocationTree: () => Promise<boolean>;
 }
 
 export const useBuildingStore = create<BuildingState>()(
@@ -64,6 +66,7 @@ export const useBuildingStore = create<BuildingState>()(
           cesspoolCapacity: "",
         } as CreateBuilding,
         buildings: [],
+        locationTree: [],
         setCreateBuilding: (data) => {
           set((state) => ({
             createBuilding: { ...state.createBuilding, ...data },
@@ -71,8 +74,9 @@ export const useBuildingStore = create<BuildingState>()(
         },
         postCreateBuilding: async () => {
           const { createBuilding, setInitialBuilding } = get();
+          const { currentWorkplace } = useAuthStore.getState();
 
-          const res = await api.post("building/create", {
+          const res = await api.post(`building/create/${currentWorkplace}`, {
             json: createBuilding,
           });
           setInitialBuilding();
@@ -131,7 +135,8 @@ export const useBuildingStore = create<BuildingState>()(
           });
         },
         getAllBuilding: async () => {
-          const res = await api.get("building/all");
+          const { currentWorkplace } = useAuthStore.getState();
+          const res = await api.get(`building/all/${currentWorkplace}`);
 
           if (!res.ok) {
             return res.ok;
@@ -139,6 +144,14 @@ export const useBuildingStore = create<BuildingState>()(
 
           set({ buildings: await res.json() });
 
+          return res.ok;
+        },
+        getLocationTree: async () => {
+          const { currentWorkplace } = useAuthStore.getState();
+
+          const res = await api.get(`building/floor/room/${currentWorkplace}`);
+
+          console.log(await res.json());
           return res.ok;
         },
       }),

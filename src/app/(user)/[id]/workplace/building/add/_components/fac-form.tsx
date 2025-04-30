@@ -5,11 +5,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FormLayout from "./form-layout";
 import { Form, FormField } from "@/components/ui/form";
-import { TextFormItem } from "../page";
 
 import { GroupItemLayout } from "./struct-form";
 import { Button } from "@/components/ui/button";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
+import { TextFormItem } from "@/components/ui/form-field-items/text-field";
 
 const facFormSchema = z.object({
   electricalCapacity: z.string().nullable(),

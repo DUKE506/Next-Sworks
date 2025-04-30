@@ -11,6 +11,7 @@ import {
 } from "@/app/(user)/[id]/workplace/_components/user-table/columns";
 import { ColumnDef } from "@tanstack/react-table";
 import DataList from "./data-list";
+import { Button } from "../button";
 
 interface PaginationTableProps<T> {
   label: string;
@@ -33,8 +34,17 @@ const PaginationTable = <T,>({
       <div className="flex justify-between">
         <Input className="w-60" />
         <div className="flex gap-4 items-center">
-          <IconButton className="w-8" icon={Plus} onClick={onClickPlus} />
-          <IconButton className="w-8" icon={Trash2} />
+          <Button
+            className="text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
+            onClick={onClickPlus}
+          >
+            <Plus />
+            추가
+          </Button>
+          <Button className="text-xs rounded-sm bg-red-500 hover:bg-red-600 hover:cursor-pointer">
+            <Trash2 />
+            삭제
+          </Button>
         </div>
       </div>
       <DataList columns={columns} data={data} />

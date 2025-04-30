@@ -42,6 +42,7 @@ const DataList = <TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
+                  // className="text-xs bg-stone-100 p-4"
                   <TableHead
                     className="text-xs bg-stone-100 p-4"
                     key={header.id}

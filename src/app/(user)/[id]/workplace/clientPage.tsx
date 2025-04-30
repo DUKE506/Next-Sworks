@@ -8,13 +8,16 @@ import PaginationTable from "@/components/ui/pagination-table/pagination-table";
 import { mockUsers, userColumns } from "./_components/user-table/columns";
 import { User } from "@/types/(user)/user/user";
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/user-store";
 
 const ClientPage = () => {
   const { getAllBuilding } = useBuildingStore();
+  const { getAllUser, allUser } = useUserStore();
   const router = useRouter();
 
   useEffect(() => {
     getAllBuilding();
+    getAllUser();
   }, []);
   return (
     <div className="space-y-18">
@@ -23,7 +26,7 @@ const ClientPage = () => {
       <PaginationTable<User>
         label="사용자"
         columns={userColumns}
-        data={mockUsers}
+        data={allUser}
         onClickPlus={() => router.push("/1/workplace/user/add")}
       />
     </div>

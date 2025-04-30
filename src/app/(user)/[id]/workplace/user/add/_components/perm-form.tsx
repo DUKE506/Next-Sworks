@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { DualSwitchFormItem } from "@/components/ui/form-field-items/switch-filed";
 import { Switch } from "@/components/ui/switch";
 import { CreateUser } from "@/types/(user)/user/create-user";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -153,60 +154,6 @@ const PermForm = ({ createUser, onCreate, onPrev }: PermFormProps) => {
         </form>
       </Form>
     </div>
-  );
-};
-
-interface DualSwitchFormItemProps<T extends FieldValues, K extends keyof T> {
-  label: string;
-
-  field: ControllerRenderProps<T, any>;
-}
-
-export const DualSwitchFormItem = <T extends FieldValues, K extends keyof T>({
-  label,
-
-  field,
-}: DualSwitchFormItemProps<T, K>) => {
-  const [read, setRead] = useState<boolean>(field.value >= 1);
-  const [write, setWrite] = useState<boolean>(field.value >= 2);
-
-  useEffect(() => {
-    let permLevel = 0;
-    if (read) permLevel = 1;
-    if (write) permLevel = 2;
-    field.onChange(permLevel);
-    console.log(field.value);
-  }, [read, write]);
-
-  return (
-    <FormItem className="flex flex-col space-y-2">
-      <div className="flex  justify-between items-center">
-        <span className="text-sm">{label}</span>
-        <div className="flex gap-8">
-          <div className="flex gap-4 items-center">
-            <span className="text-sm">읽기</span>
-            <Switch
-              checked={read}
-              onCheckedChange={(checked) => setRead(checked)}
-              disabled={write ? true : false}
-              className="data-[state=checked]:bg-blue-500 hover:cursor-pointer"
-            />
-          </div>
-          <div className="flex gap-4 items-center">
-            <span className="text-sm">쓰기</span>
-            <Switch
-              checked={write}
-              onCheckedChange={(checked) => {
-                if (checked) setRead(true);
-                setWrite(checked);
-              }}
-              className="data-[state=checked]:bg-blue-500 hover:cursor-pointer"
-            />
-          </div>
-        </div>
-        <FormMessage />
-      </div>
-    </FormItem>
   );
 };
 

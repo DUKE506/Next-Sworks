@@ -4,8 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { PasswordFormItem, TextFormItem } from "../../../building/add/page";
+
 import { Button } from "@/components/ui/button";
+import {
+  PasswordFormItem,
+  TextFormItem,
+} from "@/components/ui/form-field-items/text-field";
 
 const userFormSchema = z
   .object({

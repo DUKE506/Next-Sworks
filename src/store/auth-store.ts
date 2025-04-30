@@ -5,6 +5,7 @@ import { devtools, persist } from "zustand/middleware";
 interface AuthState {
   accessToken: string;
   setAccessToken: (token: string) => void;
+  currentWorkplace: number;
   logout: () => void;
   postUserLogin: (
     data: Record<string, string>,
@@ -21,6 +22,7 @@ export const useAuthStore = create<AuthState>()(
     persist<AuthState>(
       (set, get) => ({
         accessToken: "",
+        currentWorkplace: 0,
         setAccessToken: (token) => {
           set({ accessToken: token });
         },
@@ -38,6 +40,7 @@ export const useAuthStore = create<AuthState>()(
 
           const { access_token, place_id } = (await res.json()) as any;
           setAccessToken(access_token);
+          set({ currentWorkplace: place_id });
           return { success: res.ok, data: place_id };
         },
         postAdminLogin: async (data, type) => {
