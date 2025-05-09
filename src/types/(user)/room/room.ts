@@ -1,13 +1,13 @@
-
-
-
+import { Floor } from "../floor/floor";
 
 export class Room {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
+  floor: Floor;
 
-    constructor({ id, name }: { id: number, name: string }) {
-        this.id = id;
-        this.name = name;
-    }
+  constructor({ id, name, floor }: { id: number; name: string; floor: Floor }) {
+    this.id = id;
+    this.name = name;
+    this.floor = floor;
+  }
 }

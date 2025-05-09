@@ -9,16 +9,19 @@ import React, { useEffect, useState } from "react";
 export type SideBar = {
   label: string;
   href: string;
+  ref?: string;
 };
 
 export const managerSideBar: SideBar[] = [
   {
     label: "사업장",
     href: "/manage/workplace",
+    ref: "workplace",
   },
   {
     label: "관리자",
     href: "/manage/user",
+    ref: "user",
   },
 ];
 
@@ -88,17 +91,18 @@ export const SideBar = ({ data }: SideBarProps) => {
                 key={i}
                 label={v.label}
                 href={v.href}
+                ref={v.ref ?? ""}
                 onClick={onOpen}
               />
             );
           })}
         </CardContent>
-        <div className="p-6">
+        {/* <div className="p-6">
           <Button className="w-full bg-white border border-red-500 hover:cursor-pointer  hover:bg-white group ">
             <LogOut size={24} className="text-red-500" />
             <span className="text-red-500 group-hover:font-bold">로그아웃</span>
           </Button>
-        </div>
+        </div> */}
       </div>
       <Button
         className={`fixed top-4 left-[280px] z-50 bg-[var(--primary-color)] 
@@ -117,16 +121,17 @@ export const SideBar = ({ data }: SideBarProps) => {
 interface SideBarItemProps {
   label: string;
   href: string;
+  ref: string;
   onClick?: () => void;
 }
 
-const SideBarItem = ({ label, href, ...props }: SideBarItemProps) => {
+const SideBarItem = ({ label, href, ref, ...props }: SideBarItemProps) => {
   const pathName = usePathname();
 
   return (
     <Link
       className={`${
-        pathName === href ? "text-[var(--primary-color)]! font-bold" : null
+        pathName.includes(ref) ? "text-[var(--primary-color)]! font-bold" : null
       } text-sm hover:font-bold hover:text-[var(--primary-color)]!`}
       href={href}
       {...props}

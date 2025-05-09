@@ -2,7 +2,7 @@ export class User {
   id: number;
   name: string;
   account: string;
-  password: string;
+  password: string | null;
   email: string;
   phone: string;
   permission: string;
@@ -43,7 +43,7 @@ export class User {
     id: number;
     name: string;
     account: string;
-    password: string;
+    password: string | null;
     email: string;
     phone: string;
     status: "WORK" | "OFF" | "RESIGN";

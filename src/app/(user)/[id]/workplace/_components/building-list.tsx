@@ -15,12 +15,12 @@ const BuildingList = () => {
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <span className="text-xl font-bold">강남우체국</span>
-        <Button
+        {/* <Button
           className="text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
           onClick={() => router.push("workplace/building/add")}
         >
           <Plus size={24} /> 건물 추가
-        </Button>
+        </Button> */}
       </div>
       <div className="overflow-x-auto">
         <ScrollArea>

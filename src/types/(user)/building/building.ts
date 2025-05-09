@@ -1,3 +1,6 @@
+import { Floor } from "../floor/floor";
+import { Room } from "../room/room";
+
 export class Building {
   id: number;
   name: string;
@@ -103,6 +106,9 @@ export class Building {
   //정화조용량
   cesspoolCapacity: string;
 
+  //층
+  floors: Floor[];
+
   constructor(data: Partial<Building> = {}) {
     this.id = data.id ?? 0;
     this.name = data.name ?? "";
@@ -161,5 +167,7 @@ export class Building {
 
     this.fireRating = data.fireRating ?? "";
     this.cesspoolCapacity = data.cesspoolCapacity ?? "";
+
+    this.floors = data.floors ?? [];
   }
 }

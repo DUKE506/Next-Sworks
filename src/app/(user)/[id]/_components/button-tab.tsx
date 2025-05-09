@@ -2,63 +2,67 @@
 import React, { useState } from "react";
 
 type Facility = {
-  id: number;
+  id: string;
   name: string;
 };
 
-export const facilities: Facility[] = [
+export const facilityCategory: Facility[] = [
   {
-    id: 1,
+    id: "machine",
     name: "기계",
   },
   {
-    id: 1,
+    id: "electric",
     name: "전기",
   },
   {
-    id: 1,
+    id: "lift",
     name: "승강",
   },
   {
-    id: 1,
+    id: "fire",
     name: "소방",
   },
   {
-    id: 1,
+    id: "constructor",
     name: "건축",
   },
   {
-    id: 1,
+    id: "network",
     name: "통신",
   },
   {
-    id: 1,
+    id: "beauty",
     name: "미화",
   },
   {
-    id: 1,
+    id: "security",
     name: "보안",
   },
 ];
 
-interface ButtonTab<TData extends { id: number; name: string }> {
+interface ButtonTab<TData extends { id: string; name: string }> {
   tabs: TData[];
+  selectedId: string;
+  onClick: (id: string) => void;
 }
 
-const ButtonTab = <TData extends { id: number; name: string }>({
+const ButtonTab = <TData extends { id: string; name: string }>({
   tabs,
+  selectedId,
+  onClick,
 }: ButtonTab<TData>) => {
-  const [selected, setSelected] = useState<string>("전체");
+  const [selected, setSelected] = useState<string>(selectedId);
 
   return (
     <div className="flex gap-2">
       <ButtonTabItem
         key={0}
         label={"전체"}
-        value={"0"}
+        value={"all"}
         selectedValue={selected}
         onClick={() => {
-          setSelected("전체");
+          onClick("전체");
         }}
       />
       {tabs.map((v, idx) => {
@@ -69,7 +73,7 @@ const ButtonTab = <TData extends { id: number; name: string }>({
             value={v.id.toString()}
             selectedValue={selected}
             onClick={() => {
-              setSelected(v.name);
+              onClick(v.name);
             }}
           />
         );
@@ -94,12 +98,16 @@ const ButtonTabItem = ({
   return (
     <div
       className={`px-6 py-2 rounded-sm hover:cursor-pointer border duration-150 ${
-        label === selectedValue ? "bg-[var(--primary-color)]" : null
+        label === decodeURIComponent(selectedValue)
+          ? "bg-[var(--primary-color)]"
+          : null
       }`}
       onClick={onClick}
     >
       <span
-        className={`text-xs ${label === selectedValue ? "text-white" : null}`}
+        className={`text-xs ${
+          label === decodeURIComponent(selectedValue) ? "text-white" : null
+        }`}
       >
         {label}
       </span>

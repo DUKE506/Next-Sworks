@@ -151,7 +151,8 @@ export const useBuildingStore = create<BuildingState>()(
 
           const res = await api.get(`building/floor/room/${currentWorkplace}`);
 
-          console.log(await res.json());
+          set({ locationTree: await res.json() });
+
           return res.ok;
         },
       }),

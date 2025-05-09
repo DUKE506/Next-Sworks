@@ -24,7 +24,7 @@ const ClientPage = () => {
       <BuildingList />
       {/* <UserList /> */}
       <PaginationTable<User>
-        label="사용자"
+        label="근무자"
         columns={userColumns}
         data={allUser}
         onClickPlus={() => router.push("/1/workplace/user/add")}

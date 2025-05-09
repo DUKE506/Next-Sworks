@@ -3,18 +3,13 @@
 import React from "react";
 import { Input } from "../input";
 import { Plus, Trash2 } from "lucide-react";
-import IconButton from "../icon-button/icon-button";
-import DataTable from "@/app/(admin)/manage/workplace/components/table/data-table";
-import {
-  mockUsers,
-  userColumns,
-} from "@/app/(user)/[id]/workplace/_components/user-table/columns";
+
 import { ColumnDef } from "@tanstack/react-table";
 import DataList from "./data-list";
 import { Button } from "../button";
 
 interface PaginationTableProps<T> {
-  label: string;
+  label?: string;
   columns: ColumnDef<T>[];
   data: T[];
   onClickPlus: () => void;

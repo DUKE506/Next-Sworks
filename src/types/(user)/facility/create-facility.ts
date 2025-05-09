@@ -1,9 +1,10 @@
 import { Room } from "../room/room";
 
 export class CreateFacility {
+  category: string;
   name: string;
   type: string;
-  room: Room;
+  room: number;
   standard: string;
   count: number;
   life: string;
@@ -11,6 +12,7 @@ export class CreateFacility {
   changeDt: Date;
 
   constructor({
+    category,
     name,
     type,
     room,
@@ -20,16 +22,18 @@ export class CreateFacility {
     setDt,
     changeDt,
   }: {
+    category: string;
     name: string;
     type: string;
-    room: Room;
+    room: number;
     standard: string;
     count: number;
     life: string;
     setDt: Date;
     changeDt: Date;
   }) {
-    (this.name = name),
+    (this.category = category),
+      (this.name = name),
       (this.type = type),
       (this.room = room),
       (this.standard = standard),

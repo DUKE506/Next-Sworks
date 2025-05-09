@@ -10,12 +10,14 @@ export interface TextFormItemProps<T extends FieldValues, K extends keyof T> {
   label: string;
   placeholder?: string;
   field: ControllerRenderProps<T, any>;
+  required?: boolean;
 }
 
 export const TextFormItem = <T extends FieldValues, K extends keyof T>({
   label,
   field,
   placeholder,
+  required = false,
 }: TextFormItemProps<T, K>) => {
   return (
     <FormItem className="g-2">
@@ -52,6 +54,46 @@ export const PasswordFormItem = <T extends FieldValues, K extends keyof T>({
 
       <FormControl>
         <PasswordInput placeholder={placeholder} {...field} />
+      </FormControl>
+    </FormItem>
+  );
+};
+
+/**
+ * 숫자 input
+ */
+
+export interface TextFormItemProps<T extends FieldValues, K extends keyof T> {
+  label: string;
+  placeholder?: string;
+  field: ControllerRenderProps<T, any>;
+}
+
+export const NumberFormItem = <T extends FieldValues, K extends keyof T>({
+  label,
+  field,
+  placeholder,
+}: TextFormItemProps<T, K>) => {
+  return (
+    <FormItem className="g-2">
+      <div className="flex justify-between">
+        <FormLabel className="text-xs text-[var(--description-value-color)]">
+          {label}
+        </FormLabel>
+        <FormMessage />
+      </div>
+      <FormControl>
+        <Input
+          type="number"
+          placeholder={placeholder}
+          onChange={(e) => {
+            const value = e.target.value;
+            // 빈 값은 유지, 숫자일 경우만 변환
+            field.onChange(value === "" ? "" : Number(value));
+          }}
+          onBlur={field.onBlur}
+          ref={field.ref}
+        />
       </FormControl>
     </FormItem>
   );

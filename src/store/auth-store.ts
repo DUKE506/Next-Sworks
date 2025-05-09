@@ -1,8 +1,10 @@
 import api from "@/middleware/api-manager";
+import { User } from "@/types/(user)/user/user";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface AuthState {
+  profile: User | null;
   accessToken: string;
   setAccessToken: (token: string) => void;
   currentWorkplace: number;
@@ -21,6 +23,7 @@ export const useAuthStore = create<AuthState>()(
   devtools(
     persist<AuthState>(
       (set, get) => ({
+        profile: null,
         accessToken: "",
         currentWorkplace: 0,
         setAccessToken: (token) => {
@@ -38,9 +41,11 @@ export const useAuthStore = create<AuthState>()(
 
           if (!res.ok) return { success: res.ok };
 
-          const { access_token, place_id } = (await res.json()) as any;
+          const { access_token, place_id, user } = (await res.json()) as any;
           setAccessToken(access_token);
           set({ currentWorkplace: place_id });
+          set({ profile: user });
+
           return { success: res.ok, data: place_id };
         },
         postAdminLogin: async (data, type) => {
@@ -54,6 +59,7 @@ export const useAuthStore = create<AuthState>()(
 
           const { access_token } = (await res.json()) as any;
           setAccessToken(access_token);
+
           return res.ok;
         },
       }),
