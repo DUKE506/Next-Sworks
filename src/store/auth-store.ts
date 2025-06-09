@@ -51,23 +51,22 @@ export const useAuthStore = create<AuthState>()(
         postAdminLogin: async (data, type) => {
           const { setAccessToken } = get();
 
-          const testRes = await fetch(`api/auth/admin`, {
+          const testRes = await fetch(`/api/auth/admin`, {
             method: "POST",
-            headers: { "Content-Type": "application/json0" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...data }),
-            credentials: "include",
           });
 
-          const res = await api.post(`auth/login`, {
-            json: data,
-          });
+          // const res = await api.post(`auth/login`, {
+          //   json: data,
+          // });
 
-          if (!res.ok) return res.ok;
+          // if (!res.ok) return res.ok;
 
-          const { access_token } = (await res.json()) as any;
-          setAccessToken(access_token);
+          // const { access_token } = (await res.json()) as any;
+          // setAccessToken(access_token);
 
-          return res.ok;
+          return testRes.ok;
         },
       }),
       {
