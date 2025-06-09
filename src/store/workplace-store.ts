@@ -17,9 +17,30 @@ interface WorkplaceState {
 
   setCreateWorkplace: (data: Record<string, any>) => void;
   postCreateWorkplace: () => Promise<boolean>;
+  initialCreateWorkplace: () => void;
+
   selectWorkplace: (workplace: Workplace | null) => void;
   patchEditPerm: (workplacePerm: EditPerm) => Promise<boolean>;
 }
+
+const initialCreateWorkplace: CreateWorkplace = {
+  name: "",
+  contractNum: "",
+  address: "",
+  tel: "",
+  contractedAt: new Date(),
+  expiredAt: null,
+  state: "계약",
+  permMachine: false,
+  permElectronic: false,
+  permLift: false,
+  permFire: false,
+  permConstruct: false,
+  permNetwork: false,
+  permBeauty: false,
+  permSecurity: false,
+  permVoc: false,
+};
 
 export const useWorkplaceStore = create<WorkplaceState>()(
   devtools(
@@ -27,24 +48,7 @@ export const useWorkplaceStore = create<WorkplaceState>()(
       (set, get) => ({
         workplaces: ListLoading,
         workplaceDetail: null,
-        createWorkplace: {
-          name: "",
-          contractNum: "",
-          address: "",
-          tel: "",
-          contractedAt: new Date(),
-          expiredAt: null,
-          state: "계약",
-          permMachine: false,
-          permElectronic: false,
-          permLift: false,
-          permFire: false,
-          permConstruct: false,
-          permNetwork: false,
-          permBeauty: false,
-          permSecurity: false,
-          permVoc: false,
-        },
+        createWorkplace: initialCreateWorkplace,
         selectedWorkplace: null,
         getWorkplaces: async () => {
           const res = await api.get("workplace/all", {
@@ -82,6 +86,10 @@ export const useWorkplaceStore = create<WorkplaceState>()(
 
           return res.ok;
         },
+        initialCreateWorkplace: () => {
+          set({ createWorkplace: initialCreateWorkplace });
+        },
+
         selectWorkplace: (workplace) => {
           set({ selectedWorkplace: workplace });
         },

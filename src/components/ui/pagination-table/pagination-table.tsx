@@ -36,7 +36,7 @@ const PaginationTable = <T,>({
             <Plus />
             추가
           </Button>
-          <Button className="text-xs rounded-sm bg-red-500 hover:bg-red-600 hover:cursor-pointer">
+          <Button className="text-xs rounded-sm bg-gray-500 hover:bg-gray-600 hover:cursor-pointer">
             <Trash2 />
             삭제
           </Button>

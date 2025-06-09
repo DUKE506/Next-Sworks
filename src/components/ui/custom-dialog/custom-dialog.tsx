@@ -5,13 +5,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import React from "react";
+import React, { useState } from "react";
 
 interface CustomDialogProps {
   label: string;
   title: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  children: React.ReactNode;
+  children: (props: {
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  }) => React.ReactNode;
 }
 
 const CustomDialog = ({
@@ -20,8 +22,14 @@ const CustomDialog = ({
   icon: Icon,
   children,
 }: CustomDialogProps) => {
+  const [open, setOpen] = useState<boolean>(false);
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open);
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -35,7 +43,7 @@ const CustomDialog = ({
         <DialogTitle>
           <span className="text-lg font-bold"> {title}</span>
         </DialogTitle>
-        {children}
+        {children({ setOpen })}
       </DialogContent>
     </Dialog>
   );

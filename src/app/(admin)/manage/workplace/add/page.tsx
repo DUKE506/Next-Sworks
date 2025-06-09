@@ -5,7 +5,7 @@ import { CreateWorkplace } from "@/types/(admin)/workplace/create-workplace";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import WorkplaceForm from "./_components/workplace-form";
@@ -44,9 +44,19 @@ const Page = () => {
     { num: 1, label: "기본정보", status: "incomplete" },
     { num: 2, label: "권한", status: "incomplete" },
   ]);
-  const router = useRouter();
-  const { createWorkplace, setCreateWorkplace, postCreateWorkplace } =
-    useWorkplaceStore();
+
+  const {
+    createWorkplace,
+    setCreateWorkplace,
+    postCreateWorkplace,
+    initialCreateWorkplace,
+  } = useWorkplaceStore();
+
+  useEffect(() => {
+    return () => {
+      initialCreateWorkplace();
+    };
+  }, []);
 
   const stepRenders = [
     <WorkplaceForm

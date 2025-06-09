@@ -1,5 +1,6 @@
+"use client";
 import api from "@/middleware/api-manager";
-import { Building } from "@/types/(user)/building/building";
+import { Building, BuildingName } from "@/types/(user)/building/building";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
@@ -8,12 +9,14 @@ import { useAuthStore } from "./auth-store";
 interface BuildingState {
   createBuilding: CreateBuilding;
   buildings: Building[];
+  buildingsName: BuildingName[];
   locationTree: Building[];
   setCreateBuilding: (data: Record<string, any>) => void;
   postCreateBuilding: () => Promise<boolean>;
   setInitialBuilding: () => void;
   getAllBuilding: () => Promise<boolean>;
   getLocationTree: () => Promise<boolean>;
+  getBuildingName: () => Promise<boolean>;
 }
 
 export const useBuildingStore = create<BuildingState>()(
@@ -66,6 +69,7 @@ export const useBuildingStore = create<BuildingState>()(
           cesspoolCapacity: "",
         } as CreateBuilding,
         buildings: [],
+        buildingsName: [],
         locationTree: [],
         setCreateBuilding: (data) => {
           set((state) => ({
@@ -152,6 +156,16 @@ export const useBuildingStore = create<BuildingState>()(
           const res = await api.get(`building/floor/room/${currentWorkplace}`);
 
           set({ locationTree: await res.json() });
+
+          return res.ok;
+        },
+        getBuildingName: async () => {
+          const { currentWorkplace } = useAuthStore.getState();
+          const res = await api.get(`building/all/name/${currentWorkplace}`);
+
+          if (!res.ok) return res.ok;
+
+          set({ buildingsName: await res.json() });
 
           return res.ok;
         },

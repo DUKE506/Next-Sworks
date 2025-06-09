@@ -56,6 +56,11 @@ export class Voc {
   }
 }
 
+export interface SelectOption {
+  id: number;
+  name: string;
+}
+
 //민원구분
 export const VocInputChannel = {
   MOBILE: "모바일",
@@ -79,6 +84,13 @@ export const VocType = {
 };
 
 export type VocType = (typeof VocType)[keyof typeof VocType];
+
+export const VocTypeOptions: SelectOption[] = Object.entries(VocType).map(
+  ([key, value], i) => ({
+    id: i,
+    name: value,
+  })
+);
 
 //민원상태
 export const VocStatus = {

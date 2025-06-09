@@ -32,9 +32,9 @@ const VocFilter = () => {
   useEffect(() => {
     const params = new URLSearchParams();
     filterChannel.map((d) => params.append("channel", d));
-    filterLocation.map((d) => params.append("channel", d));
-    filterType.map((d) => params.append("channel", d));
-    filterStatus.map((d) => params.append("channel", d));
+    filterLocation.map((d) => params.append("location", d));
+    filterType.map((d) => params.append("type", d));
+    filterStatus.map((d) => params.append("status", d));
     router.push(`?${params.toString()}`);
   }, [router, filterChannel, filterLocation, filterType, filterStatus]);
 

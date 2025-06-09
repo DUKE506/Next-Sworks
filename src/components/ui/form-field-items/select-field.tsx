@@ -15,6 +15,7 @@ import { useBuildingStore } from "@/store/building-store";
 import { Floor } from "@/types/(user)/floor/floor";
 import { Building } from "@/types/(user)/building/building";
 import { Room } from "@/types/(user)/room/room";
+import { SelectOption } from "@/types/(user)/voc/voc";
 
 interface RoomSelectFieldFormItemProps<
   T extends FieldValues,
@@ -156,11 +157,6 @@ const RoomSelectFieldFormItem = <T extends FieldValues, K extends keyof T>({
   );
 };
 
-interface SelectOption {
-  id: number;
-  name: string;
-}
-
 interface SelectFieldProps<T extends SelectOption> {
   placeholder?: string;
   data: T[] | null;
@@ -180,17 +176,17 @@ const SelectField = <T extends SelectOption>({
       disabled={data === null}
       value={value}
     >
-      <SelectTrigger className="w-full hover:cursor-pointer">
+      <SelectTrigger className="w-full hover:cursor-pointer rounded-sm">
         <SelectValue placeholder={placeholder ?? "항목을 선택하세요"} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="rounded-sm">
         <SelectGroup>
           {data?.map((v, i) => {
             return (
               <SelectItem
                 key={i}
                 value={v.id.toString()}
-                className=" hover:cursor-pointer"
+                className=" hover:cursor-pointer text-xs"
               >
                 {v.name}
               </SelectItem>
@@ -213,6 +209,7 @@ interface SelectFormItemProps<
   placeholder: string;
   data: J[];
   field: ControllerRenderProps<T, any>;
+  required?: boolean;
 }
 
 export const SelectFormItem = <
@@ -224,26 +221,30 @@ export const SelectFormItem = <
   placeholder,
   data,
   field,
+  required = false,
 }: SelectFormItemProps<J, T, K>) => {
   return (
     <FormItem>
       <div className="flex justify-between">
-        <FormLabel>{label}</FormLabel>
+        <FormLabel className="text-xs text-[var(--description-value-color)] gap-0 ">
+          {label}
+          <span className="text-red-500">{required ? "*" : ""}</span>
+        </FormLabel>
         <FormMessage />
       </div>
       <Select onValueChange={field.onChange} defaultValue={field.value}>
         <FormControl>
-          <SelectTrigger className="w-full hover:cursor-pointer">
+          <SelectTrigger className="w-full hover:cursor-pointer rounded-sm">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
         </FormControl>
-        <SelectContent>
+        <SelectContent className="rounded-sm">
           {data.map((v, i) => {
             return (
               <SelectItem
                 key={i}
                 value={v.name}
-                className=" hover:cursor-pointer"
+                className=" hover:cursor-pointer text-xs"
               >
                 {v.name}
               </SelectItem>

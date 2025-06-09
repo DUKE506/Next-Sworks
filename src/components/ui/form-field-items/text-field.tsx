@@ -2,6 +2,7 @@ import { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../form";
 import { Input } from "../input";
 import { PasswordInput } from "../password-input";
+import { Textarea } from "../textarea";
 
 /**
  * 문자입력 input 폼
@@ -22,13 +23,14 @@ export const TextFormItem = <T extends FieldValues, K extends keyof T>({
   return (
     <FormItem className="g-2">
       <div className="flex justify-between">
-        <FormLabel className="text-xs text-[var(--description-value-color)]">
+        <FormLabel className="text-xs text-[var(--description-value-color)] gap-0">
           {label}
+          <span className="text-red-500">{required ? "*" : ""}</span>
         </FormLabel>
         <FormMessage />
       </div>
       <FormControl>
-        <Input placeholder={placeholder} {...field} />
+        <Input className="rounded-sm" placeholder={placeholder} {...field} />
       </FormControl>
     </FormItem>
   );
@@ -84,6 +86,7 @@ export const NumberFormItem = <T extends FieldValues, K extends keyof T>({
       </div>
       <FormControl>
         <Input
+          className="rounded-sm"
           type="number"
           placeholder={placeholder}
           onChange={(e) => {
@@ -93,6 +96,36 @@ export const NumberFormItem = <T extends FieldValues, K extends keyof T>({
           }}
           onBlur={field.onBlur}
           ref={field.ref}
+        />
+      </FormControl>
+    </FormItem>
+  );
+};
+
+/**
+ * TextArea
+ */
+
+export const TextAreaFormItem = <T extends FieldValues, K extends keyof T>({
+  label,
+  field,
+  placeholder,
+  required = false,
+}: TextFormItemProps<T, K>) => {
+  return (
+    <FormItem className="g-2">
+      <div className="flex justify-between">
+        <FormLabel className="text-xs text-[var(--description-value-color)] gap-0">
+          {label}
+          <span className="text-red-500">{required ? "*" : ""}</span>
+        </FormLabel>
+        <FormMessage />
+      </div>
+      <FormControl>
+        <Textarea
+          className="h-30 resize-none rounded-sm overflow-auto"
+          placeholder={placeholder}
+          {...field}
         />
       </FormControl>
     </FormItem>

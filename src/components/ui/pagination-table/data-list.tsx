@@ -65,11 +65,11 @@ const DataList = <TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="border-b"
+                className="border-b hover:cursor-pointer"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
-                    className="text-xs p-4"
+                    className="text-xs px-4 py-3"
                     key={cell.id}
                     onClick={onClick ? () => onClick(row.original) : undefined}
                   >

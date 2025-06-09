@@ -1,8 +1,8 @@
 import { Building } from "../building/building";
 
 export class CreateVoc {
-  building: Building | null;
-  type: string; //미분류, 기계, 전기, 승강 등등
+  building?: string;
+  type?: string; //미분류, 기계, 전기, 승강 등등
   status: string;
   complainant: string;
   phone: string;
@@ -18,8 +18,8 @@ export class CreateVoc {
     title,
     content,
   }: {
-    building: Building;
-    type: string; //미분류, 기계, 전기, 승강 등등
+    building?: string;
+    type?: string; //미분류, 기계, 전기, 승강 등등
     status: string;
     complainant: string;
     phone: string;
