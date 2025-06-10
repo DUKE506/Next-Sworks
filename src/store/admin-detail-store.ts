@@ -20,11 +20,10 @@ export const useAdminDetailStore = create<AdminDetailState>()(
         getAdmin: async (id) => {
           const res = await api.get(`user/${id}`).json();
           set({ admin: res as Admin });
-          console.log(res);
         },
         selectWorkplace: (workplace) => {
-          console.log(workplace)
-        }
+          console.log(workplace);
+        },
       }),
       { name: "adminDetail-store" }
     )

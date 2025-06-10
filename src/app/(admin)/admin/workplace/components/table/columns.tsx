@@ -13,7 +13,7 @@ export const workplaceColumns: ColumnDef<Workplace>[] = [
       const value = row.original.name;
       const id = row.original.id;
 
-      return <Link href={`/manage/workplace/${id}`}>{value}</Link>;
+      return <Link href={`/admin/workplace/${id}`}>{value}</Link>;
     },
   },
   {

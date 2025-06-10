@@ -18,12 +18,14 @@ import React from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  emptyMessage?: string;
   onClick?: (data: TData) => void;
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
+  emptyMessage,
   onClick,
 }: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
@@ -44,9 +46,9 @@ const DataTable = <TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </TableHead>
                 );
               })}
@@ -78,7 +80,7 @@ const DataTable = <TData, TValue>({
                 colSpan={columns.length}
                 className="h-24 text-center text-muted-foreground"
               >
-                사업장을 생성해주세요.
+                {emptyMessage ?? "내용 없음"}
               </TableCell>
             </TableRow>
           )}

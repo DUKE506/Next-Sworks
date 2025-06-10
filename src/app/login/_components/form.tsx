@@ -53,7 +53,7 @@ export const LoginForm = () => {
     if (loginMode) {
       const res = await postAdminLogin(values, loginMode);
       if (!res) return; //토스트
-      router.push("/manage/workplace");
+      router.push("/admin/workplace");
       return;
     }
 

@@ -17,6 +17,7 @@ interface AuthState {
     data: Record<string, string>,
     type: boolean
   ) => Promise<boolean>;
+  setProfile: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -51,11 +52,15 @@ export const useAuthStore = create<AuthState>()(
         postAdminLogin: async (data, type) => {
           const { setAccessToken } = get();
 
-          const testRes = await fetch(`/api/auth/admin`, {
+          const res = await fetch(`/api/auth/admin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...data }),
           });
+
+          const { user, accessToken } = await res.json();
+
+          set({ profile: user });
 
           // const res = await api.post(`auth/login`, {
           //   json: data,
@@ -63,10 +68,12 @@ export const useAuthStore = create<AuthState>()(
 
           // if (!res.ok) return res.ok;
 
-          // const { access_token } = (await res.json()) as any;
-          // setAccessToken(access_token);
+          setAccessToken(accessToken);
 
-          return testRes.ok;
+          return res.ok;
+        },
+        setProfile: () => {
+          set({ profile: null });
         },
       }),
       {

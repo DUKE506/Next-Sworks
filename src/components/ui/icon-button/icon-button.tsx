@@ -9,13 +9,9 @@ interface IconButton {
 
 const IconButton = ({ className, icon: Icon, onClick }: IconButton) => {
   return (
-    <Icon
-      className={cn(
-        "w-4 hover:text-[var(--primary-color)] hover:cursor-pointer",
-        className
-      )}
-      onClick={onClick}
-    />
+    <div className="p-[8px] rounded-[50px] aspect-square hover:cursor-pointer hover:bg-gray-200">
+      <Icon className={cn("w-4 h-4 ", className)} onClick={onClick} />
+    </div>
   );
 };
 

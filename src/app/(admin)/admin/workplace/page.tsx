@@ -19,6 +19,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col gap-6 h-full max-xl:pt-12">
+      <span className="text-xl font-bold">사업장</span>
       <div className="flex max-xl:flex-col justify-between gap-6">
         <StatCard label="사업장" value="2" />
         <StatCard label="평균 직원" value="2" />

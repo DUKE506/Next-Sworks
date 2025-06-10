@@ -21,15 +21,14 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json({
       success: true,
       user: res.user,
+      accessToken: res.access_token,
+      refreshToken: res.refresh_token,
     });
 
     setAuthToken(response, res.access_token, res.refresh_token);
 
-    console.log("관리자 로그인 요청 성공");
-
     return response;
   } catch (error) {
-    console.log(error);
     //로그인 에러 발생 시
     return NextResponse.json(
       { error: "아이디 또는 비밀번호가 일치하지 않습니다." },

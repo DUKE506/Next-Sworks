@@ -38,9 +38,3 @@ export const removeAuthToken = async () => {
   cookieStore.delete("access-token");
   cookieStore.delete("refresh-token");
 };
-
-/**
- * 토큰 검사
- */
-
-export const IsAdmin = async () => {};
