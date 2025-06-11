@@ -1,8 +1,10 @@
 "use client";
+import FilterLayout from "@/components/common/filter-layout";
 import MultiSelect from "@/components/ui/custom-select/multi-select";
 import { Input } from "@/components/ui/input";
 import useAdminFilter from "@/hooks/useAdminFilter";
 import { convertDeptNameToRecord } from "@/lib/admin-dept";
+import { useAdminFilterStore } from "@/store/admin/admin-filter-store";
 import { useDeptStore } from "@/store/dept-store";
 import { Permission } from "@/types/(admin)/permission/permission";
 import { Building2, KeyRound } from "lucide-react";
@@ -13,36 +15,39 @@ const UserFilter = () => {
   const [Depts, setDepts] = useState<Record<string, string>>({});
   const { departments } = useDeptStore();
 
+  const {
+    filterAdminSearch,
+    filterAdminDept,
+    filterAdminPerm,
+    setFilterAdminDept,
+    setFilterAdminPerm,
+    setFilterAdminSearch,
+  } = useAdminFilterStore();
+
   useEffect(() => {
     setDepts(convertDeptNameToRecord(departments));
   }, []);
 
-  const handleClick = (data: any) => {
-    console.log(data);
-  };
-
   return (
-    <div className="border-b border-t py-4 px-2">
-      <div className="flex px-0 justify-between">
-        <Input className="w-60 rounded-sm" placeholder="관리자" />
-        <div className="flex gap-4 items-center ">
-          <MultiSelect
-            placeholder="부서"
-            data={Depts}
-            selected={filter.departments}
-            icon={Building2}
-            onClick={(data) => setDept(data)}
-          />
-          <MultiSelect
-            placeholder="권한"
-            data={Permission}
-            selected={filter.permissions}
-            icon={KeyRound}
-            onClick={(data) => setPerm(data)}
-          />
-        </div>
-      </div>
-    </div>
+    <FilterLayout
+      value={filterAdminSearch}
+      onChangeValue={setFilterAdminSearch}
+    >
+      <MultiSelect
+        placeholder="부서"
+        data={Depts}
+        selected={filterAdminDept}
+        icon={Building2}
+        onClick={(data) => setFilterAdminDept(data)}
+      />
+      <MultiSelect
+        placeholder="권한"
+        data={Permission}
+        selected={filterAdminPerm}
+        icon={KeyRound}
+        onClick={(data) => setFilterAdminPerm(data)}
+      />
+    </FilterLayout>
   );
 };
 

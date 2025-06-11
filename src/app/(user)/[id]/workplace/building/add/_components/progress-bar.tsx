@@ -53,12 +53,12 @@ const ProgressBar = ({
   }, [currentStep]);
 
   return (
-    <div className="flex items-center justify-between ">
+    <div className="flex items-center justify-around ">
       {steps.map((s, i) => {
         return (
           <React.Fragment key={i}>
             <ProgressBarItem {...s} />
-            {i < steps.length - 1 && <Bar status={steps[i + 1].status} />}
+            {/* {i < steps.length - 1 && <Bar status={steps[i + 1].status} />} */}
           </React.Fragment>
         );
       })}

@@ -13,33 +13,36 @@ import { Workplace } from "@/types/(admin)/workplace/workplace";
 import { Select } from "@/components/ui/select";
 import ViewSelect from "@/components/ui/view-select.tsx/view-select";
 import IconButton from "@/components/ui/icon-button/icon-button";
+import WorkplaceFilter from "./workplace-filter";
+import { useWorkplaceFilterStore } from "@/store/workplace/workplace-filter-store";
 
 const TableArea = () => {
   const { workplaces, selectWorkplace } = useWorkplaceStore();
+  const {} = useWorkplaceFilterStore();
   const router = useRouter();
   const pathname = usePathname();
 
   return (
     <div className="flex flex-4/6 flex-col gap-6 w-full">
+      <WorkplaceFilter />
       <div className="flex justify-between">
         {workplaces === ListLoading ? null : (
           <>
-            <Input className="w-50 bg-white" placeholder="이름, 계약번호" />
+            {(workplaces as ListModel<Workplace>).meta.totalCount /
+              (workplaces as ListModel<Workplace>).meta.pageSize <
+            0 ? null : (
+              <Pagination
+                activePage={1}
+                totalItemCount={
+                  (workplaces as ListModel<Workplace>).meta.totalCount
+                }
+                viewSize={(workplaces as ListModel<Workplace>).meta.pageSize}
+                onChange={() => {}}
+                pageRangeDisplayed={5}
+              />
+            )}
             <div className="flex gap-4 items-center">
               <ViewSelect />
-              {(workplaces as ListModel<Workplace>).meta.totalCount /
-                (workplaces as ListModel<Workplace>).meta.pageSize <
-              2 ? null : (
-                <Pagination
-                  activePage={1}
-                  totalItemCount={
-                    (workplaces as ListModel<Workplace>).meta.totalCount
-                  }
-                  viewSize={(workplaces as ListModel<Workplace>).meta.pageSize}
-                  onChange={() => {}}
-                  pageRangeDisplayed={5}
-                />
-              )}
 
               <IconButton
                 icon={Plus}

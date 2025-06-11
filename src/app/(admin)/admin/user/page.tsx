@@ -11,12 +11,33 @@ import DataList from "@/components/ui/pagination-table/data-list";
 import { userColumns } from "./_components/users/_components/user-colmuns";
 import { Admin } from "@/dtos/admin/department-admin.dto";
 import { usePathname, useRouter } from "next/navigation";
+import { useAdminFilterStore } from "@/store/admin/admin-filter-store";
 
 const Page = () => {
   const { getDepts } = useDeptStore();
   const { getAdmins, admins } = useAdminStore();
   const router = useRouter();
   const pathname = usePathname();
+  const {
+    filterAdminSearch,
+    filterAdminDept,
+    filterAdminPerm,
+    page,
+    pageSize,
+  } = useAdminFilterStore();
+
+  useEffect(() => {
+    const params = new URLSearchParams({
+      search: filterAdminSearch,
+      page: page,
+      pageSize: pageSize,
+    });
+    filterAdminDept.forEach((d) => params.append("department", d));
+    filterAdminPerm.forEach((p) => params.append("permission", p));
+
+    router.push(`?${params}`);
+  }, [filterAdminSearch, filterAdminDept, filterAdminPerm]);
+
   useEffect(() => {
     //전체 관리자 데이터
     getAdmins();

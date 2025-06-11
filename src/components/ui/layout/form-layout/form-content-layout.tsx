@@ -14,7 +14,7 @@ const FormContentLayout = <T extends FieldValues>({
   children,
 }: FormContentLayoutProps<T>) => {
   return (
-    <div className="flex flex-col gap-6 flex-1">
+    <div className="flex flex-col gap-6 ">
       <div className="border-b py-4">
         <span className="text-lg font-bold text-[var(--description-title-color)]">
           {label}

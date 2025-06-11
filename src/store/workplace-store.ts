@@ -12,7 +12,7 @@ interface WorkplaceState {
   workplaceDetail: Workplace | null;
   selectedWorkplace: Workplace | null;
   createWorkplace: CreateWorkplace;
-  getWorkplaces: () => Promise<boolean>;
+  getWorkplaces: (params: string) => Promise<boolean>;
   getWorkplaceDetail: (id: number) => Promise<boolean>;
 
   setCreateWorkplace: (data: Record<string, any>) => void;
@@ -50,12 +50,9 @@ export const useWorkplaceStore = create<WorkplaceState>()(
         workplaceDetail: null,
         createWorkplace: initialCreateWorkplace,
         selectedWorkplace: null,
-        getWorkplaces: async () => {
+        getWorkplaces: async (params) => {
           const res = await api.get("workplace/all", {
-            searchParams: {
-              page: 1,
-              pageSize: 20,
-            },
+            searchParams: params,
           });
 
           if (res.ok) {

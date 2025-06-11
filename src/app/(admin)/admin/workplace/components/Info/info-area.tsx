@@ -24,7 +24,7 @@ export const InfoArea = () => {
   const { selectedWorkplace } = useWorkplaceStore();
 
   return (
-    <Card className="flex-2/6 ">
+    <Card className="flex-2/6 h-fit ">
       <CardContent className="flex flex-col gap-8">
         <div className="flex gap-6 max-xl:flex-col">
           <div className="flex flex-col flex-1 gap-4">

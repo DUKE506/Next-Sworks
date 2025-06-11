@@ -4,14 +4,28 @@ import React, { useEffect } from "react";
 import TableArea from "./components/table/table";
 import { InfoArea } from "./components/Info/info-area";
 import { useWorkplaceStore } from "@/store/workplace-store";
+import { useWorkplaceFilterStore } from "@/store/workplace/workplace-filter-store";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const { getWorkplaces, selectWorkplace, selectedWorkplace } =
     useWorkplaceStore();
+  const { status, page, pageSize, search } = useWorkplaceFilterStore();
+  const router = useRouter();
 
   useEffect(() => {
-    getWorkplaces();
+    const params = new URLSearchParams({
+      search,
+      page,
+      pageSize,
+    });
+    status.forEach((s) => params.append("status", s));
 
+    router.push(`?${params}`);
+    getWorkplaces(params.toString());
+  }, [status, page, pageSize, search]);
+
+  useEffect(() => {
     return () => {
       selectWorkplace(null);
     };

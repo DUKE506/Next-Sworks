@@ -70,7 +70,7 @@ const PermForm = ({ createWorkplace, onCreate, onPrev }: PermFormProps) => {
     <FormContentLayout label="기본정보" form={form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-between flex-1"
+        className="flex flex-col justify-between gap-12"
       >
         <div className="grid grid-cols-2 gap-x-12 gap-y-16">
           <FormField

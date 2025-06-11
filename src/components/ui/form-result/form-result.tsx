@@ -23,7 +23,7 @@ const FormResult = ({
   const router = useRouter();
 
   return (
-    <div className="flex flex-col  justify-center items-center flex-1">
+    <div className="flex flex-col  justify-center items-center flex-1 h-full ">
       <div className="flex flex-col gap-4 justify-center items-center flex-1">
         <LottiePlayer />
         <span className="text-xl font-bold text-green-500">

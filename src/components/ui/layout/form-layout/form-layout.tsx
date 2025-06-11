@@ -22,7 +22,7 @@ export const FormLayout = ({
   children,
 }: FormLayoutProps) => {
   return (
-    <div className="flex flex-col gap-12 px-12 min-h-full">
+    <div className="flex flex-col gap-12 px-12 flex-1">
       <div className="flex flex-col gap-4">
         <span className="text-xl font-bold">{title}</span>
         <span className="text-[var(--description-value-color)] text-sm">
@@ -32,7 +32,7 @@ export const FormLayout = ({
       <div>
         <ProgressBar currentStep={step} steps={steps} setSteps={setSteps} />
       </div>
-      <div className="flex flex-col flex-1">{children}</div>
+      <div className="flex flex-col h-full">{children}</div>
     </div>
   );
 };
