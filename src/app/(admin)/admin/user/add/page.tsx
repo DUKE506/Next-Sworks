@@ -1,4 +1,5 @@
 "use client";
+import { Step } from "@/app/(user)/[id]/workplace/building/add/_components/progress-bar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,15 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PasswordInput } from "@/components/ui/password-input";
-import {
   Select,
   SelectItem,
   SelectTrigger,
@@ -25,215 +17,60 @@ import {
 } from "@/components/ui/select";
 import { useAdminStore } from "@/store/admin-store";
 import { useDeptStore } from "@/store/dept-store";
-import { CreateAdmin } from "@/types/(admin)/user/create-admin";
-import { Department, DepartmentSchema } from "@/types/department";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Department } from "@/types/department";
+import React, { useEffect, useState } from "react";
 
-const userFormSchema = z
-  .object({
-    account: z
-      .string()
-      .min(3, { message: "5자 이상으로 입력하세요." })
-      .max(20, { message: "20자 이하로 입력하세요." }),
-    password: z.string().min(8, { message: "8자 이상으로 입력하세요." }),
-    checkPassword: z.string().min(8, { message: "8자 이상으로 입력하세요." }),
-    name: z
-      .string()
-      .min(2, { message: "2자 이상으로 입력하세요." })
-      .max(10, { message: "10자 이하로 입력하세요." }),
-    phone: z
-      .string()
-      .min(9, { message: "자릿수를 확인해주세요." })
-      .max(11, { message: "자릿수를 확인해주세요." }),
-    email: z.string().email({ message: "이메일 형식을 확인해주세요." }),
-    department: DepartmentSchema,
-    permission: z.enum(["MANAGER", "NORMAL"]),
-  })
-  .refine(({ password, checkPassword }) => password === checkPassword, {
-    path: ["checkPassword"],
-    message: "비밀번호가 일치하지 않습니다.",
-  });
+import AdminForm from "./_components/admin-form";
+import FormResult from "@/components/ui/form-result/form-result";
+import FormLayout from "@/components/ui/layout/form-layout/form-layout";
 
 const Page = () => {
-  const router = useRouter();
-  const { createAdmin } = useAdminStore();
-  const userForm = useForm<z.infer<typeof userFormSchema>>({
-    resolver: zodResolver(userFormSchema),
-    defaultValues: {
-      account: "",
-      password: "",
-      checkPassword: "",
-      name: "",
-      phone: "",
-      email: "",
-      permission: "MANAGER",
-    },
-  });
+  const [result, setResult] = useState<boolean>(false);
+  const [step, setStep] = useState<number>(0);
+  const [steps, setSteps] = useState<Step[]>([
+    { num: 1, label: "관리자정보", status: "incomplete" },
+  ]);
+  const { createAdmin, setCreateAdmin, postCreateAdmin, resetCreateAdmin } =
+    useAdminStore();
 
-  const onSubmit = (values: z.infer<typeof userFormSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-
-    const admin: CreateAdmin = {
-      account: values.account,
-      password: values.password,
-      name: values.name,
-      department: values.department,
-      phone: values.phone,
-      email: values.email,
-      permission: values.permission,
+  useEffect(() => {
+    return () => {
+      resetCreateAdmin();
     };
-    createAdmin(admin);
-    router.push("/manage/user");
-  };
+  }, []);
+
+  const stepRenders = [
+    <AdminForm
+      onCreate={async (data) => {
+        setStep((prev) => prev + 1);
+        setCreateAdmin(data);
+        const res = await postCreateAdmin();
+        setResult(res);
+      }}
+      createAdmin={createAdmin}
+    />,
+    <FormResult
+      result={result}
+      successTitle="관리자 생성 완료!"
+      successDescription="관리자 정보가 성공적으로 등록되었습니다."
+      failTitle="관리자 생성 실패!"
+      failDescription="관리자 정보 등록을 실패했습니다."
+      url="/admin/user"
+    />,
+  ];
 
   return (
-    <div className="h-fit flex justify-center">
-      <Card className="h-full sm:w-150">
-        <CardHeader>
-          <CardTitle>관리자 생성</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...userForm}>
-            <form
-              onSubmit={userForm.handleSubmit(onSubmit)}
-              className="space-y-6"
-            >
-              <FormField
-                control={userForm.control}
-                name="account"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs justify-between">
-                      아이디
-                      <FormMessage className="text-xs" />
-                    </FormLabel>
-                    <Input placeholder="아이디" {...field} />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={userForm.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs justify-between">
-                      비밀번호 <FormMessage className="text-xs" />
-                    </FormLabel>
-                    <PasswordInput placeholder="비밀번호" {...field} />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={userForm.control}
-                name="checkPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs justify-between">
-                      비밀번호 확인 <FormMessage className="text-xs" />
-                    </FormLabel>
-                    <PasswordInput placeholder="비밀번호 확인" {...field} />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={userForm.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs justify-between">
-                      이름 <FormMessage className="text-xs" />
-                    </FormLabel>
-                    <Input placeholder="홍길동" {...field} />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={userForm.control}
-                name="department"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs justify-between">
-                      부서 <FormMessage className="text-xs" />
-                    </FormLabel>
-                    <DeptSelect value={field.value} onChange={field.onChange} />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={userForm.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs justify-between">
-                      전화번호 <FormMessage className="text-xs" />
-                    </FormLabel>
-                    <Input placeholder="( - 제외 ) 01XXXXXXXXX" {...field} />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={userForm.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs justify-between">
-                      이메일 <FormMessage className="text-xs" />
-                    </FormLabel>
-                    <Input placeholder="sworks@gmail.com" {...field} />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={userForm.control}
-                name="permission"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs justify-between">
-                      권한 <FormMessage className="text-xs" />
-                    </FormLabel>
-                    <div className="flex gap-4">
-                      <PermItem
-                        title="MANAGER"
-                        desc="모든 읽기/쓰기 권한을 모두 가진 관리자"
-                        value="MANAGER"
-                        selected={field.value}
-                        onClick={() => field.onChange("MANAGER")}
-                      />
-                      <PermItem
-                        title="NORMAL"
-                        desc="할당받은 사업장에 대해  읽기/쓰기 권한을 가진 관리자"
-                        value="NORMAL"
-                        selected={field.value}
-                        onClick={() => field.onChange("NORMAL")}
-                      />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <Button className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer w-full">
-                생성
-              </Button>
-            </form>
-          </Form>
-          {/**
-           * 아이디
-           * 비밀번호
-           * 비밀번호 확인
-           * 이름
-           * 연락처
-           * 이메일
-           * 부서
-           * 권한
-           */}
-        </CardContent>
-      </Card>
-    </div>
+    <FormLayout
+      title="관리자 생성"
+      description="관리자 정보를 단계별로 입력해주세요. 필수 항목은*로 표시되어있습니다."
+      step={step}
+      setStep={setStep}
+      steps={steps}
+      setSteps={setSteps}
+    >
+      {stepRenders[step]}
+    </FormLayout>
   );
 };
 

@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 const Page = () => {
   const { getWorkplaces, selectWorkplace, selectedWorkplace } =
     useWorkplaceStore();
-  const { status, page, pageSize, search } = useWorkplaceFilterStore();
+  const { status, page, pageSize, search, resetFilter } =
+    useWorkplaceFilterStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const Page = () => {
   useEffect(() => {
     return () => {
       selectWorkplace(null);
+      resetFilter();
     };
   }, []);
 

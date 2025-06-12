@@ -4,12 +4,13 @@ import { Department } from "@/types/department";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { useAdminStore } from "./admin-store";
+import { useAdminFilterStore } from "./admin/admin-filter-store";
 
 interface deptState {
   departments: Department[];
   selectedDept: Department | null;
   addDept: (dept: AddDepartmentDto) => Promise<void>;
-  getDepts: () => Promise<void>;
+  getDepts: () => Promise<boolean>;
   selectDept: (dept: Department | "ALL") => void;
 }
 
@@ -24,9 +25,22 @@ export const useDeptStore = create<deptState>()(
           await get().getDepts();
         },
         getDepts: async () => {
-          const res = await api.get("department/all").json();
+          const { setFilterAdminDept } = useAdminFilterStore.getState();
 
-          set({ departments: res as Department[] });
+          const res = await api.get("department/all");
+          if (!res.ok) return res.ok;
+
+          const data: Department[] = await res.json();
+
+          const allDept = data.map((d) => {
+            return d.name;
+          });
+
+          setFilterAdminDept(allDept);
+
+          set({ departments: data as Department[] });
+
+          return res.ok;
         },
         selectDept: (dept) => {
           const { setAdminsByDepartment } = useAdminStore.getState();

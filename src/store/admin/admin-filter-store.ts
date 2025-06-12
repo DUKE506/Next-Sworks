@@ -12,7 +12,7 @@ interface AdminFilterState {
   setFilterAdminSearch: (search: string) => void;
   setPage: (page: string) => void;
   setPageSize: (pageSize: string) => void;
-  setRefresh: () => void;
+  resetFilter: () => void;
 }
 
 export const useAdminFilterStore = create<AdminFilterState>()(
@@ -24,6 +24,7 @@ export const useAdminFilterStore = create<AdminFilterState>()(
         filterAdminSearch: "",
         page: "1",
         pageSize: "20",
+
         setFilterAdminDept: (dept) => {
           set({ filterAdminDept: dept });
         },
@@ -32,18 +33,22 @@ export const useAdminFilterStore = create<AdminFilterState>()(
         },
         setFilterAdminSearch: (search) => {
           set({ filterAdminSearch: search });
+          set({ page: "1" });
         },
         setPage: (page) => {
           set({ page: page });
         },
         setPageSize: (pageSize) => {
           set({ pageSize: pageSize });
+          set({ page: "1" });
         },
-        setRefresh: () => {
+        resetFilter: () => {
           set({
             filterAdminDept: [],
-            filterAdminPerm: [],
+            filterAdminPerm: ["MANAGER", "NORMAL"],
             filterAdminSearch: "",
+            page: "1",
+            pageSize: "20",
           });
         },
       }),

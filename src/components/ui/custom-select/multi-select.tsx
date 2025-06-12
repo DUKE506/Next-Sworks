@@ -79,7 +79,7 @@ const MultiSelect = <T extends Record<string, string>>({
               key={i}
               onClick={() => handleCheck(value)}
             >
-              <span className="text-xs">{value}</span>
+              <span className="text-xs">{key}</span>
               {selected.some((i) => i === value) ? (
                 <Check className="w-4 h-4" />
               ) : null}

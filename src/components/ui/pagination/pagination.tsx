@@ -50,8 +50,8 @@ const Pagination = ({
     onChange(pageNumber);
     //URL 이동
 
-    queryParams.set("pageNumber", pageNumber.toString());
-    router.push(`?${queryParams.toString()}`);
+    // queryParams.set("pageNumber", pageNumber.toString());
+    // router.push(`?${queryParams.toString()}`);
   };
 
   /**
@@ -80,13 +80,6 @@ const Pagination = ({
         pageHandler({ pageNumber: endPage });
         break;
     }
-    // if (!value) {
-    //   if (activePage - 1 != 0) activePage = activePage - 1;
-    //   else activePage = 1;
-    // } else {
-    //   if (activePage + 1 > endPage) activePage = endPage;
-    //   else activePage = activePage + 1;
-    // }
   };
 
   return (
@@ -103,6 +96,8 @@ const Pagination = ({
         {Array.from({ length: endPage - startPage + 1 }).map((_, idx) => {
           const pageNum = startPage + idx;
           const isActive = activePage === pageNum;
+          console.log("현재 페이지", activePage);
+          console.log("렌더링 페이지", pageNum);
           return (
             <PageItemButton
               key={pageNum}
@@ -134,10 +129,11 @@ const PageItemButton = ({
   isActive: boolean;
   onClick: () => void;
 }) => {
+  console.log(`페이지 : ${page} , 선택 : :${isActive}`);
   return (
     <div
-      className={`border text-xs px-2 py-2 rounded-md w-9 h-9 flex items-center justify-center hover:bg-accent cursor-pointer bg-white ${
-        isActive ? "bg-accent" : null
+      className={`border text-xs px-2 py-2 rounded-md w-9 h-9 flex items-center justify-center hover:bg-accent cursor-pointer  ${
+        isActive ? "bg-accent font-bold" : "bg-white"
       }`}
       onClick={onClick}
     >

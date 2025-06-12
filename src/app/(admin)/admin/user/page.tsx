@@ -5,17 +5,17 @@ import Users from "./_components/users/users";
 import { useAdminStore } from "@/store/admin-store";
 
 import { useDeptStore } from "@/store/dept-store";
-import Profile from "./_components/profile/profile";
 import UserFilter from "./_components/user-filter";
 import DataList from "@/components/ui/pagination-table/data-list";
 import { userColumns } from "./_components/users/_components/user-colmuns";
 import { Admin } from "@/dtos/admin/department-admin.dto";
 import { usePathname, useRouter } from "next/navigation";
 import { useAdminFilterStore } from "@/store/admin/admin-filter-store";
+import AdminTable from "./_components/admin-table";
 
 const Page = () => {
   const { getDepts } = useDeptStore();
-  const { getAdmins, admins } = useAdminStore();
+  const { getAdmins } = useAdminStore();
   const router = useRouter();
   const pathname = usePathname();
   const {
@@ -24,6 +24,7 @@ const Page = () => {
     filterAdminPerm,
     page,
     pageSize,
+    resetFilter,
   } = useAdminFilterStore();
 
   useEffect(() => {
@@ -36,13 +37,17 @@ const Page = () => {
     filterAdminPerm.forEach((p) => params.append("permission", p));
 
     router.push(`?${params}`);
-  }, [filterAdminSearch, filterAdminDept, filterAdminPerm]);
+
+    getAdmins(params.toString());
+  }, [filterAdminSearch, filterAdminDept, filterAdminPerm, page, pageSize]);
 
   useEffect(() => {
-    //전체 관리자 데이터
-    getAdmins();
     // //부서 데이터
     getDepts();
+
+    return () => {
+      resetFilter();
+    };
   }, []);
 
   const handleDetailPage = (data: Admin) => {
@@ -52,11 +57,7 @@ const Page = () => {
     <div className="flex flex-col gap-6 min-xl:h-full w-full ">
       <span className="text-xl font-bold">관리자</span>
       <UserFilter />
-      <DataList
-        columns={userColumns}
-        data={admins}
-        onClick={handleDetailPage}
-      />
+      <AdminTable />
     </div>
   );
 };

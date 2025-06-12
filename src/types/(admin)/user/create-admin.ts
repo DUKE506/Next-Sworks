@@ -4,7 +4,8 @@ export class CreateAdmin {
   account: string;
   password: string;
   name: string;
-  department: Department;
+  // department?: Department;
+  department?: string;
   phone: string;
   email: string;
   permission: "MANAGER" | "NORMAL";
@@ -21,7 +22,7 @@ export class CreateAdmin {
     account: string;
     password: string;
     name: string;
-    department: Department;
+    department?: string;
     phone: string;
     email: string;
     permission: "MANAGER" | "NORMAL";

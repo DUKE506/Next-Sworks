@@ -18,7 +18,7 @@ import { useWorkplaceFilterStore } from "@/store/workplace/workplace-filter-stor
 
 const TableArea = () => {
   const { workplaces, selectWorkplace } = useWorkplaceStore();
-  const {} = useWorkplaceFilterStore();
+  const { page, pageSize, setPage } = useWorkplaceFilterStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -32,12 +32,14 @@ const TableArea = () => {
               (workplaces as ListModel<Workplace>).meta.pageSize <
             0 ? null : (
               <Pagination
-                activePage={1}
+                activePage={parseInt(page)}
                 totalItemCount={
                   (workplaces as ListModel<Workplace>).meta.totalCount
                 }
                 viewSize={(workplaces as ListModel<Workplace>).meta.pageSize}
-                onChange={() => {}}
+                onChange={(page) => {
+                  setPage(page.toString());
+                }}
                 pageRangeDisplayed={5}
               />
             )}

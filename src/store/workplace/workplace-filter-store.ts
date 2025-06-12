@@ -26,16 +26,18 @@ export const useWorkplaceFilterStore = create<WorkplaceFilterState>()(
         },
         setSearch: (search) => {
           set({ search: search });
+          set({ page: "1" });
         },
         setPage: (page) => {
           set({ page: page });
         },
         setPageSize: (pageSize) => {
           set({ pageSize: pageSize });
+          set({ page: "1" });
         },
         resetFilter: () =>
           set({
-            status: [],
+            status: ["계약", "해약"],
             search: "",
             page: "1",
             pageSize: "20",
