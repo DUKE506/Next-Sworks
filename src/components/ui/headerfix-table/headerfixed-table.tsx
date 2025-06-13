@@ -1,113 +1,139 @@
-
-
-import React, { useState } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../table'
-import { ColumnDef, flexRender, getCoreRowModel, RowSelectionState, useReactTable } from '@tanstack/react-table';
+import React, { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../table";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  RowSelectionState,
+  useReactTable,
+} from "@tanstack/react-table";
 
 interface HeaderFixedTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
-    onClick?: (data: TData) => void;
-    placeholder?: string;
-    selectedRow?: TData[];
-    onSelect?: (data: Record<string, boolean>) => void;
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  onClick?: (data: TData) => void;
+  placeholder?: string;
+  selectedRow?: TData[];
+  onSelect?: (data: Record<string, boolean>) => void;
 }
 
 const HeaderFixedTable = <TData, TValue>({
-    columns,
-    data,
-    onClick,
-    placeholder,
-    selectedRow,
-    onSelect,
+  columns,
+  data,
+  onClick,
+  placeholder,
+  selectedRow,
+  onSelect,
 }: HeaderFixedTableProps<TData, TValue>) => {
-    const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-    const table = useReactTable({
-        data: data || [],
-        columns,
-        getCoreRowModel: getCoreRowModel(),
-        onRowSelectionChange: (updater) => {
-            const newState = typeof updater === 'function'
-                ? updater(rowSelection)
-                : updater;
+  useEffect(() => {
+    if (selectedRow && selectedRow.length > 0) {
+      // console.log("여기옴");
+      // console.log(selectedRow);
+      const selection = Object.fromEntries(
+        selectedRow.map((row: any) => [row.id, true])
+      );
+      // console.log("강제 selection 설정됨:", selection);
+      setRowSelection(selection);
+    } else {
+      // console.log("selectedRow 없음 -> 선택 해제");
+      setRowSelection({});
+    }
 
-            setRowSelection(rowSelection);
+    // console.log(
+    //   "rowSelection:",
+    //   rowSelection,
+    //   "row ids:",
+    //   table.getRowModel().rows.map((row) => row.id)
+    // );
+  }, [selectedRow]);
 
-            if (onSelect) {
-                console.log(onSelect)
-                onSelect(newState)
-            }
-        }, //hoist up the row selection state to your own scope
-        state: {
-            rowSelection, //pass the row selection state back to the table instance
-        },
-    })
-    return (
-        <div className="flex-1 rounded-md border overflow-auto bg-white h-full">
-            <table className='w-full caption-bottom text-sm'>
-                <TableHeader className='sticky top-0 '>
-                    {
-                        table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {
-                                    headerGroup.headers.map((header) => {
-                                        return (
-                                            <TableHead className='text-xs sticky top-0 bg-stone-100' key={header.id}>
-                                                {
-                                                    header.isPlaceholder
-                                                        ?
-                                                        null
-                                                        :
-                                                        flexRender(
-                                                            header.column.columnDef.header,
-                                                            header.getContext()
-                                                        )
-                                                }
-                                            </TableHead>
-                                        )
-                                    })
-                                }
-                            </TableRow>
-                        ))
-                    }
-                </TableHeader>
-                <TableBody>
-                    {table.getRowModel().rows.length ? (
-                        table.getRowModel().rows.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                                className="border-b"
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell
-                                        className="text-xs border-b"
-                                        key={cell.id}
-                                        onClick={onClick ? () => onClick(row.original) : undefined}
-                                    >
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell
-                                colSpan={columns.length}
-                                className="h-24 text-center text-muted-foreground"
-                            >
-                                {
-                                    placeholder ?? '내용 없음'
-                                }
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
+  const table = useReactTable({
+    data: data || [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    onRowSelectionChange: setRowSelection,
+    state: { rowSelection },
+    getRowId: (row: any) => row.id,
+  });
 
-            </table>
-        </div>
-    )
-}
+  return (
+    <div className="flex flex-col flex-1 border rounded-lg overflow-hidden">
+      {/* 헤더 */}
+      <div className="sticky top-0 z-10 bg-background">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      className="text-xs sticky top-0 bg-stone-100"
+                      key={header.id}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+        </Table>
+      </div>
+      <div className="flex-1 overflow-auto">
+        <Table>
+          <TableBody className="overflow-auto">
+            {table.getRowModel().rows.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="border-b"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      className="text-xs border-b"
+                      key={cell.id}
+                      onClick={
+                        onClick ? () => onClick(row.original) : undefined
+                      }
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center text-muted-foreground"
+                >
+                  {placeholder ?? "내용 없음"}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+};
 
-export default HeaderFixedTable
+export default HeaderFixedTable;

@@ -7,13 +7,13 @@ import {
 } from "@/components/ui/dialog";
 import IconButton from "@/components/ui/icon-button/icon-button";
 import { Input } from "@/components/ui/input";
-import { useAdminDetailStore } from "@/store/admin-detail-store";
+import { useAdminDetailStore } from "@/store/admin/admin-detail-store";
 import { useWorkplaceStore } from "@/store/workplace-store";
 import { Workplace } from "@/types/(admin)/workplace/workplace";
 import { ListModel } from "@/types/list-type";
 
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { adminWorkplaceColumns } from "./adminWokkrplaceColumns";
 import { Button } from "@/components/ui/button";
 import HeaderFixedTable from "@/components/ui/headerfix-table/headerfixed-table";
@@ -39,16 +39,19 @@ const Workplaces = () => {
   );
 };
 
-const test = (data: Record<string, boolean>) => {
-  console.log(data);
-};
-
 const AddWorkplaceDialog = () => {
+  const { selectedWorkplace, setSelectWorkplace } = useAdminDetailStore();
   const { workplaces } = useWorkplaceStore();
+
+  useEffect(() => {}, [selectedWorkplace]);
+
+  const handleWorkplace = (data: any) => {
+    setSelectWorkplace(data);
+  };
   return (
     <Dialog>
       <DialogTrigger>
-        <IconButton className="w-6 h-6" icon={Plus} />
+        <IconButton className="text-muted-foreground" icon={Plus} />
       </DialogTrigger>
       <DialogContent className="flex flex-col min-w-200 gap-6 h-150">
         <DialogHeader>
@@ -59,7 +62,8 @@ const AddWorkplaceDialog = () => {
         <HeaderFixedTable
           columns={adminWorkplaceColumns}
           data={(workplaces as ListModel<Workplace>).data}
-          onSelect={test}
+          selectedRow={selectedWorkplace}
+          onClick={(data) => handleWorkplace(data)}
         />
 
         <Button className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer">

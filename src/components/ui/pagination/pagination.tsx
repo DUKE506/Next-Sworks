@@ -96,8 +96,6 @@ const Pagination = ({
         {Array.from({ length: endPage - startPage + 1 }).map((_, idx) => {
           const pageNum = startPage + idx;
           const isActive = activePage === pageNum;
-          console.log("현재 페이지", activePage);
-          console.log("렌더링 페이지", pageNum);
           return (
             <PageItemButton
               key={pageNum}
@@ -129,7 +127,6 @@ const PageItemButton = ({
   isActive: boolean;
   onClick: () => void;
 }) => {
-  console.log(`페이지 : ${page} , 선택 : :${isActive}`);
   return (
     <div
       className={`border text-xs px-2 py-2 rounded-md w-9 h-9 flex items-center justify-center hover:bg-accent cursor-pointer  ${

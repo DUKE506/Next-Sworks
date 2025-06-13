@@ -11,11 +11,14 @@ import { ViewState } from "@/types/view";
 import { useRouter } from "next/navigation";
 import { useWorkplaceFilterStore } from "@/store/workplace/workplace-filter-store";
 
-const ViewSelect = () => {
-  const { pageSize, setPageSize } = useWorkplaceFilterStore();
+interface ViewSelectProps {
+  value: string;
+  onChange: (page: string) => void;
+}
 
+const ViewSelect = ({ value, onChange }: ViewSelectProps) => {
   return (
-    <Select onValueChange={setPageSize} defaultValue={pageSize}>
+    <Select onValueChange={onChange} defaultValue={value}>
       <SelectTrigger className="w-25 bg-white hover:cursor-pointer">
         <SelectValue placeholder="select" />
       </SelectTrigger>

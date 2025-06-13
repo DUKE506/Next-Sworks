@@ -6,9 +6,9 @@ import { devtools, persist } from "zustand/middleware";
 
 interface AdminDetailState {
   admin: Admin | null;
-  selectedWorkplace: Workplace | null;
+  selectedWorkplace: Workplace[];
   getAdmin: (id: number) => Promise<void>;
-  selectWorkplace: (workplace: Workplace[] | Workplace) => void;
+  setSelectWorkplace: (workplace: Workplace) => void;
 }
 
 export const useAdminDetailStore = create<AdminDetailState>()(
@@ -16,13 +16,27 @@ export const useAdminDetailStore = create<AdminDetailState>()(
     persist<AdminDetailState>(
       (set, get) => ({
         admin: null,
-        selectedWorkplace: null,
+        selectedWorkplace: [],
         getAdmin: async (id) => {
           const res = await api.get(`user/${id}`).json();
           set({ admin: res as Admin });
         },
-        selectWorkplace: (workplace) => {
-          console.log(workplace);
+        setSelectWorkplace: (workplace) => {
+          const { selectedWorkplace } = get();
+          console.log("파라미터", workplace);
+          console.log("상태에 저장된 값:", selectedWorkplace);
+
+          set((state) => {
+            const curWorkplace = state.selectedWorkplace || [];
+
+            const exist = curWorkplace.some((w) => w === workplace);
+
+            return {
+              selectedWorkplace: exist
+                ? curWorkplace.filter((w) => w !== workplace)
+                : [...curWorkplace, workplace],
+            };
+          });
         },
       }),
       { name: "adminDetail-store" }

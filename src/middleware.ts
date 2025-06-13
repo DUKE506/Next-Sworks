@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  console.log("=====미들웨어=====");
-
   // 경로에 확장자가 있으면 `true` 없으면 `null`
   const isFileRequest = pathname.match(/\.\w+$/);
 

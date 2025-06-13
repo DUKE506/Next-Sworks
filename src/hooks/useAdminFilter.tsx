@@ -6,15 +6,6 @@ const useAdminFilter = () => {
     permissions: [],
   });
 
-  useEffect(() => {
-    const params = new URLSearchParams();
-    console.log(params);
-  }, []);
-
-  useEffect(() => {
-    console.log(filter);
-  }, [filter]);
-
   //부서 변경
   const setDept = (dept: string[]) => {
     setFilter((prev) => ({ ...prev, departments: dept }));

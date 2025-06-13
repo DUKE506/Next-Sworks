@@ -18,7 +18,7 @@ import { useWorkplaceFilterStore } from "@/store/workplace/workplace-filter-stor
 
 const TableArea = () => {
   const { workplaces, selectWorkplace } = useWorkplaceStore();
-  const { page, pageSize, setPage } = useWorkplaceFilterStore();
+  const { page, pageSize, setPage, setPageSize } = useWorkplaceFilterStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -44,7 +44,7 @@ const TableArea = () => {
               />
             )}
             <div className="flex gap-4 items-center">
-              <ViewSelect />
+              <ViewSelect value={pageSize} onChange={setPageSize} />
 
               <IconButton
                 icon={Plus}

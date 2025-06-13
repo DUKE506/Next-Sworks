@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useAdminDetailStore } from "@/store/admin-detail-store";
+import { useAdminDetailStore } from "@/store/admin/admin-detail-store";
 import { Building, ChevronRight, Mail, Phone } from "lucide-react";
 import React from "react";
 
@@ -24,7 +24,7 @@ export const Profile = () => {
           <span className="text-base text-ring">@{admin?.account}</span>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col gap-8">
+      <CardContent className="flex flex-col gap-4 px-2">
         <ProfileItem
           label={"부서"}
           value={admin?.department.name}
@@ -45,7 +45,7 @@ interface ProfileItemProps {
 
 const ProfileItem = ({ label, value, icon: Icon }: ProfileItemProps) => {
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-6 hover:cursor-pointer hover:bg-gray-200 px-4 py-2">
       <Icon className="w-4" />
       <div className="flex flex-col flex-1">
         <span className="text-xs text-muted-foreground">{label}</span>

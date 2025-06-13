@@ -14,7 +14,7 @@ import { useAdminFilterStore } from "@/store/admin/admin-filter-store";
 const AdminTable = () => {
   const { admins } = useAdminStore();
   const [data, setData] = useState<ListModel<Admin>>();
-  const { page, pageSize, setPage } = useAdminFilterStore();
+  const { page, pageSize, setPage, setPageSize } = useAdminFilterStore();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -44,7 +44,7 @@ const AdminTable = () => {
             />
           ) : null}
           <div className="flex gap-4 items-center">
-            <ViewSelect />
+            <ViewSelect value={pageSize} onChange={setPageSize} />
 
             <IconButton
               icon={Plus}
