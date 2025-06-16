@@ -50,6 +50,7 @@ export const LoginForm = () => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof schema>) => {
+    // 관리자 모드 로그인
     if (loginMode) {
       const res = await postAdminLogin(values, loginMode);
       if (!res) return; //토스트
@@ -57,10 +58,18 @@ export const LoginForm = () => {
       return;
     }
 
+    //일반모드 로그인
+    //리턴값에 user가 관리자이면 사업장 선택 페이지
+    //일반 사용자라면 본인 사업장 페이지로 이동
     const res = await postUserLogin(values, loginMode);
     if (!res.success) return; //토스트
 
-    router.push(`/${res.data}/workplace`);
+    console.log(res);
+    if (res.data.permission === "USER")
+      router.push(`/${res.data.workplace.id}/workplace`);
+    else {
+      router.push(`/select/workplace`);
+    }
   };
   return (
     <Card className="w-130 min-w-100 flex justify-center items-center gap-6">

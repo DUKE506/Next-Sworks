@@ -13,6 +13,7 @@ interface AuthState {
     data: Record<string, string>,
     type: boolean
   ) => Promise<Record<string, any>>;
+  postSelectAdminWorkplace: (workplaceId: number) => Promise<void>;
   postAdminLogin: (
     data: Record<string, string>,
     type: boolean
@@ -36,25 +37,10 @@ export const useAuthStore = create<AuthState>()(
         postUserLogin: async (data, type) => {
           const { setAccessToken } = get();
 
-          const res = await api.post(`auth/login`, {
-            json: data,
-          });
-
-          if (!res.ok) return { success: res.ok };
-
-          const { access_token, place_id, user } = (await res.json()) as any;
-          setAccessToken(access_token);
-          set({ currentWorkplace: place_id });
-          set({ profile: user });
-
-          return { success: res.ok, data: place_id };
-        },
-        postAdminLogin: async (data, type) => {
-          const { setAccessToken } = get();
-
           const res = await fetch(`/api/auth/admin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({ ...data }),
           });
 
@@ -62,11 +48,38 @@ export const useAuthStore = create<AuthState>()(
 
           set({ profile: user });
 
-          // const res = await api.post(`auth/login`, {
-          //   json: data,
-          // });
+          console.log(accessToken);
+          setAccessToken(accessToken);
 
-          // if (!res.ok) return res.ok;
+          //일반 사용자
+          if (user.permission === "USER") {
+            set({ currentWorkplace: user.workplace.id });
+            set({ profile: user });
+          }
+
+          return { success: res.ok, data: user };
+        },
+        postSelectAdminWorkplace: async (workplaceId: number) => {
+          const res = await fetch(`/api/auth/user/select/workplace`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ workplaceId: workplaceId }),
+          });
+        },
+        postAdminLogin: async (data, type) => {
+          const { setAccessToken } = get();
+
+          const res = await fetch(`/api/auth/admin`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ ...data }),
+          });
+
+          const { user, accessToken } = await res.json();
+
+          set({ profile: user });
 
           setAccessToken(accessToken);
 

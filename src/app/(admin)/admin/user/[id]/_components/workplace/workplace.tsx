@@ -12,8 +12,8 @@ import { useWorkplaceStore } from "@/store/workplace-store";
 import { Workplace } from "@/types/(admin)/workplace/workplace";
 import { ListModel } from "@/types/list-type";
 
-import { Plus } from "lucide-react";
-import React, { useEffect } from "react";
+import { Plus, Trash2Icon } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { adminWorkplaceColumns } from "./adminWokkrplaceColumns";
 import { Button } from "@/components/ui/button";
 import HeaderFixedTable from "@/components/ui/headerfix-table/headerfixed-table";
@@ -21,12 +21,28 @@ import DataTable from "@/app/(admin)/admin/workplace/components/table/data-table
 import { workplaceColumns } from "@/app/(admin)/admin/workplace/components/table/columns";
 
 const Workplaces = () => {
-  const { admin } = useAdminDetailStore();
+  const { admin, putDeleteWorkplaces, resetDelSelectedWorkplaces } =
+    useAdminDetailStore();
+
+  useEffect(() => {
+    resetDelSelectedWorkplaces();
+    return () => {
+      resetDelSelectedWorkplaces();
+    };
+  }, []);
+
+  const handleDelete = () => {
+    putDeleteWorkplaces();
+  };
+
   return (
     <div className="flex-1 flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <Input className="w-50 bg-white" placeholder="사업장명" />
-        <AddWorkplaceDialog />
+        <div className="flex gap-4">
+          <AddWorkplaceDialog />
+          <IconButton icon={Trash2Icon} onClick={handleDelete} />
+        </div>
       </div>
       <div>
         <DataTable
@@ -39,17 +55,44 @@ const Workplaces = () => {
   );
 };
 
+/**
+ * 사업장 추가 다이얼로그
+ * @returns
+ */
 const AddWorkplaceDialog = () => {
-  const { selectedWorkplace, setSelectWorkplace } = useAdminDetailStore();
-  const { workplaces } = useWorkplaceStore();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const {
+    admin,
+    restWorkplace,
+    selectedWorkplace,
+    resetSelectWorkplace,
+    postAddWorkplace,
+    getRestWorkplace,
+  } = useAdminDetailStore();
 
-  useEffect(() => {}, [selectedWorkplace]);
+  useEffect(() => {
+    if (!admin) return;
+    getRestWorkplace(admin.id);
+  }, [isOpen]);
 
-  const handleWorkplace = (data: any) => {
-    setSelectWorkplace(data);
+  /**
+   * 다이어로그 오픈 핸들러
+   * @param value
+   */
+  const handleOpenChange = (value: boolean) => {
+    if (!value) {
+      resetSelectWorkplace();
+    }
+
+    setIsOpen(value);
   };
+
+  const handleSubmit = () => {
+    postAddWorkplace();
+  };
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={handleOpenChange} open={isOpen}>
       <DialogTrigger>
         <IconButton className="text-muted-foreground" icon={Plus} />
       </DialogTrigger>
@@ -61,12 +104,16 @@ const AddWorkplaceDialog = () => {
 
         <HeaderFixedTable
           columns={adminWorkplaceColumns}
-          data={(workplaces as ListModel<Workplace>).data}
+          data={restWorkplace}
           selectedRow={selectedWorkplace}
-          onClick={(data) => handleWorkplace(data)}
+          // onClick={(data) => handleWorkplace(data)}
+          // onRowSelectionChange={handleRowSelectionChange}
         />
 
-        <Button className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer">
+        <Button
+          className="bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
+          onClick={handleSubmit}
+        >
           추가
         </Button>
       </DialogContent>

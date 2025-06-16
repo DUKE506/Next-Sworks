@@ -35,6 +35,4 @@ export async function POST(req: NextRequest) {
       { status: 401 }
     );
   }
-
-  return new NextResponse();
 }

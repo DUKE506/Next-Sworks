@@ -22,6 +22,7 @@ interface HeaderFixedTableProps<TData, TValue> {
   placeholder?: string;
   selectedRow?: TData[];
   onSelect?: (data: Record<string, boolean>) => void;
+  onRowSelectionChange?: (selectedRows: TData[]) => void;
 }
 
 const HeaderFixedTable = <TData, TValue>({
@@ -31,6 +32,7 @@ const HeaderFixedTable = <TData, TValue>({
   placeholder,
   selectedRow,
   onSelect,
+  onRowSelectionChange,
 }: HeaderFixedTableProps<TData, TValue>) => {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
@@ -47,20 +49,27 @@ const HeaderFixedTable = <TData, TValue>({
       // console.log("selectedRow 없음 -> 선택 해제");
       setRowSelection({});
     }
-
-    // console.log(
-    //   "rowSelection:",
-    //   rowSelection,
-    //   "row ids:",
-    //   table.getRowModel().rows.map((row) => row.id)
-    // );
   }, [selectedRow]);
 
   const table = useReactTable({
     data: data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: (updater) => {
+      setRowSelection(updater);
+
+      if (onRowSelectionChange) {
+        const newSelection =
+          typeof updater === "function" ? updater(rowSelection) : updater;
+        const selectedRows = Object.keys(newSelection)
+          .filter((key) => newSelection[key])
+          .map((id) => data.find((row: any) => row.id === id))
+          .filter(Boolean) as TData[];
+
+        onRowSelectionChange(selectedRows);
+      }
+    },
+
     state: { rowSelection },
     getRowId: (row: any) => row.id,
   });

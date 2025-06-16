@@ -1,18 +1,13 @@
-import { setAuthToken } from "@/lib/auth";
 import api from "@/middleware/api-manager";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  console.log(await req.json());
-
-  const { account, password } = await req.json();
-
-  console.log("일반 모드 로그인 요청");
+  const { workplaceId } = await req.json();
 
   try {
     const res = await api
-      .post(`auth/login`, {
-        json: { account, password },
+      .post(`auth/select/workplace`, {
+        json: { workplaceId },
       })
       .json<{
         access_token: string;
@@ -27,13 +22,9 @@ export async function POST(req: NextRequest) {
       refreshToken: res.refresh_token,
     });
 
-    setAuthToken(response, res.access_token, res.refresh_token);
     return response;
   } catch (error) {
     //로그인 에러 발생 시
-    return NextResponse.json(
-      { error: "아이디 또는 비밀번호가 일치하지 않습니다." },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "사업장 선택에러" }, { status: 401 });
   }
 }
