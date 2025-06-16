@@ -12,7 +12,7 @@ import WorkplaceForm from "./_components/workplace-form";
 import PermForm from "./_components/perm-form";
 import { Form } from "@/components/ui/form";
 import FormLayout from "@/components/ui/layout/form-layout/form-layout";
-import { Step } from "@/app/(user)/[id]/workplace/building/add/_components/progress-bar";
+import { Step } from "@/app/(user)/user/workplace/building/add/_components/progress-bar";
 import FormResult from "@/components/ui/form-result/form-result";
 
 export const WorkplaceFormSchema = z.object({

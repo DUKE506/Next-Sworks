@@ -3,8 +3,6 @@ import api from "@/middleware/api-manager";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  console.log(await req.json());
-
   const { account, password } = await req.json();
 
   console.log("일반 모드 로그인 요청");

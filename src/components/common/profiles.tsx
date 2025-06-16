@@ -11,12 +11,12 @@ import { useRouter } from "next/navigation";
 
 const ProfileBadge = () => {
   const router = useRouter();
-  const { setProfile } = useAuthStore();
+  const { resetProfile } = useAuthStore();
   const handleLogout = () => {
     //토큰삭제
     removeClientAuthToken();
     //프로필 삭제
-    setProfile();
+    resetProfile();
     //로그인페이지
     router.replace("/login");
   };

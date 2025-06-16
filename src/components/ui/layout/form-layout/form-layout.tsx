@@ -1,6 +1,6 @@
 import ProgressBar, {
   Step,
-} from "@/app/(user)/[id]/workplace/building/add/_components/progress-bar";
+} from "@/app/(user)/user/workplace/building/add/_components/progress-bar";
 import React from "react";
 
 interface FormLayoutProps {

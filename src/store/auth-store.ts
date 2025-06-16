@@ -13,12 +13,14 @@ interface AuthState {
     data: Record<string, string>,
     type: boolean
   ) => Promise<Record<string, any>>;
-  postSelectAdminWorkplace: (workplaceId: number) => Promise<void>;
+  postSelectAdminWorkplace: (
+    workplaceId: number
+  ) => Promise<Record<string, any>>;
   postAdminLogin: (
     data: Record<string, string>,
     type: boolean
   ) => Promise<boolean>;
-  setProfile: () => void;
+  resetProfile: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -48,7 +50,6 @@ export const useAuthStore = create<AuthState>()(
 
           set({ profile: user });
 
-          console.log(accessToken);
           setAccessToken(accessToken);
 
           //일반 사용자
@@ -60,12 +61,22 @@ export const useAuthStore = create<AuthState>()(
           return { success: res.ok, data: user };
         },
         postSelectAdminWorkplace: async (workplaceId: number) => {
+          const { accessToken: storedAccessToken, setAccessToken } = get();
           const res = await fetch(`/api/auth/user/select/workplace`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${storedAccessToken}`,
+            },
+
             body: JSON.stringify({ workplaceId: workplaceId }),
           });
+          const { user, accessToken, refreshToken } = await res.json();
+          set({ profile: user });
+
+          setAccessToken(accessToken);
+
+          return { success: res.ok, data: user };
         },
         postAdminLogin: async (data, type) => {
           const { setAccessToken } = get();
@@ -85,7 +96,7 @@ export const useAuthStore = create<AuthState>()(
 
           return res.ok;
         },
-        setProfile: () => {
+        resetProfile: () => {
           set({ profile: null });
         },
       }),

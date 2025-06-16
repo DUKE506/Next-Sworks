@@ -8,24 +8,43 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { removeClientAuthToken } from "@/lib/auth-client";
 import { useAdminStore } from "@/store/admin-store";
 import { useAdminDetailStore } from "@/store/admin/admin-detail-store";
 import { useAuthStore } from "@/store/auth-store";
 import { Workplace } from "@/types/(admin)/workplace/workplace";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 const WorkplaceList = () => {
   //담당 사업장 조회
-  const { profile, postSelectAdminWorkplace } = useAuthStore();
+  const { profile, postSelectAdminWorkplace, resetProfile } = useAuthStore();
   const { admin, getAdmin } = useAdminDetailStore();
+  const router = useRouter();
 
   useEffect(() => {
     if (!profile) return;
     getAdmin(profile?.id);
   }, []);
 
-  const handleSelectWorkplace = (workplaceId: number) => {
-    postSelectAdminWorkplace(workplaceId);
+  const handleSelectWorkplace = async (workplaceId: number) => {
+    const res: Record<string, any> = await postSelectAdminWorkplace(
+      workplaceId
+    );
+    console.log(res);
+
+    if (res.success) {
+      router.replace(`/user/workplace`);
+    }
+  };
+
+  const handleLogOut = () => {
+    //토큰삭제
+    removeClientAuthToken();
+    //프로필삭제
+    resetProfile();
+    //로그인페이지
+    router.replace("/login");
   };
 
   return (
@@ -43,7 +62,10 @@ const WorkplaceList = () => {
         ))}
       </CardContent>
       <CardFooter className="w-full">
-        <Button className="w-full bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer">
+        <Button
+          className="w-full bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
+          onClick={handleLogOut}
+        >
           취소
         </Button>
       </CardFooter>

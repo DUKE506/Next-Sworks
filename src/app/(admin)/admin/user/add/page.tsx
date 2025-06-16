@@ -1,5 +1,5 @@
 "use client";
-import { Step } from "@/app/(user)/[id]/workplace/building/add/_components/progress-bar";
+import { Step } from "@/app/(user)/user/workplace/building/add/_components/progress-bar";
 import { Button } from "@/components/ui/button";
 import {
   Card,

@@ -1,4 +1,4 @@
-import LottiePlayer from "@/app/(user)/[id]/workplace/building/add/_components/lottie-player";
+import LottiePlayer from "@/app/(user)/user/workplace/building/add/_components/lottie-player";
 import React from "react";
 import { Button } from "../button";
 import { useRouter } from "next/navigation";
