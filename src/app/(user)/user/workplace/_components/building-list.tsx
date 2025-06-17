@@ -4,23 +4,19 @@ import { Building2, Plus } from "lucide-react";
 import React, { useEffect } from "react";
 import ImageCard from "../../_components/image-card";
 import { useRouter } from "next/navigation";
-import { useBuildingStore } from "@/store/building-store";
+import { useBuildingStore } from "@/store/building/building-store";
 import { Card, CardContent } from "@/components/ui/card";
+import { useWorkplaceStore } from "@/store/workplace-store";
 
 const BuildingList = () => {
   const { buildings } = useBuildingStore();
+  const { workplaceDetail } = useWorkplaceStore();
   const router = useRouter();
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <span className="text-xl font-bold">강남우체국</span>
-        {/* <Button
-          className="text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
-          onClick={() => router.push("workplace/building/add")}
-        >
-          <Plus size={24} /> 건물 추가
-        </Button> */}
+        <span className="text-xl font-bold">{workplaceDetail?.name}</span>
       </div>
       <div className="overflow-x-auto">
         <ScrollArea>

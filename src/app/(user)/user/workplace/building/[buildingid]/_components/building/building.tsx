@@ -2,31 +2,30 @@ import { Activity, Building2, Layers, LayoutGrid, Monitor } from "lucide-react";
 import React from "react";
 import { IconAccordion } from "./IconAccordion";
 import { Card, CardContent } from "@/components/ui/card";
-import { useBuildingDetailStore } from "@/store/building-detail-store";
+import { useBuildingDetailStore } from "@/store/building/building-detail-store";
 
 const Building = () => {
   const { building } = useBuildingDetailStore();
   return building !== null ? (
     <div className="flex flex-col gap-8">
-      <span className="text-xl font-bold">건물</span>
+      <span className="text-xl font-bold">{building.name}</span>
       <div className="w-full h-80 flex justify-center items-center rounded-sm bg-accent ">
         <Building2 className="w-10 h-10 text-ring" />
       </div>
       <div className="w-full flex justify-between gap-8">
-        <InfoCard label="건물명칭" value={building.name} />
         <InfoCard label="전화번호" value={building.tel} />
         <InfoCard label="주소" value={building.address} />
-        <InfoCard label="소방등급" value={building.fireRating} />
+        <InfoCard label="시공업체" value={building.constructionCo} />
       </div>
       <IconAccordion label="기본 정보" icon={Monitor}>
         <AccordionChildren
+          title="기본 정보"
           label1={"준공년월"}
           value1={building.completionDt.toString()}
-        />
-        <AccordionChildren label1={"건물용도"} value1={building.usage} />
-        <AccordionChildren
-          label1={"시공업체"}
-          value1={building.constructionCo}
+          label2={"건물용도"}
+          value2={building.usage}
+          label3={"소방등급"}
+          value3={building.fireRating}
         />
       </IconAccordion>
       <IconAccordion label="면적 및 구조" icon={Layers}>

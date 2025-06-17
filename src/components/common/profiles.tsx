@@ -49,7 +49,7 @@ const Profile = () => {
         {img ? (
           <img className="w-8 h-8" src="" />
         ) : (
-          <div className="rounded-[50%] border w-10 h-10 flex justify-center items-center">
+          <div className="bg-accent rounded-[50%] border w-10 h-10 flex justify-center items-center">
             {profile?.name.slice(0, 1)}
           </div>
         )}

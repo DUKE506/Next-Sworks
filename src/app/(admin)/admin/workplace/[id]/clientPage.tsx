@@ -24,7 +24,14 @@ const ClientPage = ({ id }: { id: number }) => {
         </Card>
         <Perm />
       </div>
-      <Admins />
+      <div className="w-full flex gap-6">
+        <Admins />
+        <Card className="w-full">
+          <div className="flex px-6 justify-between items-center">
+            <CardTitle>근무자 권한</CardTitle>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };

@@ -2,11 +2,12 @@
 
 import React from "react";
 import { Input } from "../input";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, PlusIcon, Trash2 } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 import DataList from "./data-list";
 import { Button } from "../button";
+import IconButton from "../icon-button/icon-button";
 
 interface PaginationTableProps<T> {
   label?: string;
@@ -29,17 +30,12 @@ const PaginationTable = <T,>({
       <div className="flex justify-between">
         <Input className="w-60" />
         <div className="flex gap-4 items-center">
-          <Button
-            className="text-xs rounded-sm bg-[var(--primary-color)] hover:bg-[var(--primary-hover-color)] hover:cursor-pointer"
+          <IconButton
+            className="text-muted-foreground"
+            icon={PlusIcon}
             onClick={onClickPlus}
-          >
-            <Plus />
-            추가
-          </Button>
-          <Button className="text-xs rounded-sm bg-gray-500 hover:bg-gray-600 hover:cursor-pointer">
-            <Trash2 />
-            삭제
-          </Button>
+          />
+          <IconButton className="text-muted-foreground" icon={Trash2} />
         </div>
       </div>
       <DataList columns={columns} data={data} />

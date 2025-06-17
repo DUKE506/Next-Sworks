@@ -11,11 +11,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../select";
-import { useBuildingStore } from "@/store/building-store";
+import { useBuildingStore } from "@/store/building/building-store";
 import { Floor } from "@/types/(user)/floor/floor";
 import { Building } from "@/types/(user)/building/building";
 import { Room } from "@/types/(user)/room/room";
 import { SelectOption } from "@/types/(user)/voc/voc";
+import { cn } from "@/lib/utils";
 
 interface RoomSelectFieldFormItemProps<
   T extends FieldValues,
@@ -205,6 +206,7 @@ interface SelectFormItemProps<
   T extends FieldValues,
   K extends keyof T
 > {
+  className?: string;
   label: string;
   placeholder: string;
   data: J[];
@@ -217,6 +219,7 @@ export const SelectFormItem = <
   T extends FieldValues,
   K extends keyof T
 >({
+  className,
   label,
   placeholder,
   data,
@@ -238,12 +241,12 @@ export const SelectFormItem = <
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
         </FormControl>
-        <SelectContent className="rounded-sm">
+        <SelectContent className={cn("rounded-sm ", className)}>
           {data.map((v, i) => {
             return (
               <SelectItem
                 key={i}
-                value={v.name}
+                value={v.id.toString()}
                 className=" hover:cursor-pointer text-xs"
               >
                 {v.name}

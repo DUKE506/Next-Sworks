@@ -14,50 +14,36 @@ interface UserState {
   getAllUser: () => Promise<boolean>;
 }
 
+const initialUser = {
+  name: "",
+  account: "",
+  password: "",
+  email: "",
+  phone: "",
+  basicPerm: 0,
+  machinePerm: 0,
+  electricPerm: 0,
+  firePerm: 0,
+  buildingPerm: 0,
+  networkPerm: 0,
+  beautyPerm: 0,
+  securityPerm: 0,
+  userPerm: 0,
+  vocPerm: 0,
+};
+
 export const useUserStore = create<UserState>()(
   devtools(
     persist<UserState>(
       (set, get) => ({
-        createUser: {
-          name: "",
-          account: "",
-          password: "",
-          email: "",
-          phone: "",
-          basicPerm: 0,
-          machinePerm: 0,
-          electricPerm: 0,
-          firePerm: 0,
-          buildingPerm: 0,
-          networkPerm: 0,
-          beautyPerm: 0,
-          securityPerm: 0,
-          userPerm: 0,
-          vocPerm: 0,
-        },
+        createUser: initialUser,
         allUser: [],
         setCreateUser: (data) => {
           set((state) => ({ createUser: { ...state.createUser, ...data } }));
         },
         setInitialCreateUser: () => [
           set({
-            createUser: {
-              name: "",
-              account: "",
-              password: "",
-              email: "",
-              phone: "",
-              basicPerm: 0,
-              machinePerm: 0,
-              electricPerm: 0,
-              firePerm: 0,
-              buildingPerm: 0,
-              networkPerm: 0,
-              beautyPerm: 0,
-              securityPerm: 0,
-              userPerm: 0,
-              vocPerm: 0,
-            },
+            createUser: initialUser,
           }),
         ],
         postCreateUser: async () => {

@@ -1,10 +1,11 @@
-
-
+import { Floor } from "../floor/floor";
 
 export class CreateRoom {
-    name: string;
+  floor?: number;
+  name: string;
 
-    constructor({ name }: { name: string }) {
-        this.name = name;
-    }
+  constructor({ floor, name }: { floor?: number; name: string }) {
+    this.floor = floor;
+    this.name = name;
+  }
 }

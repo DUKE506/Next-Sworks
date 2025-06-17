@@ -2,69 +2,82 @@ import api from "@/middleware/api-manager";
 import { CreateFloor } from "@/types/(user)/floor/create-floor";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { useBuildingDetailStore } from "./building-detail-store";
+import { useBuildingDetailStore } from "./building/building-detail-store";
 import { Floor } from "@/types/(user)/floor/floor";
 import { CreateRoom } from "@/types/(user)/room/create-room";
 
-
 interface FloorState {
-    floors: Floor[];
-    selectedFloor: Floor | 'all';
-    getAllFloor: (buildingid: number) => Promise<boolean>;
-    selectFloor: (floor: Floor | 'all') => void;
-    postCreateFloor: (floor: CreateFloor) => Promise<boolean>;
-    postCreateRoom: (room: CreateRoom, floorid: number) => Promise<boolean>;
+  //건물 층 조회
+  floors: Floor[];
+  //선택 한 층
+  // selectedFloor: Floor | "all";
+  selectedFloor: Floor[];
+  //건물 전체 층 조회
+  getAllFloor: () => Promise<boolean>;
+  //층 선택 핸들러
+  selectFloor: (floor: Floor | "all") => void;
+  //층 생성
+  postCreateFloor: (floor: CreateFloor) => Promise<boolean>;
+  //공간 생성
+  postCreateRoom: (room: CreateRoom, floorid: number) => Promise<boolean>;
 }
 
-
 export const useFloorStore = create<FloorState>()(
-    devtools(
-        persist<FloorState>(
-            (set, get) => ({
-                floors: [],
-                selectedFloor: 'all',
-                getAllFloor: async (floor) => {
-                    const { building } = useBuildingDetailStore.getState();
-                    if (!building) return false;
-                    const res = await api.get(`building/${building?.id}/floor/all`)
+  devtools(
+    persist<FloorState>(
+      (set, get) => ({
+        floors: [],
+        selectedFloor: [],
+        getAllFloor: async () => {
+          const { building } = useBuildingDetailStore.getState();
+          if (!building) return false;
+          const res = await api.get(`building/${building?.id}/floor/all`);
 
-                    set({ floors: await res.json() })
+          set({ floors: await res.json() });
 
-                    return res.ok
-                },
-                selectFloor: (floor) => {
-                    if (floor === 'all') set({ selectedFloor: 'all' })
-                    else set({ selectedFloor: floor })
+          return res.ok;
+        },
+        selectFloor: (floor) => {
+          const { floors: storeFloors } = get();
+          if (floor === "all") set({ selectedFloor: storeFloors });
+          else set({ selectedFloor: [floor] });
+        },
+        postCreateFloor: async (floor) => {
+          const { building } = useBuildingDetailStore.getState();
+          const { getAllFloor } = get();
+          if (!building) return false;
 
-                },
-                postCreateFloor: async (floor) => {
+          const res = await api.post(`building/${building?.id}/floor/add`, {
+            json: floor,
+          });
 
-                    const { building } = useBuildingDetailStore.getState();
-                    if (!building) return false;
+          if (!res.ok) return res.ok;
 
+          await getAllFloor();
 
-                    const res = await api.post(`building/${building?.id}/floor/add`, { json: floor })
+          const { floors } = get();
 
-                    const { getAllFloor } = get();
+          set({ selectedFloor: floors });
 
-                    await getAllFloor(building.id);
+          return res.ok;
+        },
+        postCreateRoom: async (room, floorid) => {
+          const { building } = useBuildingDetailStore.getState();
+          if (!building) return false;
 
-                    return res.ok;
-                },
-                postCreateRoom: async (room, floorid) => {
-                    const { building } = useBuildingDetailStore.getState();
-                    if (!building) return false;
+          const res = await api.post(
+            `building/${building.id}/room/${floorid}/add`,
+            { json: room }
+          );
 
-                    const res = await api.post(`building/${building.id}/room/${floorid}/add`, { json: room })
+          const { getAllFloor } = get();
 
-                    const { getAllFloor } = get();
+          await getAllFloor();
 
-                    await getAllFloor(building.id);
-
-                    return res.ok;
-                }
-            }),
-            { name: 'floor-store' }
-        )
+          return res.ok;
+        },
+      }),
+      { name: "floor-store" }
     )
-)
+  )
+);

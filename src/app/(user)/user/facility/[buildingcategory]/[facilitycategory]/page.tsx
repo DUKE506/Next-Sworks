@@ -4,7 +4,7 @@ import { Tab } from "../../../_components/tab";
 import ButtonTab, { facilityCategory } from "../../../_components/button-tab";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
-import { useBuildingStore } from "@/store/building-store";
+import { useBuildingStore } from "@/store/building/building-store";
 import { useAuthStore } from "@/store/auth-store";
 import { useFacilityStore } from "@/store/facility-store";
 

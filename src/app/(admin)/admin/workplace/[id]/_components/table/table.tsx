@@ -26,7 +26,7 @@ export const Admins = () => {
   useEffect(() => {}, [workplaceDetail]);
 
   return (
-    <Card>
+    <Card className="w-full">
       <div className="flex px-6 justify-between items-center">
         <CardTitle>관리자</CardTitle>
         <div className="flex gap-4">

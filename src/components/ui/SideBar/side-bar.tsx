@@ -28,11 +28,11 @@ export const managerSideBar: SideBar[] = [
 export const userSideBar: SideBar[] = [
   {
     label: "사업장",
-    href: "/1/workplace",
+    href: "/user/workplace",
   },
   {
     label: "설비",
-    href: "/1/facility",
+    href: "/user/facility",
   },
 ];
 

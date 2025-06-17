@@ -17,7 +17,7 @@ import StructForm from "./_components/struct-form";
 import FacForm from "./_components/fac-form";
 import ConvenienceForm from "./_components/convenience-form";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
-import { useBuildingStore } from "@/store/building-store";
+import { useBuildingStore } from "@/store/building/building-store";
 
 import LottiePlayer from "./_components/lottie-player";
 import { Button } from "@/components/ui/button";

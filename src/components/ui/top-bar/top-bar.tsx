@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Card } from "../card";
 import { useAuthStore } from "@/store/auth-store";
 import { LogOut, User } from "lucide-react";
+import { removeClientAuthToken } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const TopBar = () => {
   //현재 내정보
@@ -56,15 +58,28 @@ const ProfileBadge = () => {
 };
 
 const ProfilePopover = ({ onClose }: { onClose: () => void }) => {
+  const { resetProfile } = useAuthStore();
+  const router = useRouter();
+  const handleLogout = () => {
+    //토큰삭제
+    removeClientAuthToken();
+    //프로필 삭제
+    resetProfile();
+    //로그인페이지
+    router.replace("/login");
+  };
   return (
-    <Card className="absolute z-10 px-1 py-1 rounded-sm top-[110%] gap-0">
+    <Card className="absolute z-10 px-1 py-1 rounded-sm top-[110%] gap-0 ">
       <div className="flex gap-2 items-center px-3 py-2 rounded-sm  hover:cursor-pointer hover:bg-gray-50">
         <User className="w-4" />
-        <span className="text-xs">내 정보</span>
+        <span className="text-xs whitespace-nowrap">내 정보</span>
       </div>
-      <div className="flex gap-2 items-center px-3 py-2 rounded-sm  hover:cursor-pointer hover:bg-gray-50">
+      <div
+        className="flex gap-2 items-center px-3 py-2 rounded-sm  hover:cursor-pointer hover:bg-gray-50"
+        onClick={handleLogout}
+      >
         <LogOut className="w-4 text-red-500" />
-        <span className="text-xs text-red-500">로그아웃</span>
+        <span className="text-xs text-red-500 whitespace-nowrap">로그아웃</span>
       </div>
     </Card>
   );

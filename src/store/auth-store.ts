@@ -54,6 +54,7 @@ export const useAuthStore = create<AuthState>()(
 
           //일반 사용자
           if (user.permission === "USER") {
+            console.log("일반 사용자 로그인 본인 사업장 : ", user.workplace.id);
             set({ currentWorkplace: user.workplace.id });
             set({ profile: user });
           }
@@ -73,7 +74,8 @@ export const useAuthStore = create<AuthState>()(
           });
           const { user, accessToken, refreshToken } = await res.json();
           set({ profile: user });
-
+          console.log("관리자가 선택한 사업장 : ", workplaceId);
+          set({ currentWorkplace: workplaceId });
           setAccessToken(accessToken);
 
           return { success: res.ok, data: user };

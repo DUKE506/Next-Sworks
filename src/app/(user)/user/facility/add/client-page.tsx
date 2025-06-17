@@ -3,7 +3,7 @@ import FormLayout from "@/components/ui/layout/form-layout/form-layout";
 import React, { useEffect, useState } from "react";
 import { Step } from "../../workplace/building/add/_components/progress-bar";
 import BasicForm from "./_components/basic-form";
-import { useBuildingStore } from "@/store/building-store";
+import { useBuildingStore } from "@/store/building/building-store";
 import { useFacilityStore } from "@/store/facility-store";
 import FormResult from "@/components/ui/form-result/form-result";
 import { useAuthStore } from "@/store/auth-store";

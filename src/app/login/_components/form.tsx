@@ -64,9 +64,7 @@ export const LoginForm = () => {
     const res = await postUserLogin(values, loginMode);
     if (!res.success) return; //토스트
 
-    console.log(res);
-    if (res.data.permission === "USER")
-      router.push(`/${res.data.workplace.id}/workplace`);
+    if (res.data.permission === "USER") router.push(`/user/workplace`);
     else {
       router.push(`/select/workplace`);
     }

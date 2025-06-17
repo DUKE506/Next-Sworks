@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Bolt } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useBuildingStore } from "@/store/building-store";
+import { useBuildingStore } from "@/store/building/building-store";
 import { useRouter } from "next/navigation";
 
 // type Facility = {

@@ -48,7 +48,7 @@ const Page = () => {
       successDescription="사용자 정보가 성공적으로 등록되었습니다."
       failTitle="사용자 생성 실패!"
       failDescription="사용자 정보 등록을 실패했습니다."
-      url="/1/workplace"
+      url="/user/workplace"
     />,
   ];
 

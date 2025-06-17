@@ -19,7 +19,7 @@ const ImageCard = ({
   const router = useRouter();
 
   const onDetail = () => {
-    router.push(`/1/workplace/building/${id}`);
+    router.push(`workplace/building/${id}`);
   };
   return (
     <div className="flex flex-col gap-2 min-w-80 ">
