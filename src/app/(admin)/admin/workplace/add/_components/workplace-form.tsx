@@ -10,7 +10,9 @@ import FormContentLayout from "@/components/ui/layout/form-layout/form-content-l
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateWorkplace } from "@/types/(admin)/workplace/create-workplace";
 import { TextFormItem } from "@/components/ui/form-field-items/text-field";
+import CustomDatetimePicker from "@/components/common/calendar/custom-datetime-picker";
 import { DateFormItem } from "@/components/ui/form-field-items/date-field";
+import { isAfter, isBefore } from "date-fns";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "2자 이상으로 입력하세요." }),
@@ -48,6 +50,32 @@ const WorkplaceForm = ({ createWorkplace, onClick }: WorkplaceFormProps) => {
 
   const onSubmit = (values: formType) => {
     onClick(values);
+  };
+
+  const handleDateChange = (
+    type: "start" | "end",
+    date: Date,
+    onChange: (...event: any[]) => void
+  ) => {
+    //시작날짜가 종료날짜보다 이후인 경우
+    if (type === "start") {
+      onChange(date);
+
+      const expiredAt = form.getValues().expiredAt;
+      if (expiredAt !== null && isAfter(date, expiredAt)) {
+        form.setValue("expiredAt", date);
+      }
+    }
+
+    //종료날짜가 시작날짜보다 이전인 경우
+    if (type === "end") {
+      if (isBefore(date, form.getValues().contractedAt)) {
+        onChange(date);
+        form.setValue("contractedAt", date);
+      } else {
+        onChange(date);
+      }
+    }
   };
 
   return (
@@ -105,14 +133,26 @@ const WorkplaceForm = ({ createWorkplace, onClick }: WorkplaceFormProps) => {
             control={form.control}
             name="contractedAt"
             render={({ field }) => (
-              <DateFormItem label="계약일자" field={field} />
+              <DateFormItem
+                label="계약일자"
+                value={field.value}
+                onChange={(date) => {
+                  handleDateChange("start", date, field.onChange);
+                }}
+              />
             )}
           />
           <FormField
             control={form.control}
             name="expiredAt"
             render={({ field }) => (
-              <DateFormItem label="해약일자" field={field} />
+              <DateFormItem
+                label="해약일자"
+                value={field.value}
+                onChange={(date) => {
+                  handleDateChange("end", date, field.onChange);
+                }}
+              />
             )}
           />
         </div>

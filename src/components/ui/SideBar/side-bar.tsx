@@ -1,6 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuthStore } from "@/store/auth-store";
+import { useWorkplaceStore } from "@/store/workplace-store";
 import { AlignJustify, LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

@@ -19,10 +19,11 @@ import ConvenienceForm from "./_components/convenience-form";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
 import { useBuildingStore } from "@/store/building/building-store";
 
-import LottiePlayer from "./_components/lottie-player";
+import LottiePlayer from "../../../../../../components/common/lottie-player";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { PasswordInput } from "@/components/ui/password-input";
+import FormResult from "@/components/ui/form-result/form-result";
 
 const buildingFormSchema = z.object({
   name: z.string().min(2, { message: "두 글자 이상 입력해주세요" }),
@@ -74,6 +75,7 @@ export type createBuildingFormType = z.infer<typeof buildingFormSchema>;
 
 const Page = () => {
   const router = useRouter();
+  const [result, setResult] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const [steps, setSteps] = useState<Step[]>([
     { num: 1, label: "기본정보", status: "incomplete" },
@@ -81,51 +83,6 @@ const Page = () => {
     { num: 3, label: "설비정보", status: "incomplete" },
     { num: 4, label: "부대시설", status: "incomplete" },
   ]);
-  const [building, setBuilding] = useState<CreateBuilding>({
-    name: "",
-    address: "",
-    tel: "",
-    usage: "",
-    constructionCo: "",
-    completionDt: new Date(),
-    buildingStruct: "",
-    roofStruct: "",
-    grossFloorArea: "",
-    siteArea: "",
-    buildingArea: "",
-    totalFloor: "",
-    groundFloor: "",
-    basementFloor: "",
-    totalHeight: "",
-    groundHeight: "",
-    basementHeight: "",
-    totalParking: "",
-    indoorParking: "",
-    outdoorParking: "",
-    electricalCapacity: "",
-    receivingCapacity: "",
-    powerCapacity: "",
-    waterCapacity: "",
-    elevatedWaterTankCapacity: "",
-    waterTankCapacity: "",
-    gasCapacity: "",
-    heater: "",
-    chillerHeater: "",
-    totalLift: "",
-    passengerLift: "",
-    FreightLift: "",
-    coolHeatCapacity: "",
-    heatCapacity: "",
-    coolCapacity: "",
-    totalLandscapeArea: "",
-    groundLandscapeArea: "",
-    basementLandscapeArea: "",
-    totalRestroom: "",
-    mensRoom: "",
-    ladiesRoom: "",
-    fireRating: "",
-    cesspoolCapacity: "",
-  });
 
   const {
     createBuilding,
@@ -165,33 +122,23 @@ const Page = () => {
       onPrev={() => setStep((prev) => prev - 1)}
     />,
     <ConvenienceForm
-      building={building}
-      onCreate={(data) => {
+      building={createBuilding}
+      onCreate={async (data) => {
         setStep((prev) => prev + 1);
         setCreateBuilding(data);
-        postCreateBuilding();
+        const res = await postCreateBuilding();
+        setResult(res);
       }}
       onPrev={() => setStep((prev) => prev - 1)}
     />,
-    <div className="flex flex-col  justify-center items-center flex-1">
-      <div className="flex flex-col gap-4 justify-center items-center flex-1">
-        <LottiePlayer />
-        <span className="text-xl font-bold text-green-500">
-          건물 생성 완료!
-        </span>
-        <span>건물 정보가 성공적으로 등록되었습니다.</span>
-      </div>
-      <div className="w-full flex justify-end">
-        <Button
-          className={
-            "text-xs rounded-sm bg-blue-500 hover:bg-600 hover:cursor-pointer"
-          }
-          onClick={() => router.push("/1/workplace")}
-        >
-          확인
-        </Button>
-      </div>
-    </div>,
+    <FormResult
+      result={result}
+      successTitle="건물 생성 완료!"
+      successDescription="건물 정보가 성공적으로 등록되었습니다."
+      failTitle="건물 생성 실패!"
+      failDescription="건물 정보 등록을 실패했습니다."
+      url="/user/workplace"
+    />,
   ];
 
   return (

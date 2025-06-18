@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { CreateBuilding } from "@/types/(user)/building/create-building";
 import { TextFormItem } from "@/components/ui/form-field-items/text-field";
+import { DateFormItem } from "@/components/ui/form-field-items/date-field";
 
 const basicFormSchema = z.object({
   name: z.string().min(2, { message: "두 글자 이상 입력해주세요" }),
@@ -63,9 +64,10 @@ const BasicForm = ({ onClick, building }: BasicFormProps) => {
               name="name"
               render={({ field }) => (
                 <TextFormItem
-                  label="건물명칭 *"
+                  label="건물명칭"
                   placeholder="건물A"
                   field={field}
+                  required
                 />
               )}
             />
@@ -74,9 +76,10 @@ const BasicForm = ({ onClick, building }: BasicFormProps) => {
               name="address"
               render={({ field }) => (
                 <TextFormItem
-                  label="주소 *"
-                  placeholder="서울특별시 강남구 개포로619"
+                  label="주소"
+                  placeholder="서울특별시 강남구 개포로 619"
                   field={field}
+                  required
                 />
               )}
             />
@@ -115,12 +118,12 @@ const BasicForm = ({ onClick, building }: BasicFormProps) => {
             />
             <FormField
               control={form.control}
-              name="name"
+              name="completionDt"
               render={({ field }) => (
-                <TextFormItem
-                  label="건물명칭 *"
-                  placeholder="건물A"
-                  field={field}
+                <DateFormItem
+                  label="준공년월"
+                  value={field.value}
+                  onChange={field.onChange}
                 />
               )}
             />

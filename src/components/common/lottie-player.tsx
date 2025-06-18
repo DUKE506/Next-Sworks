@@ -1,23 +1,22 @@
 "use client";
 import React from "react";
 import Lottie from "react-lottie-player";
-import CheckLottieJson from "../../../../../../../../public/CheckLottie.json";
+
 import dynamic from "next/dynamic";
 const DynamicLottie = dynamic(() => import("react-lottie-player"), {
   ssr: false,
 });
 
-const LottiePlayer = () => {
+interface LottiePlayerProps {
+  lottie: object;
+}
+
+const LottiePlayer = ({ lottie }: LottiePlayerProps) => {
   if (typeof window === "undefined") {
     return null;
   }
   return (
-    <DynamicLottie
-      className="w-50"
-      loop={false}
-      animationData={CheckLottieJson}
-      play
-    />
+    <DynamicLottie className="w-50" loop={false} animationData={lottie} play />
   );
 };
 

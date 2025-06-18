@@ -64,9 +64,9 @@ const ConvenienceForm = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col flex-1 justify-between"
+          className="flex flex-col gap-6 h-full"
         >
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-10 h-full">
             <GroupItemLayout label="주차장">
               <FormField
                 control={form.control}

@@ -4,7 +4,7 @@ export class CreateBuilding {
   tel: string;
   usage: string;
   constructionCo: string;
-  completionDt: Date;
+  completionDt: Date | null;
   //구조
   buildingStruct: string;
   roofStruct: string;
@@ -108,7 +108,7 @@ export class CreateBuilding {
     this.tel = data.tel ?? "";
     this.usage = data.usage ?? "";
     this.constructionCo = data.constructionCo ?? "";
-    this.completionDt = data.completionDt ?? new Date();
+    this.completionDt = data.completionDt ?? null;
 
     this.buildingStruct = data.buildingStruct ?? "";
     this.roofStruct = data.roofStruct ?? "";

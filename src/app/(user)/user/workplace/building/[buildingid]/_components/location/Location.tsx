@@ -44,7 +44,7 @@ const Location = () => {
             let isSelect = false;
             if (selectedFloor.length === floors.length) {
             } else {
-              isSelect = v.id === selectedFloor[0].id;
+              isSelect = v.id === selectedFloor[0]?.id;
             }
 
             return (
@@ -77,7 +77,7 @@ const Location = () => {
                 );
               });
             } else {
-              return floor.id === selectedFloor[0].id
+              return floor.id === selectedFloor[0]?.id
                 ? selectedFloor[0].rooms.map((room, idx) => {
                     return (
                       <RoomItem

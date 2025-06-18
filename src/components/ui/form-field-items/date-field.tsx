@@ -1,17 +1,14 @@
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../form";
-import DatePicker from "../date-picker.tsx/date-picker";
+import CustomDatetimePicker from "@/components/common/calendar/custom-datetime-picker";
 
-interface DateFormItemProps<T extends FieldValues, K extends keyof T> {
-  label: string;
-
-  field: ControllerRenderProps<T, any>;
+interface DateFormItemProps {
+  label?: string;
+  value: Date | null;
+  onChange: (date: Date) => void;
 }
 
-export const DateFormItem = <T extends FieldValues, K extends keyof T>({
-  label,
-  field,
-}: DateFormItemProps<T, K>) => {
+export const DateFormItem = ({ label, value, onChange }: DateFormItemProps) => {
   return (
     <FormItem className="g-2">
       <div className="flex justify-between">
@@ -21,7 +18,10 @@ export const DateFormItem = <T extends FieldValues, K extends keyof T>({
         <FormMessage />
       </div>
       <FormControl>
-        <DatePicker field={field} />
+        <CustomDatetimePicker
+          value={value}
+          onChange={(date) => onChange(date)}
+        />
       </FormControl>
     </FormItem>
   );

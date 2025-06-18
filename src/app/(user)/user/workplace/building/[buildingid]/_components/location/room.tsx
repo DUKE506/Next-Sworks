@@ -16,7 +16,7 @@ import { CreateRoom } from "@/types/(user)/room/create-room";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -58,18 +58,30 @@ export const RoomAddButton = () => {
   const form = useForm<roomFormType>({
     resolver: zodResolver(roomFormSchema),
     defaultValues: {
-      floor: undefined,
+      floor:
+        selectedFloor.length > 1 ? undefined : selectedFloor[0]?.id.toString(),
       name: "",
     },
   });
 
+  useEffect(() => {
+    const floorValue =
+      selectedFloor.length > 1 ? "" : selectedFloor[0]?.id.toString();
+    form.setValue("floor", floorValue);
+  }, [selectedFloor, form]);
+
   const onSubmit = async (values: roomFormType) => {
-    console.log(values);
-    // if (selectedFloor === null || selectedFloor.length === floors.length) {
-    //   return;
-    // }
-    // const res = await postCreateRoom(values as CreateRoom, selectedFloor[0].id);
-    // setOpen(!open);
+    const createRoom: CreateRoom = {
+      floor: parseInt(values.floor),
+      name: values.name,
+    };
+    const res = await postCreateRoom(createRoom);
+
+    form.reset({
+      floor: "",
+      name: "",
+    });
+    setOpen(!open);
   };
 
   return (
@@ -79,6 +91,7 @@ export const RoomAddButton = () => {
         if (!open) form.reset();
         setOpen(open);
       }}
+      modal
     >
       <DialogTrigger>
         <Card className="px-8 h-[70px] rounded-sm justify-center items-center hover:cursor-pointer hover:bg-accent duration-200">

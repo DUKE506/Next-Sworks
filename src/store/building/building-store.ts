@@ -25,7 +25,7 @@ const initialBuilding = {
   tel: "",
   usage: "",
   constructionCo: "",
-  completionDt: new Date(),
+  completionDt: null,
   buildingStruct: "",
   roofStruct: "",
   grossFloorArea: "",
@@ -80,9 +80,8 @@ export const useBuildingStore = create<BuildingState>()(
         },
         postCreateBuilding: async () => {
           const { createBuilding, setInitialBuilding } = get();
-          const { currentWorkplace } = useAuthStore.getState();
 
-          const res = await api.post(`building/create/${currentWorkplace}`, {
+          const res = await api.post(`building/create`, {
             json: createBuilding,
           });
           setInitialBuilding();

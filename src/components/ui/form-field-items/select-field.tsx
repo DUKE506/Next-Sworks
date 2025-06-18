@@ -241,13 +241,13 @@ export const SelectFormItem = <
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
         </FormControl>
-        <SelectContent className={cn("rounded-sm ", className)}>
+        <SelectContent className={cn("rounded-sm", className)}>
           {data.map((v, i) => {
             return (
               <SelectItem
                 key={i}
                 value={v.id.toString()}
-                className=" hover:cursor-pointer text-xs"
+                className="hover:cursor-pointer text-xs"
               >
                 {v.name}
               </SelectItem>

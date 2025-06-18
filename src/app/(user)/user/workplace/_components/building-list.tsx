@@ -6,17 +6,16 @@ import ImageCard from "../../_components/image-card";
 import { useRouter } from "next/navigation";
 import { useBuildingStore } from "@/store/building/building-store";
 import { Card, CardContent } from "@/components/ui/card";
-import { useWorkplaceStore } from "@/store/workplace-store";
 
 const BuildingList = () => {
   const { buildings } = useBuildingStore();
-  const { workplaceDetail } = useWorkplaceStore();
+
   const router = useRouter();
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <span className="text-xl font-bold">{workplaceDetail?.name}</span>
+        <span className="text-xl font-bold">건물</span>
       </div>
       <div className="overflow-x-auto">
         <ScrollArea>

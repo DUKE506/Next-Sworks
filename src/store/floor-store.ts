@@ -19,7 +19,7 @@ interface FloorState {
   //층 생성
   postCreateFloor: (floor: CreateFloor) => Promise<boolean>;
   //공간 생성
-  postCreateRoom: (room: CreateRoom, floorid: number) => Promise<boolean>;
+  postCreateRoom: (room: CreateRoom) => Promise<boolean>;
 }
 
 export const useFloorStore = create<FloorState>()(
@@ -33,7 +33,10 @@ export const useFloorStore = create<FloorState>()(
           if (!building) return false;
           const res = await api.get(`building/${building?.id}/floor/all`);
 
-          set({ floors: await res.json() });
+          const allFloor: Floor[] = await res.json();
+
+          set({ floors: allFloor });
+          set({ selectedFloor: allFloor });
 
           return res.ok;
         },
@@ -61,14 +64,13 @@ export const useFloorStore = create<FloorState>()(
 
           return res.ok;
         },
-        postCreateRoom: async (room, floorid) => {
+        postCreateRoom: async (createRoom) => {
           const { building } = useBuildingDetailStore.getState();
           if (!building) return false;
 
-          const res = await api.post(
-            `building/${building.id}/room/${floorid}/add`,
-            { json: room }
-          );
+          const res = await api.post(`building/${building.id}/room/add`, {
+            json: createRoom,
+          });
 
           const { getAllFloor } = get();
 

@@ -1,7 +1,9 @@
-import LottiePlayer from "@/app/(user)/user/workplace/building/add/_components/lottie-player";
+import LottiePlayer from "@/components/common/lottie-player";
 import React from "react";
 import { Button } from "../button";
 import { useRouter } from "next/navigation";
+import CheckLottieJson from "../../../../public/check-lottie.json";
+import FailedLottieJson from "../../../../public/failed-lottie.json";
 
 interface FormResultProps {
   result: boolean;
@@ -25,8 +27,12 @@ const FormResult = ({
   return (
     <div className="flex flex-col  justify-center items-center flex-1 h-full ">
       <div className="flex flex-col gap-4 justify-center items-center flex-1">
-        <LottiePlayer />
-        <span className="text-xl font-bold text-green-500">
+        <LottiePlayer lottie={result ? CheckLottieJson : FailedLottieJson} />
+        <span
+          className={`text-xl font-bold ${
+            result ? "text-green-500" : "text-red-500"
+          } `}
+        >
           {result ? successTitle : failTitle}
         </span>
         <span>{result ? successDescription : failDescription}</span>
