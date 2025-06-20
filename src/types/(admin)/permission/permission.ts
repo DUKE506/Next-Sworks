@@ -1,16 +1,16 @@
 export const Permission = {
-  매니저: "MANAGER",
-  일반: "NORMAL",
+  운영관리자: "운영관리자",
+  일반관리자: "일반관리자",
 };
 
 export const PermissionSelectData = [
   {
-    id: 1,
-    name: "MANAGER",
+    id: "운영관리자",
+    name: "운영관리자",
   },
   {
-    id: 2,
-    name: "NORMAL",
+    id: "일반관리자",
+    name: "일반관리자",
   },
 ];
 

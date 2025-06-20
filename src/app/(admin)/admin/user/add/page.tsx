@@ -15,7 +15,7 @@ import {
   SelectContent,
   SelectValue,
 } from "@/components/ui/select";
-import { useAdminStore } from "@/store/admin-store";
+
 import { useDeptStore } from "@/store/dept-store";
 
 import { Department } from "@/types/department";
@@ -24,6 +24,7 @@ import React, { useEffect, useState } from "react";
 import AdminForm from "./_components/admin-form";
 import FormResult from "@/components/ui/form-result/form-result";
 import FormLayout from "@/components/ui/layout/form-layout/form-layout";
+import { useAdminStore } from "@/store/admin/admin-store";
 
 const Page = () => {
   const [result, setResult] = useState<boolean>(false);

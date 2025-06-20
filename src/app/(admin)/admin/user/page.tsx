@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 
 import Users from "./_components/users/users";
-import { useAdminStore } from "@/store/admin-store";
 
 import { useDeptStore } from "@/store/dept-store";
 import UserFilter from "./_components/user-filter";
@@ -12,6 +11,7 @@ import { Admin } from "@/dtos/admin/department-admin.dto";
 import { usePathname, useRouter } from "next/navigation";
 import { useAdminFilterStore } from "@/store/admin/admin-filter-store";
 import AdminTable from "./_components/admin-table";
+import { useAdminStore } from "@/store/admin/admin-store";
 
 const Page = () => {
   const { getDepts } = useDeptStore();

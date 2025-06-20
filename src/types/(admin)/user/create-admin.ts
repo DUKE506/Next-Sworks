@@ -8,7 +8,7 @@ export class CreateAdmin {
   department?: string;
   phone: string;
   email: string;
-  permission: "MANAGER" | "NORMAL";
+  permission: "운영관리자" | "일반관리자";
 
   constructor({
     account,
@@ -25,7 +25,7 @@ export class CreateAdmin {
     department?: string;
     phone: string;
     email: string;
-    permission: "MANAGER" | "NORMAL";
+    permission: "운영관리자" | "일반관리자";
   }) {
     this.account = account;
     this.password = password;

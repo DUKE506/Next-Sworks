@@ -3,8 +3,9 @@ import { AddDepartmentDto } from "@/types/(admin)/department/add-dept.dto";
 import { Department } from "@/types/department";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { useAdminStore } from "./admin-store";
+
 import { useAdminFilterStore } from "./admin/admin-filter-store";
+import { useAdminStore } from "./admin/admin-store";
 
 interface deptState {
   departments: Department[];

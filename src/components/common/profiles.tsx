@@ -56,7 +56,9 @@ const Profile = () => {
 
         <div className="flex flex-col justify-between">
           <span className="text-start text-sm">{profile?.name}</span>
-          <span className="text-start text-xs">{profile?.permission}</span>
+          <span className="text-start text-xs">
+            {profile?.permission?.permission}
+          </span>
         </div>
       </div>
     </Card>

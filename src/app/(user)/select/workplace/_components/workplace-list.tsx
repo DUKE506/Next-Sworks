@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { removeClientAuthToken } from "@/lib/auth-client";
-import { useAdminStore } from "@/store/admin-store";
+import { useAdminStore } from "@/store/admin/admin-store";
 import { useAdminDetailStore } from "@/store/admin/admin-detail-store";
 import { useAuthStore } from "@/store/auth-store";
 import { Workplace } from "@/types/(admin)/workplace/workplace";

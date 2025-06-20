@@ -38,14 +38,16 @@ export const SwitchFormItem = <T extends FieldValues, K extends keyof T>({
 
 interface DualSwitchFormItemProps<T extends FieldValues, K extends keyof T> {
   label: string;
-
   field: ControllerRenderProps<T, any>;
+  orientation?: "horizontal" | "vertical";
+  showLabels?: boolean;
 }
 
 export const DualSwitchFormItem = <T extends FieldValues, K extends keyof T>({
   label,
-
   field,
+  orientation = "horizontal",
+  showLabels = true,
 }: DualSwitchFormItemProps<T, K>) => {
   const [read, setRead] = useState<boolean>(field.value >= 1);
   const [write, setWrite] = useState<boolean>(field.value >= 2);
@@ -60,32 +62,69 @@ export const DualSwitchFormItem = <T extends FieldValues, K extends keyof T>({
 
   return (
     <FormItem className="flex flex-col space-y-2">
-      <div className="flex  justify-between items-center">
-        <span className="text-sm">{label}</span>
-        <div className="flex gap-8">
-          <div className="flex gap-4 items-center">
-            <span className="text-sm">읽기</span>
-            <Switch
-              checked={read}
-              onCheckedChange={(checked) => setRead(checked)}
-              disabled={write ? true : false}
-              className="data-[state=checked]:bg-blue-500 hover:cursor-pointer"
-            />
+      {orientation === "horizontal" ? (
+        <div className="flex  justify-between items-center">
+          <span className="text-sm whitespace-nowrap">{label}</span>
+          <div className="flex gap-8">
+            <div className="flex gap-4 items-center">
+              {showLabels ? (
+                <span className="text-sm whitespace-nowrap">읽기</span>
+              ) : null}
+
+              <Switch
+                checked={read}
+                onCheckedChange={(checked) => setRead(checked)}
+                disabled={write ? true : false}
+                className="data-[state=checked]:bg-blue-500 hover:cursor-pointer"
+              />
+            </div>
+            <div className="flex gap-4 items-center">
+              {showLabels ? (
+                <span className="text-sm whitespace-nowrap">쓰기</span>
+              ) : null}
+
+              <Switch
+                checked={write}
+                onCheckedChange={(checked) => {
+                  if (checked) setRead(true);
+                  setWrite(checked);
+                }}
+                className="data-[state=checked]:bg-blue-500 hover:cursor-pointer"
+              />
+            </div>
           </div>
-          <div className="flex gap-4 items-center">
-            <span className="text-sm">쓰기</span>
-            <Switch
-              checked={write}
-              onCheckedChange={(checked) => {
-                if (checked) setRead(true);
-                setWrite(checked);
-              }}
-              className="data-[state=checked]:bg-blue-500 hover:cursor-pointer"
-            />
-          </div>
+          <FormMessage />
         </div>
-        <FormMessage />
-      </div>
+      ) : (
+        <div className="flex flex-col gap-2 items-start">
+          <span className="text-xs  text-[var(--description-value-color)]  whitespace-nowrap">
+            {label}
+          </span>
+          <div className="flex gap-8">
+            <div className="flex gap-4 items-center">
+              <span className="text-xs whitespace-nowrap">읽기</span>
+              <Switch
+                checked={read}
+                onCheckedChange={(checked) => setRead(checked)}
+                disabled={write ? true : false}
+                className="data-[state=checked]:bg-blue-500 hover:cursor-pointer"
+              />
+            </div>
+            <div className="flex gap-4 items-center">
+              <span className="text-xs  whitespace-nowrap">쓰기</span>
+              <Switch
+                checked={write}
+                onCheckedChange={(checked) => {
+                  if (checked) setRead(true);
+                  setWrite(checked);
+                }}
+                className="data-[state=checked]:bg-blue-500 hover:cursor-pointer"
+              />
+            </div>
+          </div>
+          <FormMessage />
+        </div>
+      )}
     </FormItem>
   );
 };

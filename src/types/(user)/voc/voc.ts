@@ -57,7 +57,7 @@ export class Voc {
 }
 
 export interface SelectOption {
-  id: number;
+  id: number | string;
   name: string;
 }
 

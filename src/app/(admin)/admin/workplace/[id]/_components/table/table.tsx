@@ -13,12 +13,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useAdminStore } from "@/store/admin-store";
 import { useWorkplaceStore } from "@/store/workplace-store";
 import { useParams } from "next/navigation";
 import DepartmentSideBar from "@/app/(admin)/admin/user/_components/users/_components/departmentSideBar/department-sidebar";
 import CustomSeparator from "@/app/(admin)/admin/_components/Separator/custom-separator";
 import UserList from "@/app/(admin)/admin/user/_components/users/_components/usersList/user-list";
+import { useAdminStore } from "@/store/admin/admin-store";
 
 export const Admins = () => {
   const { workplaceDetail } = useWorkplaceStore();

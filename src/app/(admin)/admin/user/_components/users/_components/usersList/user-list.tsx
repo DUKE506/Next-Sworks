@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Admin } from "@/dtos/admin/department-admin.dto";
-import { useAdminStore } from "@/store/admin-store";
+import { useAdminStore } from "@/store/admin/admin-store";
 import { useDeptStore } from "@/store/dept-store";
 import { Mail, Phone, Plus } from "lucide-react";
 import Link from "next/link";

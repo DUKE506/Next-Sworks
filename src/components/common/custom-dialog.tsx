@@ -9,30 +9,40 @@ import {
 import { Button } from "../ui/button";
 import { PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import IconButton from "../ui/icon-button/icon-button";
 
 interface CustomDialogProps {
+  label?: string;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   title?: string;
+  modal?: boolean;
   children: (props: {
     setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   }) => React.ReactNode;
   className?: string;
 }
 
-const CustomDialog = ({ title, children, className }: CustomDialogProps) => {
+const CustomDialog = ({
+  label,
+  icon: Icon = PlusIcon,
+  title,
+  modal = true,
+  children,
+  className,
+}: CustomDialogProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen} modal={modal}>
       <DialogTrigger asChild>
-        <Button
-          className={cn(
-            "rounded-xs hover:bg-gray-200 hover:cursor-pointer ",
-            className
-          )}
-        >
-          <PlusIcon className="text-black stroke-1 dark:text-white" />
-          <span className="text-black text-xs dark:text-white">새 일정</span>
-        </Button>
+        {!label ? (
+          <IconButton className="text-muted-foreground" icon={Icon} />
+        ) : (
+          <div className="flex gap-4 hover:cursor-pointer hover:bg-gray-200">
+            <PlusIcon className="text-black stroke-1 dark:text-white" />
+            <span className="text-black text-xs dark:text-white">{label}</span>
+          </div>
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

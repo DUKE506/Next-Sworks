@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Admins } from "./_components/table/table";
 import { useWorkplaceStore } from "@/store/workplace-store";
 import { Perm } from "./_components/perm/perm";
+import WorkerPerm from "./_components/worker-perm/worker-perm";
 
 const ClientPage = ({ id }: { id: number }) => {
   const { getWorkplaceDetail } = useWorkplaceStore();
@@ -26,11 +27,7 @@ const ClientPage = ({ id }: { id: number }) => {
       </div>
       <div className="w-full flex gap-6">
         <Admins />
-        <Card className="w-full">
-          <div className="flex px-6 justify-between items-center">
-            <CardTitle>근무자 권한</CardTitle>
-          </div>
-        </Card>
+        <WorkerPerm />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export const Profile = () => {
           <div className="flex gap-4">
             <span className="text-xl ">{admin?.name}</span>
             <Badge className="rounded-sm bg-[var(--primary-light-color)] text-[var(--primary-color)]">
-              {admin?.permission}
+              {admin?.permission?.permission}
             </Badge>
           </div>
           <span className="text-base text-ring">@{admin?.account}</span>

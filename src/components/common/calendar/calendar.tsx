@@ -27,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import CustomDialog from "../custom-dialog";
 import ScheduleForm from "./schedule-form";
+import IconButton from "@/components/ui/icon-button/icon-button";
 
 //달력 헤더
 interface RenderHeaderCompProps {
@@ -58,7 +59,7 @@ const RenderHeader = ({
 
       <CustomDialog
         title="일정추가"
-        className="p-0 py-1 h-fit bg-inherit hover:bg-gray-50 dark:hover:bg-[#535353]"
+        className="p-0 py-1 h-fit bg-white shadow-none hover:bg-gray-50 dark:hover:bg-[#535353]"
       >
         {({ setIsOpen }) => (
           <ScheduleForm
@@ -76,22 +77,13 @@ interface RemoteDateProps extends RenderHeaderCompProps {}
 
 const RemoteDate = ({ date, onPrevMonth, onNextMonth }: RemoteDateProps) => {
   return (
-    <div className="flex absolute left-[50%] top-[50%] translate-[-50%] ">
-      <div
-        className="flex items-center justify-center hover:cursor-pointer"
-        onClick={onPrevMonth}
-      >
-        <ChevronLeft className="w-6 h-6 text-gray-500" />
-      </div>
+    <div className="flex absolute gap-4 left-[50%] top-[50%] translate-[-50%] ">
+      <IconButton icon={ChevronLeft} onClick={onPrevMonth} />
+
       <span className="font-bold flex items-center">
         {dayjs(date).format("YYYY")}.{dayjs(date).format("MM")}
       </span>
-      <div
-        className="flex items-center justify-center hover:cursor-pointer"
-        onClick={onNextMonth}
-      >
-        <ChevronRight className="w-6 h-6 text-gray-500" />
-      </div>
+      <IconButton icon={ChevronRight} onClick={onNextMonth} />
     </div>
   );
 };
@@ -119,8 +111,8 @@ const RenderDays = ({
     "토요일",
   ];
   return (
-    <div className="flex flex-col h-full border-b divide-y ">
-      <div className="flex border divide-x ">
+    <div className="flex flex-col h-full rounded-sm divide-y  border">
+      <div className="flex  rounded-t-sm divide-x">
         {labels.map((l, i) => {
           return (
             <div
@@ -133,7 +125,7 @@ const RenderDays = ({
         })}
       </div>
       {weeks.map((w, i) => (
-        <div key={i} className="flex flex-1 divide-x border-x">
+        <div key={i} className="flex flex-1 divide-x ">
           {w.map((d, i) => {
             return (
               <DayBox

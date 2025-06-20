@@ -5,14 +5,14 @@ import { CreateAdmin } from "@/types/(admin)/user/create-admin";
 import { Department } from "@/types/department";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { useDeptStore } from "./dept-store";
-import { useWorkplaceStore } from "./workplace-store";
+
 import {
   ListBaseType,
   ListLoading,
   ListMeta,
   ListModel,
 } from "@/types/list-type";
+import { useWorkplaceStore } from "../workplace-store";
 
 interface AdminState {
   //관리자 데이터
@@ -52,7 +52,7 @@ const initialCreateAdmin: CreateAdmin = {
   name: "",
   email: "",
   phone: "",
-  permission: "MANAGER",
+  permission: "운영관리자",
 };
 
 export const useAdminStore = create<AdminState>()(
@@ -106,7 +106,6 @@ export const useAdminStore = create<AdminState>()(
           set({ createAdmin: initialCreateAdmin });
         },
         selectAdminsByWorkplace: (admin) => {
-          console.log("선택");
           const { selectedAdminsByWorkplace } = get();
 
           if (admin === "DELETE") {

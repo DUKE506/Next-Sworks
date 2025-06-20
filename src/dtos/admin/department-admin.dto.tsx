@@ -1,4 +1,4 @@
-import { ManagerPermissionUnion } from "@/types/(admin)/user";
+import { AdminPermission } from "@/types/(admin)/permission/admin-permission/admin-permission";
 import { Department } from "../department/department.dto";
 import { Workplace } from "@/types/(admin)/workplace/workplace";
 
@@ -6,17 +6,18 @@ export class Admin {
   id: number;
   account: string;
   name: string;
-  permission: ManagerPermissionUnion;
+
   email: string;
   phone: string;
   department: Department;
   workplaces: Workplace[];
+  permission: AdminPermission;
 
   constructor(
     id: number,
     account: string,
     name: string,
-    permission: ManagerPermissionUnion,
+    permission: AdminPermission,
     email: string,
     phone: string,
     department: Department,

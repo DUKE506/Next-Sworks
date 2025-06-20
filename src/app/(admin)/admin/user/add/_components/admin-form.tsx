@@ -37,7 +37,7 @@ const adminFormSchema = z
     email: z.string().email({ message: "이메일 형식을 확인해주세요." }),
     //department: DepartmentSchema,
     department: z.string({ message: "부서를 선택해주세요." }),
-    permission: z.enum(["MANAGER", "NORMAL"]),
+    permission: z.enum(["운영관리자", "일반관리자"]),
   })
   .refine(({ password, checkPassword }) => password === checkPassword, {
     path: ["checkPassword"],

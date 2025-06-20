@@ -1,7 +1,7 @@
 import DataList from "@/components/ui/pagination-table/data-list";
 import React, { useEffect, useState } from "react";
 import { userColumns } from "./users/_components/user-colmuns";
-import { useAdminStore } from "@/store/admin-store";
+
 import { usePathname, useRouter } from "next/navigation";
 import { Admin } from "@/dtos/admin/department-admin.dto";
 import { ListLoading, ListModel } from "@/types/list-type";
@@ -10,6 +10,7 @@ import IconButton from "@/components/ui/icon-button/icon-button";
 import { Plus, Trash2 } from "lucide-react";
 import Pagination from "@/components/ui/pagination/pagination";
 import { useAdminFilterStore } from "@/store/admin/admin-filter-store";
+import { useAdminStore } from "@/store/admin/admin-store";
 
 const AdminTable = () => {
   const { admins } = useAdminStore();

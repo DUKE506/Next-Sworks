@@ -30,4 +30,11 @@ export const userColumns: ColumnDef<Admin>[] = [
       return row.original.phone;
     },
   },
+  {
+    accessorKey: "permission",
+    header: "권한",
+    cell: ({ row }) => {
+      return row.original.permission?.permission;
+    },
+  },
 ];

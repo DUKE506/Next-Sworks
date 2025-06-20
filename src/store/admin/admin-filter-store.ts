@@ -20,7 +20,7 @@ export const useAdminFilterStore = create<AdminFilterState>()(
     persist<AdminFilterState>(
       (set, get) => ({
         filterAdminDept: [],
-        filterAdminPerm: ["MANAGER", "NORMAL"],
+        filterAdminPerm: ["운영관리자", "일반관리자"],
         filterAdminSearch: "",
         page: "1",
         pageSize: "20",
@@ -45,7 +45,7 @@ export const useAdminFilterStore = create<AdminFilterState>()(
         resetFilter: () => {
           set({
             filterAdminDept: [],
-            filterAdminPerm: ["MANAGER", "NORMAL"],
+            filterAdminPerm: ["운영관리자", "일반관리자"],
             filterAdminSearch: "",
             page: "1",
             pageSize: "20",

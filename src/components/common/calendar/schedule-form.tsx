@@ -128,7 +128,9 @@ const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
             )}
           />
         </div>
-        <Button className="w-full hover:cursor-pointer">추가</Button>
+        <Button className="w-full bg-[var(--primary-color)] hover:cursor-pointer hover:bg-[var(--primary-hover-color)]">
+          추가
+        </Button>
       </form>
     </Form>
   );
