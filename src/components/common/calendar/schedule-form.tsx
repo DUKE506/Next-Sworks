@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { HexColorPicker } from "react-colorful";
 import { Button } from "@/components/ui/button";
 import { CreateSchedule } from "@/types/schedule/create-schedule";
 import { format, isAfter, isBefore } from "date-fns";
@@ -12,11 +12,13 @@ import { useCalendarStore } from "@/store/calendar-store";
 import { v4 as uuidv4 } from "uuid";
 import { TextFormItem } from "@/components/ui/form-field-items/text-field";
 import { DateFormItem } from "@/components/ui/form-field-items/date-field";
+import ColorFormItem from "@/components/ui/form-field-items/color-field";
 
 const scheduleFormSchema = z.object({
   title: z.string().min(2, { message: "두 글자 이상 입력해주세요." }),
   startedAt: z.date(),
   endedAt: z.date(),
+  color: z.string({ message: "색상을 선택해주세요." }),
 });
 
 type ScheduleFormType = z.infer<typeof scheduleFormSchema>;
@@ -28,6 +30,7 @@ interface ScheduleFormProps {
 
 const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
   const { schedules, addSchedule } = useCalendarStore();
+  const [color, setColor] = useState("#ffffff");
   const [schedule, setSchedule] = useState<CreateSchedule>({
     startedAt: startDate,
     endedAt: startDate,
@@ -38,6 +41,7 @@ const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
       title: "",
       startedAt: schedule.startedAt,
       endedAt: schedule.endedAt,
+      color: "#ffffff",
     },
   });
 
@@ -124,6 +128,19 @@ const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
                 onChange={(date) =>
                   handleDateChange("end", date, field.onChange)
                 }
+              />
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="color"
+            render={({ field }) => (
+              <ColorFormItem
+                label="색상"
+                value={field.value}
+                onChange={(value) => {
+                  field.onChange(value);
+                }}
               />
             )}
           />

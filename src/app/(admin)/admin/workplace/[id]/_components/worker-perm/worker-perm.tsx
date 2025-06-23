@@ -51,9 +51,15 @@ const WorkerPerm = () => {
 
 interface PermItemProps {
   data: WorkerPermission;
+  headers?: boolean;
+  selectOption?: boolean;
 }
 
-const PermItem = ({ data }: PermItemProps) => {
+export const PermItem = ({
+  data,
+  headers = true,
+  selectOption = false,
+}: PermItemProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { deleteWorkerPermission } = useWorkerPermissionStore();
 
@@ -86,6 +92,8 @@ const PermItem = ({ data }: PermItemProps) => {
     <Popover open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <PopoverTrigger className="h-fit">
         <div className=" flex items-center gap-4 px-4 py-2 border rounded-sm hover:bg-accent hover:cursor-pointer border-[var(--primary-color)]">
+          {selectOption ? <input type="checkbox" /> : null}
+
           <span className="text-xs whitespace-nowrap">{data.name}</span>
           <span className="text-[0.6rem] whitespace-nowrap text-[var(--description-value-color)]">
             {data.permission}
@@ -94,16 +102,22 @@ const PermItem = ({ data }: PermItemProps) => {
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2">
         {/* 헤더 */}
-        <div className=" flex justify-end gap-4">
-          <IconButton icon={Pen} className="text-muted-foreground" />
-          <IconButton
-            icon={Trash2}
-            className="text-muted-foreground"
-            onClick={() => onDelete(data.id)}
-          />
-        </div>
+        {headers ? (
+          <div className=" flex justify-end gap-4">
+            <IconButton icon={Pen} className="text-muted-foreground" />
+            <IconButton
+              icon={Trash2}
+              className="text-muted-foreground"
+              onClick={() => onDelete(data.id)}
+            />
+          </div>
+        ) : null}
+
         <div className="flex justify-between items-center">
           <span className="text-lg font-bold">{data.name}</span>
+          <span className="text-xs text-[var(--description-value-color)]">
+            {data.permission}
+          </span>
         </div>
         <div className="flex flex-col gap-2">
           {valueItem({ label: "기본", value: data.basicPerm })}

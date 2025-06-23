@@ -1,4 +1,5 @@
 import Calendar from "@/components/common/calendar/calendar";
+import { useAuthStore } from "@/store/auth-store";
 import React from "react";
 
 const Schedule = () => {

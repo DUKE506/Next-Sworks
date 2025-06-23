@@ -28,6 +28,7 @@ import { cookies } from "next/headers";
 import { useAuthStore } from "@/store/auth-store";
 import { useRouter } from "next/navigation";
 import { Switch } from "@/components/ui/switch";
+import { WorkerPermissionType } from "@/types/(admin)/permission/admin-permission/create-admin-permission";
 
 const schema = z.object({
   account: z.string().min(2, { message: "두 글자 이상 입력해주새요." }),
@@ -62,9 +63,14 @@ export const LoginForm = () => {
     //리턴값에 user가 관리자이면 사업장 선택 페이지
     //일반 사용자라면 본인 사업장 페이지로 이동
     const res = await postUserLogin(values, loginMode);
+    console.log(res);
     if (!res.success) return; //토스트
 
-    if (res.data.permission === "USER") router.push(`/user/workplace`);
+    if (
+      res.data.permission.permission === WorkerPermissionType.근무자 ||
+      WorkerPermissionType.사업소장
+    )
+      router.push(`/user/workplace`);
     else {
       router.push(`/select/workplace`);
     }

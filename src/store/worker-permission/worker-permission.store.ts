@@ -27,7 +27,6 @@ export const useWorkerPermissionStore = create<WorkerPermissionState>()(
           const res = await api.get(`perm/all/${workplaceDetail.id}`);
 
           const resData = await res.json();
-          console.log(resData);
 
           set({ allWorkerPermission: resData as WorkerPermission[] });
 

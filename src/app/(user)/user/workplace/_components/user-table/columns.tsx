@@ -17,7 +17,7 @@ export const userColumns: ColumnDef<User>[] = [
     accessorKey: "permission",
     header: "권한",
     cell: ({ row }) => {
-      const value = row.original.permission;
+      const value = row.original.permission?.permission;
 
       return value;
     },
@@ -73,28 +73,28 @@ export const userColumns: ColumnDef<User>[] = [
   },
 ];
 
-export const mockUsers: User[] = Array.from({ length: 20 }, (_, i) => {
-  const id = i + 1;
-  const isManager = i % 2 === 0; // 짝수 ID는 MANAGER, 홀수 ID는 NORMAL
+// export const mockUsers: User[] = Array.from({ length: 20 }, (_, i) => {
+//   const id = i + 1;
+//   const isManager = i % 2 === 0; // 짝수 ID는 MANAGER, 홀수 ID는 NORMAL
 
-  return new User({
-    id,
-    name: `사용자${id}`,
-    account: `user${id}`,
-    password: `password${id}`,
-    email: `user${id}@example.com`,
-    phone: `010-1234-${String(1000 + id).slice(-4)}`,
-    permission: isManager ? "MANAGER" : "NORMAL",
-    status: isManager ? "WORK" : "RESIGN",
-    basicPerm: Math.round(Math.random()),
-    machinePerm: Math.round(Math.random()),
-    electricPerm: Math.round(Math.random()),
-    firePerm: Math.round(Math.random()),
-    buildingPerm: Math.round(Math.random()),
-    networkPerm: Math.round(Math.random()),
-    beautyPerm: Math.round(Math.random()),
-    securityPerm: Math.round(Math.random()),
-    userPerm: Math.round(Math.random()),
-    vocPerm: Math.round(Math.random()),
-  });
-});
+//   return new User({
+//     id,
+//     name: `사용자${id}`,
+//     account: `user${id}`,
+//     password: `password${id}`,
+//     email: `user${id}@example.com`,
+//     phone: `010-1234-${String(1000 + id).slice(-4)}`,
+//     permission: ,
+//     status: isManager ? "WORK" : "RESIGN",
+//     basicPerm: Math.round(Math.random()),
+//     machinePerm: Math.round(Math.random()),
+//     electricPerm: Math.round(Math.random()),
+//     firePerm: Math.round(Math.random()),
+//     buildingPerm: Math.round(Math.random()),
+//     networkPerm: Math.round(Math.random()),
+//     beautyPerm: Math.round(Math.random()),
+//     securityPerm: Math.round(Math.random()),
+//     userPerm: Math.round(Math.random()),
+//     vocPerm: Math.round(Math.random()),
+//   });
+// });

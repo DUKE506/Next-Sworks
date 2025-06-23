@@ -28,6 +28,9 @@ import { Button } from "@/components/ui/button";
 import CustomDialog from "../custom-dialog";
 import ScheduleForm from "./schedule-form";
 import IconButton from "@/components/ui/icon-button/icon-button";
+import { useAuthStore } from "@/store/auth-store";
+import { UserPermission } from "@/types/(admin)/permission/user-permission";
+import { WorkerPermissionType } from "@/types/(admin)/permission/admin-permission/create-admin-permission";
 
 //달력 헤더
 interface RenderHeaderCompProps {
@@ -46,28 +49,30 @@ const RenderHeader = ({
   onPrevMonth,
   onNextMonth,
 }: RenderHeadersProps) => {
+  const { profile } = useAuthStore();
+
   return (
-    <div className="flex justify-center items-center gap-2 px-2 h-full relative">
-      <div></div>
-      <div className="flex-1 h-full ">
+    <div className="flex justify-center items-center gap-2 px-2 h-full relative min-h-8 ">
+      <div className="flex-1">
         <RemoteDate
           date={date}
           onNextMonth={onNextMonth}
           onPrevMonth={onPrevMonth}
         />
       </div>
-
-      <CustomDialog
-        title="일정추가"
-        className="p-0 py-1 h-fit bg-white shadow-none hover:bg-gray-50 dark:hover:bg-[#535353]"
-      >
-        {({ setIsOpen }) => (
-          <ScheduleForm
-            startDate={new Date(focusDate.setMinutes(0))}
-            onClose={setIsOpen}
-          />
-        )}
-      </CustomDialog>
+      {profile?.permission.permission !== WorkerPermissionType.근무자 ? (
+        <CustomDialog
+          title="일정추가"
+          className="p-0 py-1 h-fit bg-white shadow-none hover:bg-gray-50 dark:hover:bg-[#535353]"
+        >
+          {({ setIsOpen }) => (
+            <ScheduleForm
+              startDate={new Date(focusDate.setMinutes(0))}
+              onClose={setIsOpen}
+            />
+          )}
+        </CustomDialog>
+      ) : null}
     </div>
   );
 };
@@ -300,7 +305,7 @@ const Calendar = () => {
 
   return (
     <div className="h-full flex flex-col gap-4 pb-2">
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 h-fit">
         {/* 헤더는 고정 크기 */}
         <RenderHeader
           date={curDate}

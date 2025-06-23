@@ -5,7 +5,7 @@ import BuildingList from "./_components/building-list";
 import { useBuildingStore } from "@/store/building/building-store";
 import UserList from "./_components/user-list";
 import PaginationTable from "@/components/ui/pagination-table/pagination-table";
-import { mockUsers, userColumns } from "./_components/user-table/columns";
+import { userColumns } from "./_components/user-table/columns";
 import { User } from "@/types/(user)/user/user";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user-store";

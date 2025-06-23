@@ -1,4 +1,5 @@
 import { UserPermission } from "@/types/(admin)/permission/user-permission";
+import { WorkerPermission } from "@/types/(admin)/permission/worker-permission/worker-permission";
 
 export class User {
   id: number;
@@ -7,7 +8,8 @@ export class User {
   password: string | null;
   email: string;
   phone: string;
-  permission: UserPermission;
+  status: string;
+  permission: WorkerPermission;
 
   constructor({
     id,
@@ -16,7 +18,7 @@ export class User {
     password,
     email,
     phone,
-
+    status,
     permission,
   }: {
     id: number;
@@ -25,8 +27,8 @@ export class User {
     password: string | null;
     email: string;
     phone: string;
-
-    permission: UserPermission;
+    status: string;
+    permission: WorkerPermission;
   }) {
     this.id = id;
     this.name = name;
@@ -34,7 +36,7 @@ export class User {
     this.password = password;
     this.email = email;
     this.phone = phone;
-
+    this.status = status;
     this.permission = permission;
   }
 }

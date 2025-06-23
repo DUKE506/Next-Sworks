@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import ProgressBar, { Step } from "../../building/add/_components/progress-bar";
 import BasicForm from "./_components/basic-form";
 import { useUserStore } from "@/store/user-store";
-import PermForm from "./_components/perm-form";
+
 import FormResult from "@/components/ui/form-result/form-result";
+import PermForm from "./_components/perm-form";
 
 const Page = () => {
   const [result, setResult] = useState<boolean>(false);
@@ -42,6 +43,7 @@ const Page = () => {
         setStep((prev) => prev - 1);
       }}
     />,
+
     <FormResult
       result={result}
       successTitle="사용자 생성 완료!"

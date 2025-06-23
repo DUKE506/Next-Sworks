@@ -49,7 +49,6 @@ const ProgressBar = ({
     );
     //완료처리
     steps[currentStep - 1].status = "complete";
-    console.log(steps);
   }, [currentStep]);
 
   return (

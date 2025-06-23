@@ -72,9 +72,10 @@ const BasicForm = ({ createUser, onClick }: BasicFormProps) => {
               name="name"
               render={({ field }) => (
                 <TextFormItem
-                  label="이름 *"
+                  label="이름"
                   placeholder="홍길동"
                   field={field}
+                  required
                 />
               )}
             />
@@ -83,9 +84,10 @@ const BasicForm = ({ createUser, onClick }: BasicFormProps) => {
               name="account"
               render={({ field }) => (
                 <TextFormItem
-                  label="아이디 *"
+                  label="아이디"
                   placeholder="두 글자 이상"
                   field={field}
+                  required
                 />
               )}
             />
@@ -94,9 +96,10 @@ const BasicForm = ({ createUser, onClick }: BasicFormProps) => {
               name="password"
               render={({ field }) => (
                 <PasswordFormItem
-                  label="비밀번호 *"
+                  label="비밀번호"
                   placeholder="비밀번호"
                   field={field}
+                  required
                 />
               )}
             />
@@ -105,9 +108,10 @@ const BasicForm = ({ createUser, onClick }: BasicFormProps) => {
               name="checkPassword"
               render={({ field }) => (
                 <PasswordFormItem
-                  label="비밀번호 확인 *"
+                  label="비밀번호 확인"
                   placeholder="비빌먼호 확인"
                   field={field}
+                  required
                 />
               )}
             />
@@ -116,9 +120,10 @@ const BasicForm = ({ createUser, onClick }: BasicFormProps) => {
               name="phone"
               render={({ field }) => (
                 <TextFormItem
-                  label="전화번호 *"
+                  label="전화번호"
                   placeholder="( - 제외 )"
                   field={field}
+                  required
                 />
               )}
             />
