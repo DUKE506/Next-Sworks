@@ -1,8 +1,15 @@
 import Calendar from "@/components/common/calendar/calendar";
 import { useAuthStore } from "@/store/auth-store";
-import React from "react";
+import { useCalendarStore } from "@/store/calendar-store";
+import React, { useEffect } from "react";
 
 const Schedule = () => {
+  const { getSchedules } = useCalendarStore();
+
+  useEffect(() => {
+    getSchedules();
+  }, []);
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">

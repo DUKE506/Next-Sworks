@@ -181,7 +181,7 @@ const DayBox = ({
       </span>
       <div className="flex flex-col gap-1 min-w-0 ">
         {holidays.map((h, i) =>
-          isSameDay(day, h.startedAt) ? (
+          isSameDay(day, h.startDt) ? (
             <SchedulePopover
               className="bg-red-500 hover:bg-red-600"
               key={i}
@@ -190,15 +190,11 @@ const DayBox = ({
             />
           ) : null
         )}
-        {schedules.map((s, i) =>
-          isWithinInterval(day, { start: s.startedAt, end: s.endedAt }) ? (
-            <SchedulePopover
-              className="bg-orange-500 hover:bg-orange-600"
-              key={i}
-              data={s}
-            />
-          ) : null
-        )}
+        {schedules.map((s, i) => {
+          return isWithinInterval(day, { start: s.startDt, end: s.endDt }) ? (
+            <SchedulePopover backgroundColor={s.color} key={i} data={s} />
+          ) : null;
+        })}
       </div>
     </div>
   );
@@ -210,34 +206,24 @@ interface ScheduleItemProps {
   className?: string;
 }
 
-const ScheduleItem = ({ className, data }: ScheduleItemProps) => {
-  return (
-    <div
-      className={cn(
-        "bg-red-600 text-[0.7rem] text-white px-2 py-[1px] rounded-xs truncate",
-        className
-      )}
-    >
-      {data.title}
-    </div>
-  );
-};
-
 //스케줄 아이템2 popover
 //
 // 수정 - ...처리 및 수직 중앙정렬
 
 interface SchedulePopover extends ScheduleItemProps {
   isHeader?: boolean;
+  backgroundColor?: string;
 }
 
 const SchedulePopover = ({
   className,
+  backgroundColor,
   data,
   isHeader = true,
 }: SchedulePopover) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { deleteSchedule } = useCalendarStore();
+  const { profile } = useAuthStore();
 
   const handleDelete = (id: string) => {
     deleteSchedule(id);
@@ -251,6 +237,7 @@ const SchedulePopover = ({
             "bg-blue-500 text-[0.7rem] py-0 h-fit flex items-center justify-start text-white px-2 rounded-xs  min-w-0 hover:bg-blue-600 hover:cursor-pointer",
             className
           )}
+          style={{ backgroundColor: backgroundColor }}
         >
           <span className="w-full truncate">{data.title}</span>
         </div>
@@ -258,7 +245,8 @@ const SchedulePopover = ({
       <PopoverContent>
         <div>
           {/* 헤더 */}
-          {isHeader ? (
+          {isHeader &&
+          profile?.permission.permission !== WorkerPermissionType.근무자 ? (
             <div className="flex gap-2 justify-end">
               <div className="p-[6px] aspect-square hover:cursor-pointer hover:bg-gray-200 rounded-[50px]">
                 <PencilIcon className="w-4 h-4 text-gray-500" />
@@ -277,14 +265,12 @@ const SchedulePopover = ({
             <span className="text-xl">{data.title}</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-sm">
-              {format(data.startedAt, "yyyy/MM/dd")}
-            </span>
-            {isEqual(data.startedAt, data.endedAt) ? null : (
+            <span className="text-sm">{format(data.endDt, "yyyy/MM/dd")}</span>
+            {isEqual(data.startDt, data.endDt) ? null : (
               <>
                 <span> - </span>
                 <span className="text-sm">
-                  {format(data.endedAt, "yyyy/MM/dd")}
+                  {format(data.endDt, "yyyy/MM/dd")}
                 </span>
               </>
             )}

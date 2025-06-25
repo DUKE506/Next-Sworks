@@ -16,8 +16,8 @@ import ColorFormItem from "@/components/ui/form-field-items/color-field";
 
 const scheduleFormSchema = z.object({
   title: z.string().min(2, { message: "두 글자 이상 입력해주세요." }),
-  startedAt: z.date(),
-  endedAt: z.date(),
+  startDt: z.date(),
+  endDt: z.date(),
   color: z.string({ message: "색상을 선택해주세요." }),
 });
 
@@ -30,17 +30,16 @@ interface ScheduleFormProps {
 
 const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
   const { schedules, addSchedule } = useCalendarStore();
-  const [color, setColor] = useState("#ffffff");
   const [schedule, setSchedule] = useState<CreateSchedule>({
-    startedAt: startDate,
-    endedAt: startDate,
+    startDt: startDate,
+    endDt: startDate,
   });
   const form = useForm<ScheduleFormType>({
     resolver: zodResolver(scheduleFormSchema),
     defaultValues: {
       title: "",
-      startedAt: schedule.startedAt,
-      endedAt: schedule.endedAt,
+      startDt: schedule.startDt,
+      endDt: schedule.endDt,
       color: "#ffffff",
     },
   });
@@ -69,9 +68,9 @@ const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
   ) => {
     //시작날짜가 종료날짜보다 이후인 경우
     if (type === "start") {
-      if (isAfter(date, form.getValues().endedAt)) {
+      if (isAfter(date, form.getValues().endDt)) {
         onChange(date);
-        form.setValue("endedAt", date);
+        form.setValue("endDt", date);
       } else {
         onChange(date);
       }
@@ -79,9 +78,9 @@ const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
 
     //종료날짜가 시작날짜보다 이전인 경우
     if (type === "end") {
-      if (isBefore(date, form.getValues().startedAt)) {
+      if (isBefore(date, form.getValues().startDt)) {
         onChange(date);
-        form.setValue("startedAt", date);
+        form.setValue("startDt", date);
       } else {
         onChange(date);
       }
@@ -107,7 +106,7 @@ const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
           />
           <FormField
             control={form.control}
-            name="startedAt"
+            name="startDt"
             render={({ field }) => (
               <DateFormItem
                 label="시작"
@@ -120,7 +119,7 @@ const ScheduleForm = ({ startDate, onClose }: ScheduleFormProps) => {
           />
           <FormField
             control={form.control}
-            name="endedAt"
+            name="endDt"
             render={({ field }) => (
               <DateFormItem
                 label="종료"

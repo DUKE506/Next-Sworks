@@ -66,12 +66,19 @@ export const LoginForm = () => {
     console.log(res);
     if (!res.success) return; //토스트
 
-    if (
+    console.log(res.data.permission.permission);
+    console.log(
       res.data.permission.permission === WorkerPermissionType.근무자 ||
-      WorkerPermissionType.사업소장
-    )
+        res.data.permission.permission === WorkerPermissionType.사업소장
+    );
+    if (
+      res.data.permission.permission ===
+      (WorkerPermissionType.근무자 || WorkerPermissionType.사업소장)
+    ) {
+      console.log(1);
       router.push(`/user/workplace`);
-    else {
+    } else {
+      console.log(2);
       router.push(`/select/workplace`);
     }
   };

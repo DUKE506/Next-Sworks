@@ -22,8 +22,6 @@ export function middleware(req: NextRequest) {
   const accessToken = req.cookies.get("access-token")?.value;
   const refreshToken = req.cookies.get("refresh-token")?.value;
 
-  // console.log("==========토큰==========");
-  // console.log("액세스 토큰 ", accessToken);
   // console.log("리프레시 토큰 ", refreshToken);
 
   // /**

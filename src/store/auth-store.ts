@@ -1,4 +1,5 @@
 import api from "@/middleware/api-manager";
+import { WorkerPermissionType } from "@/types/(admin)/permission/admin-permission/create-admin-permission";
 import { User } from "@/types/(user)/user/user";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
@@ -53,7 +54,7 @@ export const useAuthStore = create<AuthState>()(
           setAccessToken(accessToken);
 
           //일반 사용자
-          if (user.permission === "USER") {
+          if (user.permission === WorkerPermissionType) {
             console.log("일반 사용자 로그인 본인 사업장 : ", user.workplace.id);
             set({ currentWorkplace: user.workplace.id });
             set({ profile: user });
@@ -72,6 +73,7 @@ export const useAuthStore = create<AuthState>()(
 
             body: JSON.stringify({ workplaceId: workplaceId }),
           });
+
           const { user, accessToken, refreshToken } = await res.json();
           set({ profile: user });
           console.log("관리자가 선택한 사업장 : ", workplaceId);

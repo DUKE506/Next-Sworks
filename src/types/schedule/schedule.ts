@@ -1,23 +1,27 @@
 export class Schedule {
   id: string;
   title: string;
-  startedAt: Date;
-  endedAt: Date;
+  startDt: Date;
+  endDt: Date;
+  color: string;
 
   constructor({
     id,
     title,
-    startedAt,
-    endedAt,
+    startDt,
+    endDt,
+    color,
   }: {
     id: string;
     title: string;
-    startedAt: Date;
-    endedAt: Date;
+    startDt: Date;
+    endDt: Date;
+    color: string;
   }) {
     this.id = id;
     this.title = title;
-    this.startedAt = startedAt;
-    this.endedAt = endedAt;
+    this.startDt = startDt;
+    this.endDt = endDt;
+    this.color = color;
   }
 }

@@ -1,5 +1,6 @@
 import { setAuthToken } from "@/lib/auth";
 import api from "@/middleware/api-manager";
+import { User } from "@/types/(user)/user/user";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -13,19 +14,19 @@ export async function POST(req: NextRequest) {
         json: { account, password },
       })
       .json<{
-        access_token: string;
-        refresh_token: string;
-        user: Record<string, any>;
+        accessToken: string;
+        refreshToken: string;
+        user: User;
       }>();
 
     const response = NextResponse.json({
       success: true,
       user: res.user,
-      accessToken: res.access_token,
-      refreshToken: res.refresh_token,
+      accessToken: res.accessToken,
+      refreshToken: res.refreshToken,
     });
 
-    setAuthToken(response, res.access_token, res.refresh_token);
+    setAuthToken(response, res.accessToken, res.refreshToken);
 
     return response;
   } catch (error) {

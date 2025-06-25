@@ -11,7 +11,7 @@ interface SimpleCalendarProps {
 
 const SimpleCalendar = ({ defaultValue, onSelect }: SimpleCalendarProps) => {
   const { weeks, curDate, focusDate, onNextMonth, onPrevMonth, onFocusDate } =
-    useCalendar(new Date());
+    useCalendar(defaultValue ?? new Date());
 
   useEffect(() => {
     if (!defaultValue) return;

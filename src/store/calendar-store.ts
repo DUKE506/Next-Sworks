@@ -1,3 +1,4 @@
+import api from "@/middleware/api-manager";
 import { CreateSchedule } from "@/types/schedule/create-schedule";
 import { Schedule } from "@/types/schedule/schedule";
 import dayjs from "dayjs";
@@ -5,20 +6,22 @@ import ky from "ky";
 import { v4 } from "uuid";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import { useAuthStore } from "./auth-store";
 
 interface CalendarState {
   schedules: Schedule[];
   holidays: Schedule[];
 
   getHolidays: (date: Date) => Promise<void>;
-  addSchedule: (schedule: Schedule) => void;
+  getSchedules: () => Promise<boolean>;
+  addSchedule: (schedule: Schedule) => Promise<boolean>;
   deleteSchedule: (id: string) => void;
 }
 
 export const useCalendarStore = create<CalendarState>()(
   devtools(
     persist<CalendarState>(
-      (set) => ({
+      (set, get) => ({
         schedules: [],
         holidays: [],
 
@@ -41,23 +44,54 @@ export const useCalendarStore = create<CalendarState>()(
               return new Schedule({
                 id: v4(),
                 title: s.dateName,
-                startedAt: new Date(formatted),
-                endedAt: new Date(formatted),
+                startDt: new Date(formatted),
+                endDt: new Date(formatted),
+                color: "#fb2c36",
               });
             }
           );
 
           set({ holidays: holidays });
         },
-        addSchedule: (schedule) => {
-          set((state) => ({
-            schedules: [...state.schedules, schedule],
-          }));
+
+        getSchedules: async () => {
+          const res = await api.get(`schedule/all`);
+
+          if (!res.ok) return res.ok;
+
+          const schedules: Schedule[] = await res.json();
+
+          set({ schedules: schedules });
+
+          return res.ok;
         },
-        deleteSchedule: (id) => {
-          set((state) => ({
-            schedules: state.schedules.filter((s) => s.id !== id),
-          }));
+        addSchedule: async (schedule) => {
+          // set((state) => ({
+          //   schedules: [...state.schedules, schedule],
+          // }));
+          const res = await api.post(`schedule/create`, {
+            json: schedule,
+          });
+
+          if (!res.ok) return res.ok;
+
+          const { getSchedules } = get();
+          await getSchedules();
+
+          return res.ok;
+        },
+        deleteSchedule: async (id) => {
+          const res = await api.delete(`schedule/delete/${id}`);
+
+          if (!res.ok) return res.ok;
+          // set((state) => ({
+          //   schedules: state.schedules.filter((s) => s.id !== id),
+          // }));
+
+          const { getSchedules } = get();
+          await getSchedules();
+
+          return res.ok;
         },
       }),
       { name: "calendar-store" }
